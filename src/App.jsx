@@ -30,6 +30,7 @@ const App = () => {
         <Route element={<Main></Main>}>
           <Route path="/login" element={<Login setName={setName} />}></Route>
           <Route path="/register" element={<Registration />}></Route>
+          <Route path="/cham-diem" element={<ChamDiem />}></Route>
           <Route
             path="/code"
             element={
