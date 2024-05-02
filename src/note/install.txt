@@ -36,6 +36,9 @@ npm i react-paginate
 npm install react-slick slick-carousel
 npm install react-syntax-highlighter
 npm i swr
+npm i mdb-react-ui-kit
+npm i @chakra-ui/react @emotion/react @emotion/styled frame
+npm i @monaco-editor/react
 
 # Library
 npm i react-slider
