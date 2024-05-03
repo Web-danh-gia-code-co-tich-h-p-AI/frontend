@@ -100,9 +100,9 @@ const Login = (props) => {
             </form>
           </div>
 
-          <div className="relative flex items-center justify-center w-full py-2">
-            <div className="w-full h-[1px] bg-black/40"></div>
-            <p className="absolute text-lg bg-[#f5f5f5] text-black/80">or</p>
+          <div className="laptop:relative flex items-center justify-center w-full py-2">
+            <div className="w-full h-[1px] hidden laptop:block bg-black/40"></div>
+            <p className="laptop:absolute text-lg bg-[#f5f5f5] text-black/80">or</p>
           </div>
 
           <div className="w-full text-[#060606] bg-white border border-black/40 rounded-md p-4 text-center flex items-center justify-center my-2 font-semibold cursor-pointer">
