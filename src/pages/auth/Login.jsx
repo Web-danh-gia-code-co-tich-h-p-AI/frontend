@@ -37,7 +37,7 @@ const Login = (props) => {
   }
   return (
     <div className="flex items-start w-full h-screen">
-      <div className="relative flex flex-col w-1/2 h-full">
+      <div className="relative flex flex-col h-full hidden laptop:w-1/2 laptop:block">
         <div className="absolute top-[20%] left-[10%] flex flex-col">
           <h1 className="my-4 text-4xl font-extrabold text-white">
             Turn Your Ideas into reality
@@ -53,7 +53,7 @@ const Login = (props) => {
         />
       </div>
 
-      <div className="w-1/2   h-full bg-[#F5F5F5] flex flex-col p-20 justify-between items-center">
+      <div className="w-full h-full bg-[#F5F5F5] flex flex-col p-8 tablet:p-20 justify-between items-center laptop:w-1/2">
         <h1 className="w-full max-w-[500px] mx-auto text-xl text-[#060606] font-semibold ">
           Interactive Brand
         </h1>
@@ -80,7 +80,7 @@ const Login = (props) => {
                 placeholder="Enter your password"
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <div className="flex items-center justify-between w-full">
+              <div className="tablet:flex items-center justify-between w-full">
                 <div className="flex items-center w-full">
                   <input type="checkbox" className="w-4 h-4 mr-2" />
                   <p className="text-sm">Remember me for 30 days</p>
@@ -100,9 +100,9 @@ const Login = (props) => {
             </form>
           </div>
 
-          <div className="relative flex items-center justify-center w-full py-2">
-            <div className="w-full h-[1px] bg-black/40"></div>
-            <p className="absolute text-lg bg-[#f5f5f5] text-black/80">or</p>
+          <div className="laptop:relative flex items-center justify-center w-full py-2">
+            <div className="w-full h-[1px] hidden laptop:block bg-black/40"></div>
+            <p className="laptop:absolute text-lg bg-[#f5f5f5] text-black/80">or</p>
           </div>
 
           <div className="w-full text-[#060606] bg-white border border-black/40 rounded-md p-4 text-center flex items-center justify-center my-2 font-semibold cursor-pointer">
