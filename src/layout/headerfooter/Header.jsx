@@ -34,7 +34,7 @@ const Header = () => {
   return (
     <div className="w-full">
       <header className="w-full bg-main-black">
-        <div className="container flex items-center justify-between px-4 py-4 mx-auto">
+        <div className="w-full flex items-center justify-between px-4 py-4">
           <div className="flex items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -57,7 +57,7 @@ const Header = () => {
             <div className="laptop:hidden">
               <button
                 onClick={toggleMenu}
-                className="text-white bg-zinc-500 focus:outline-none"
+                className="text-white bg-zinc-500 boder rounded-sm focus:outline-none"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -82,9 +82,9 @@ const Header = () => {
               </button>
             </div>
             <div
-              className={`laptop:flex items-center ${
+              className={`laptop:flex justify-between items-center ${
                 isMenuOpen
-                  ? "fixed right-0 top-0 bg-main-black h-full w-64 flex-col p-4"
+                  ? "fixed left-0 top-0 bg-main-black h-full w-64 flex-col p-4"
                   : "hidden"
               }`}
             >
@@ -137,6 +137,7 @@ const Header = () => {
                 </svg>
                 Chấm điểm
               </NavLink>
+              
               <NavLink
                 to="/login"
                 className="flex items-center p-2 text-white rounded-lg hover:bg-zinc-400 hover:text-white"
