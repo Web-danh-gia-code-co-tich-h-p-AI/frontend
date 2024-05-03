@@ -136,8 +136,8 @@ const BlockXemDiem = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div className="w-full h-full pl-4 rounded-lg shadow-lg laptop:relative justify-items-center laptop:w-full">
-      <div className="h-full -ml-4">
+    <div className="w-full h-full rounded-lg shadow-lg laptop:relative justify-items-center laptop:w-full">
+      <div className="h-full">
         <div className="flex justify-between">
           <h2 className="flex pl-4 mt-3 mb-4 text-3xl text-zinc-700 text-[24px] laptop:text-[36px]">
             <svg
@@ -154,7 +154,7 @@ const BlockXemDiem = () => {
                 d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"
               />
             </svg>
-            Thông tin điểm số
+            Bảng điểm
           </h2>
           <button
             onClick={handleReload}
@@ -216,10 +216,12 @@ const BlockXemDiem = () => {
           className="w-auto px-3 py-2 mb-4 ml-3 border border-gray-300 rounded-md bg-zinc-700"
         />
         <table className="w-full">
-          <thead className="">
+          <thead className="w-full">
             <tr className="bg-gray-100 text-zinc-600">
               <th className="px-4 py-2 text-center">StudentID</th>
-              <th className="px-4 py-2 text-center">Score</th>
+              <th className="px-4 py-2 text-center">
+                Score
+              </th>
               <th className="hidden px-4 py-2 text-center laptop:table-cell">
                 Đánh giá
               </th>
@@ -232,7 +234,7 @@ const BlockXemDiem = () => {
               <th className="px-4 py-2 text-center">Actions</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="w-full">
             {currentUsers.map((user) => (
               <tr
                 key={user.studentID}
@@ -249,10 +251,10 @@ const BlockXemDiem = () => {
                 <td className="hidden px-4 py-2 item-center laptop:table-cell">
                   <pre className="truncate max-w-32">{user.note}</pre>
                 </td>
-                <td className="flex justify-between px-4 py-2 -mr-6 max-w-36">
+                <td className="smmobile:flex justify-end px-4 py-2 ">
                   <button
                     onClick={() => handleDetail(user)}
-                    className="w-1/2 px-4 py-2 m-1 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
+                    className=" px-4 py-2 m-1 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -260,7 +262,7 @@ const BlockXemDiem = () => {
                       viewBox="0 0 24 24"
                       strokeWidth={1.5}
                       stroke="currentColor"
-                      className="w-6 h-6"
+                      className="tablet:w-6 tablet:h-6 w-4 h-4"
                     >
                       <path
                         strokeLinecap="round"
@@ -271,7 +273,7 @@ const BlockXemDiem = () => {
                   </button>
                   <button
                     onClick={() => handleDelete(user.studentID)}
-                    className="w-1/2 px-4 py-2 m-1 text-sm font-bold text-white bg-red-500 rounded hover:bg-red-700"
+                    className=" px-4 py-2 m-1 text-sm font-bold text-white bg-red-500 rounded hover:bg-red-700"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -279,7 +281,7 @@ const BlockXemDiem = () => {
                       viewBox="0 0 24 24"
                       strokeWidth={1.5}
                       stroke="currentColor"
-                      className="w-6 h-6"
+                      className="tablet:w-6 tablet:h-6 w-4 h-4"
                     >
                       <path
                         strokeLinecap="round"

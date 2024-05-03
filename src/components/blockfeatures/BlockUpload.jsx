@@ -146,7 +146,7 @@ const BlockUpload = ({ generateContent }) => {
       </div>
       {fileContent && (
         <div className="max-w-full p-4 border rounded-lg bg-zinc-700 mt-7">
-          <h3 className="mb-3 font-semibold">File Content:</h3>
+          <h3 className="mb-3 font-semibold text-white">File Content:</h3>
           <pre className="overflow-auto text-black bg-white rounded-lg max-h-80">
             <div className="p-3">{fileContent}</div>
           </pre>

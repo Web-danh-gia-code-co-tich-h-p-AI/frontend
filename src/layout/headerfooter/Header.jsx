@@ -32,7 +32,7 @@ const Header = () => {
   }, [isMenuOpen]);
 
   return (
-    <div className="w-screen">
+    <div className="w-full">
       <header className="w-full bg-main-black">
         <div className="container flex items-center justify-between px-4 py-4 mx-auto">
           <div className="flex items-center">
