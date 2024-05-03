@@ -136,7 +136,7 @@ const BlockXemDiem = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div className="w-screen h-full pl-4 rounded-lg shadow-lg laptop:relative justify-items-center laptop:w-full">
+    <div className="w-full h-full pl-4 rounded-lg shadow-lg laptop:relative justify-items-center laptop:w-full">
       <div className="h-full -ml-4">
         <div className="flex justify-between">
           <h2 className="flex pl-4 mt-3 mb-4 text-3xl text-zinc-700 text-[24px] laptop:text-[36px]">

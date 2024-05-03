@@ -52,7 +52,7 @@ const BlockUpload = ({ generateContent }) => {
   }
 
   return (
-    <div className="w-screen p-4 border rounded-lg shadow-lg min-h-max laptop:w-1/2">
+    <div className="w-full p-4 border rounded-lg shadow-lg min-h-max laptop:w-1/2">
       <h2 className="flex text-lg font-semibold text-zinc-800">
         <svg
           xmlns="http://www.w3.org/2000/svg"
