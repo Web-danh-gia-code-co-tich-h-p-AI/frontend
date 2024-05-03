@@ -32,7 +32,7 @@ const Header = () => {
   }, [isMenuOpen]);
 
   return (
-    <div className="max-w-screen">
+    <div className="w-screen">
       <header className="w-full bg-main-black">
         <div className="container flex items-center justify-between px-4 py-4 mx-auto">
           <div className="flex items-center">
@@ -112,7 +112,7 @@ const Header = () => {
                   viewBox="0 0 24 24"
                   strokeWidth="1.5"
                   stroke="currentColor"
-                  className="w-6 h-6"
+                  className="w-4 h-4 mr-1"
                 >
                   <path
                     strokeLinecap="round"
@@ -161,7 +161,7 @@ const Header = () => {
                   viewBox="0 0 24 24"
                   strokeWidth="1.5"
                   stroke="currentColor"
-                  className="w-6 h-6"
+                  className="w-4 h-4 mr-1"
                 >
                   <path
                     strokeLinecap="round"

@@ -19,7 +19,7 @@ const ChamDiem = () => {
               parts: [
                 {
                   text:
-                    "Hãy đánh giá đoạn code Python sau khắt khe nhất trên thang điểm 10 bằng testcase theo đề bài: " +
+                    "Hãy đánh giá đoạn code (Python, Java, JavaScript, TypeScript, PHP, C#) sau khắt khe nhất trên thang điểm 10 bằng testcase theo đề bài: " +
                     "'" +
                     taskRequired +
                     "'" +
@@ -27,7 +27,7 @@ const ChamDiem = () => {
                     "\n" +
                     inputContent +
                     "\n" +
-                    "Nếu bên trên không phải là code Python hoặc sai yêu cầu đề bài thì đánh giá 0 điểm và nêu chi tiết như ở định dạng json yêu cầu trên.",
+                    "Nếu bên trên không phải là code của các ngôn ngữ trên hoặc sai yêu cầu đề bài thì đánh giá 0 điểm và nêu chi tiết như ở định dạng json yêu cầu trên.",
                 },
               ],
             },
