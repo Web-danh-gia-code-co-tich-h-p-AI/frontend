@@ -50,7 +50,7 @@ const Registration = () => {
 
   return (
     <div className="flex items-start w-full h-screen">
-      <div className="relative flex flex-col w-1/2 h-full">
+      <div className="relative flex flex-col hidden laptop:w-1/2 laptop:block h-full">
         <div className="absolute top-[20%] left-[10%] flex flex-col">
           <h1 className="my-4 text-4xl font-extrabold text-white">
             Turn Your Ideas into reality
@@ -66,7 +66,7 @@ const Registration = () => {
         />
       </div>
 
-      <div className="w-1/2   h-full bg-[#F5F5F5] flex flex-col p-20 justify-between items-center">
+      <div className="w-full laptop:w-1/2 h-full bg-[#F5F5F5] flex flex-col p-8 laptop:p-20 justify-between items-center">
         <h1 className="w-full max-w-[500px] mx-auto text-xl text-[#060606] font-semibold ">
           Interactive Brand
         </h1>

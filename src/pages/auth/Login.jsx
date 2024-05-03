@@ -37,7 +37,7 @@ const Login = (props) => {
   }
   return (
     <div className="flex items-start w-full h-screen">
-      <div className="relative flex flex-col w-1/2 h-full">
+      <div className="relative flex flex-col h-full hidden laptop:w-1/2 laptop:block">
         <div className="absolute top-[20%] left-[10%] flex flex-col">
           <h1 className="my-4 text-4xl font-extrabold text-white">
             Turn Your Ideas into reality
@@ -53,7 +53,7 @@ const Login = (props) => {
         />
       </div>
 
-      <div className="w-1/2   h-full bg-[#F5F5F5] flex flex-col p-20 justify-between items-center">
+      <div className="w-full h-full bg-[#F5F5F5] flex flex-col p-8 tablet:p-20 justify-between items-center laptop:w-1/2">
         <h1 className="w-full max-w-[500px] mx-auto text-xl text-[#060606] font-semibold ">
           Interactive Brand
         </h1>
@@ -80,7 +80,7 @@ const Login = (props) => {
                 placeholder="Enter your password"
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <div className="flex items-center justify-between w-full">
+              <div className="tablet:flex items-center justify-between w-full">
                 <div className="flex items-center w-full">
                   <input type="checkbox" className="w-4 h-4 mr-2" />
                   <p className="text-sm">Remember me for 30 days</p>
