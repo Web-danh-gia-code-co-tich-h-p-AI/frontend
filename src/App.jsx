@@ -8,7 +8,15 @@ import { ChakraProvider, theme } from "@chakra-ui/react";
 const Main = lazy(() => import("./layout/Main"));
 const Login = lazy(() => import("./pages/auth/Login"));
 const Registration = lazy(() => import("./pages/auth/Registration"));
+
+//code pages lazy loading
 const Code = lazy(() => import("./pages/code/Code"));
+
+//submission pages lazy loading
+const Submission = lazy(() => import("./pages/submission/Submission"));
+
+//problem pages lazy loading
+const Problem = lazy(() => import("./pages/submission/Problem"));
 
 const App = () => {
   const [name, setName] = useState("");
@@ -39,6 +47,8 @@ const App = () => {
             }
           ></Route>
           <Route path="/mark-score" element={<ChamDiem></ChamDiem>}></Route>
+          <Route path="/submission" element={<Submission></Submission>}></Route>
+          <Route path="/problem" element={<Problem></Problem>}></Route>
         </Route>
       </Routes>
     </Suspense>
