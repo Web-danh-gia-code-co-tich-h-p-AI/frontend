@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 // Định nghĩa các classes Tailwind CSS chung
-const containerClass = "w-screen p-4 shadow-lg rounded-lg pr-4 laptop:w-full";
+const containerClass = "w-full p-4 shadow-lg rounded-lg pr-4 laptop:w-full";
 const labelClass =
   "block text-zinc-800 text-sm font-medium dark:text-black-300 flex items-center"; // Thêm class 'flex items-center' để căn SVG và label cùng một hàng
 const inputBaseClass =

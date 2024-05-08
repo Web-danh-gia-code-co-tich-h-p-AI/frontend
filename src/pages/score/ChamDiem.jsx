@@ -141,7 +141,7 @@ const ChamDiem = () => {
               </div>
             </div>
           </div>
-          <div className="laptop:flex laptop:flex-wrap laptop:w-full ">
+          <div className="laptop:flex laptop:flex-wrap w-full">
             <div className="w-full p-1 laptop:w-1/3">
               <FormNhapDiem generatedValues={generatedValues} />
             </div>

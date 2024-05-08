@@ -52,13 +52,13 @@ const BlockUpload = ({ generateContent }) => {
   }
 
   return (
-    <div className="w-screen p-4 border rounded-lg shadow-lg min-h-max laptop:w-1/2">
+    <div className="w-full p-4 border rounded-lg shadow-lg min-h-max laptop:w-1/2">
       <h2 className="flex text-lg font-semibold text-zinc-800">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 16 16"
           fill="currentColor"
-          className="w-6 mr-1 h-"
+          className="w-6 mr-1"
         >
           <path
             fillRule="evenodd"
@@ -146,7 +146,7 @@ const BlockUpload = ({ generateContent }) => {
       </div>
       {fileContent && (
         <div className="max-w-full p-4 border rounded-lg bg-zinc-700 mt-7">
-          <h3 className="mb-3 font-semibold">File Content:</h3>
+          <h3 className="mb-3 font-semibold text-white">File Content:</h3>
           <pre className="overflow-auto text-black bg-white rounded-lg max-h-80">
             <div className="p-3">{fileContent}</div>
           </pre>

@@ -11,6 +11,7 @@ export default {
         'main-black': '#231f20',
       },
       screens: {
+        'smmobile': '421px',
         'mobile' : '431px',
         // => @media (min-width: 430px) { ... }
         'tablet': '641px',
