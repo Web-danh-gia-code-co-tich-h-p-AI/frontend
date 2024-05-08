@@ -213,7 +213,7 @@ const BlockXemDiem = () => {
           value={searchKeyword}
           onChange={handleSearch}
           placeholder="Search by ID"
-          className="w-auto px-3 py-2 mb-4 ml-3 border border-gray-300 rounded-md bg-zinc-700"
+          className="w-auto px-3 py-2 mb-4 ml-3 text-white border border-gray-300 rounded-md bg-zinc-500"
         />
         <table className="w-full">
           <thead className="w-full">
@@ -251,10 +251,10 @@ const BlockXemDiem = () => {
                 <td className="hidden px-4 py-2 item-center laptop:table-cell">
                   <pre className="truncate max-w-32">{user.note}</pre>
                 </td>
-                <td className="smmobile:flex justify-end px-4 py-2 ">
+                <td className="justify-end px-4 py-2 smmobile:flex ">
                   <button
                     onClick={() => handleDetail(user)}
-                    className=" px-4 py-2 m-1 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
+                    className="px-4 py-2 m-1 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -262,7 +262,7 @@ const BlockXemDiem = () => {
                       viewBox="0 0 24 24"
                       strokeWidth={1.5}
                       stroke="currentColor"
-                      className="tablet:w-6 tablet:h-6 w-4 h-4"
+                      className="w-4 h-4 tablet:w-6 tablet:h-6"
                     >
                       <path
                         strokeLinecap="round"
@@ -273,7 +273,7 @@ const BlockXemDiem = () => {
                   </button>
                   <button
                     onClick={() => handleDelete(user.studentID)}
-                    className=" px-4 py-2 m-1 text-sm font-bold text-white bg-red-500 rounded hover:bg-red-700"
+                    className="px-4 py-2 m-1 text-sm font-bold text-white bg-red-500 rounded hover:bg-red-700"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -281,7 +281,7 @@ const BlockXemDiem = () => {
                       viewBox="0 0 24 24"
                       strokeWidth={1.5}
                       stroke="currentColor"
-                      className="tablet:w-6 tablet:h-6 w-4 h-4"
+                      className="w-4 h-4 tablet:w-6 tablet:h-6"
                     >
                       <path
                         strokeLinecap="round"
