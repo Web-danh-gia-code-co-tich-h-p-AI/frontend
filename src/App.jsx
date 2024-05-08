@@ -1,6 +1,7 @@
 import "./App.scss";
 import { Route, Routes } from "react-router-dom";
 import ChamDiem from "./pages/score/ChamDiem";
+import MainHome from "./pages/home/MainHome";
 import { lazy, Suspense, useEffect, useState } from "react";
 import { ChakraProvider, theme } from "@chakra-ui/react";
 
@@ -46,6 +47,7 @@ const App = () => {
               </ChakraProvider>
             }
           ></Route>
+          <Route path="/" element={<MainHome></MainHome>}></Route>
           <Route path="/mark-score" element={<ChamDiem></ChamDiem>}></Route>
           <Route path="/submission" element={<Submission></Submission>}></Route>
           <Route path="/problem" element={<Problem></Problem>}></Route>
