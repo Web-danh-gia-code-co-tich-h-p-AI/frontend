@@ -4,6 +4,9 @@ import ChamDiem from "./pages/score/ChamDiem";
 import { lazy, Suspense, useEffect, useState } from "react";
 import { ChakraProvider, theme } from "@chakra-ui/react";
 
+//home page lazy loading
+const Home = lazy(() => import("./pages/Home"));
+
 //auth pages lazy loading
 const Main = lazy(() => import("./layout/Main"));
 const Login = lazy(() => import("./pages/auth/Login"));
@@ -20,17 +23,28 @@ const SubmissionSubmit = lazy(() =>
 );
 const Problem = lazy(() => import("./pages/submission/Problem"));
 
+const username = "11168186";
+const password = "60-dayfreetrial";
+const encodedCredentials = btoa(`${username}:${password}`);
 const App = () => {
   const [name, setName] = useState("");
+
   useEffect(() => {
     (async () => {
-      const response = await fetch("http://localhost:8000/api/user", {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      });
+      const response = await fetch(
+        "http://localhost:8000/api/user",
+        // "https://yunomix280304-001-site1.ftempurl.com/api/user",
+        {
+          headers: {
+            "Content-Type": "application/json",
+            // Authorization: `Basic ${encodedCredentials}`,
+          },
+          credentials: "include",
+        }
+      );
+
       const content = await response.json();
+
       setName(content.name);
     })();
   });
@@ -40,6 +54,7 @@ const App = () => {
         <Route path="/login" element={<Login setName={setName} />}></Route>
         <Route path="/register" element={<Registration />}></Route>
         <Route element={<Main></Main>}>
+          <Route path="/" element={<Home name={name}></Home>}></Route>
           <Route
             path="/code"
             element={

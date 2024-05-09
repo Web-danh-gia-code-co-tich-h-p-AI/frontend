@@ -12,23 +12,33 @@ import FallbackComponent from "../../utils/FallbackComponent";
 //   background: "#F5F5F5",
 //   disbaled: "#D9D9D9",
 // };
+const username = "11168186";
+const password = "60-dayfreetrial";
+const encodedCredentials = btoa(`${username}:${password}`);
 
 const Login = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [redirectstate, setRedirectstate] = useState(false);
+
   const submitLogin = async (e) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:8000/api/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({ email, password }),
-    });
+    const response = await fetch(
+      "http://localhost:8000/api/login",
+      // "https://yunomix280304-001-site1.ftempurl.com/api/login",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          // Authorization: `Basic ${encodedCredentials}`,
+        },
+        credentials: "include",
+        body: JSON.stringify({ email, password }),
+      }
+    );
 
     const content = await response.json();
+
     setRedirectstate(true);
     props.setName(content.name);
   };
@@ -37,7 +47,7 @@ const Login = (props) => {
   }
   return (
     <div className="flex items-start w-full h-screen">
-      <div className="relative flex flex-col h-full hidden laptop:w-1/2 laptop:block">
+      <div className="relative flex flex-col h-full laptop:w-1/2 laptop:block">
         <div className="absolute top-[20%] left-[10%] flex flex-col">
           <h1 className="my-4 text-4xl font-extrabold text-white">
             Turn Your Ideas into reality
@@ -80,7 +90,7 @@ const Login = (props) => {
                 placeholder="Enter your password"
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <div className="tablet:flex items-center justify-between w-full">
+              <div className="items-center justify-between w-full tablet:flex">
                 <div className="flex items-center w-full">
                   <input type="checkbox" className="w-4 h-4 mr-2" />
                   <p className="text-sm">Remember me for 30 days</p>
@@ -90,7 +100,10 @@ const Login = (props) => {
                 </p>
               </div>
               <div className="flex flex-col w-full my-4">
-                <button className="w-full text-white bg-[#060606] rounded-md p-4 text-center flex items-center justify-center my-2 font-semibold cursor-pointer">
+                <button
+                  className="w-full text-white bg-[#060606] rounded-md p-4 text-center flex items-center justify-center my-2 font-semibold cursor-pointer"
+                  type="submit"
+                >
                   Log in
                 </button>
                 {/* <button className="w-full text-[#060606] bg-white border border-black rounded-md p-4 text-center flex items-center justify-center my-2 font-semibold cursor-pointer">
@@ -100,9 +113,11 @@ const Login = (props) => {
             </form>
           </div>
 
-          <div className="laptop:relative flex items-center justify-center w-full py-2">
+          <div className="flex items-center justify-center w-full py-2 laptop:relative">
             <div className="w-full h-[1px] hidden laptop:block bg-black/40"></div>
-            <p className="laptop:absolute text-lg bg-[#f5f5f5] text-black/80">or</p>
+            <p className="laptop:absolute text-lg bg-[#f5f5f5] text-black/80">
+              or
+            </p>
           </div>
 
           <div className="w-full text-[#060606] bg-white border border-black/40 rounded-md p-4 text-center flex items-center justify-center my-2 font-semibold cursor-pointer">
