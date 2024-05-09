@@ -13,7 +13,7 @@ import { withErrorBoundary } from "react-error-boundary";
 import PropTypes from "prop-types";
 
 const languages = Object.entries(LANGUAGE_VERSIONS);
-const ACTIVE_COLOR = "blue.400";
+const ACTIVE_COLOR = "green.400";
 
 const LanguageSelector = ({ language, onSelect }) => {
   return (
@@ -25,11 +25,11 @@ const LanguageSelector = ({ language, onSelect }) => {
         <MenuButton as={Button} colorScheme="green">
           {language}
         </MenuButton>
-        <MenuList bg="#110c1b">
+        <MenuList bg="#231F20">
           {languages.map(([lang, version]) => (
             <MenuItem
               key={lang}
-              color={lang === language ? ACTIVE_COLOR : ""}
+              color={lang === language ? ACTIVE_COLOR : "#D1D5DB"}
               bg={lang === language ? "gray.900" : "transparent"}
               _hover={{
                 color: ACTIVE_COLOR,

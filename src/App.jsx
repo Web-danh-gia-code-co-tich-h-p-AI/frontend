@@ -14,8 +14,10 @@ const Code = lazy(() => import("./pages/code/Code"));
 
 //submission pages lazy loading
 const Submission = lazy(() => import("./pages/submission/Submission"));
-
-//problem pages lazy loading
+const SubmissionUser = lazy(() => import("./pages/submission/SubmissionUser"));
+const SubmissionSubmit = lazy(() =>
+  import("./pages/submission/SubmissionSubmit")
+);
 const Problem = lazy(() => import("./pages/submission/Problem"));
 
 const App = () => {
@@ -48,6 +50,14 @@ const App = () => {
           ></Route>
           <Route path="/mark-score" element={<ChamDiem></ChamDiem>}></Route>
           <Route path="/submission" element={<Submission></Submission>}></Route>
+          <Route
+            path="/submission/user/:slug"
+            element={<SubmissionUser></SubmissionUser>}
+          ></Route>
+          <Route
+            path="/submission/:slug"
+            element={<SubmissionSubmit></SubmissionSubmit>}
+          ></Route>
           <Route path="/problem" element={<Problem></Problem>}></Route>
         </Route>
       </Routes>
