@@ -6,7 +6,7 @@ const sharedClasses = {
     "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded",
 };
 
-const Submission = () => {
+const SubmissionUser = () => {
   return (
     <>
       <div className="flex items-center justify-between p-4">
@@ -31,62 +31,6 @@ const Submission = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td className="p-4">[Lâm Quen OJ] Bài 4: Hàm Pow</td>
-                  <td className="p-4">30 / 30</td>
-                  <td className="p-4">AC / P3</td>
-                  <td className="p-4">06/05/2024</td>
-                  <td className="p-4">1.41s</td>
-                  <td className="p-4">10.1 MB</td>
-                </tr>
-                <tr>
-                  <td className="p-4">[Lâm Quen OJ] Bài 4: Hàm Pow</td>
-                  <td className="p-4">30 / 30</td>
-                  <td className="p-4">AC / P3</td>
-                  <td className="p-4">06/05/2024</td>
-                  <td className="p-4">1.41s</td>
-                  <td className="p-4">10.1 MB</td>
-                </tr>
-                <tr>
-                  <td className="p-4">[Lâm Quen OJ] Bài 4: Hàm Pow</td>
-                  <td className="p-4">30 / 30</td>
-                  <td className="p-4">AC / P3</td>
-                  <td className="p-4">06/05/2024</td>
-                  <td className="p-4">1.41s</td>
-                  <td className="p-4">10.1 MB</td>
-                </tr>
-                <tr>
-                  <td className="p-4">[Lâm Quen OJ] Bài 4: Hàm Pow</td>
-                  <td className="p-4">30 / 30</td>
-                  <td className="p-4">AC / P3</td>
-                  <td className="p-4">06/05/2024</td>
-                  <td className="p-4">1.41s</td>
-                  <td className="p-4">10.1 MB</td>
-                </tr>
-                <tr>
-                  <td className="p-4">[Lâm Quen OJ] Bài 4: Hàm Pow</td>
-                  <td className="p-4">30 / 30</td>
-                  <td className="p-4">AC / P3</td>
-                  <td className="p-4">06/05/2024</td>
-                  <td className="p-4">1.41s</td>
-                  <td className="p-4">10.1 MB</td>
-                </tr>
-                <tr>
-                  <td className="p-4">[Lâm Quen OJ] Bài 4: Hàm Pow</td>
-                  <td className="p-4">30 / 30</td>
-                  <td className="p-4">AC / P3</td>
-                  <td className="p-4">06/05/2024</td>
-                  <td className="p-4">1.41s</td>
-                  <td className="p-4">10.1 MB</td>
-                </tr>
-                <tr>
-                  <td className="p-4">[Lâm Quen OJ] Bài 4: Hàm Pow</td>
-                  <td className="p-4">30 / 30</td>
-                  <td className="p-4">AC / P3</td>
-                  <td className="p-4">06/05/2024</td>
-                  <td className="p-4">1.41s</td>
-                  <td className="p-4">10.1 MB</td>
-                </tr>
                 <tr>
                   <td className="p-4">[Lâm Quen OJ] Bài 4: Hàm Pow</td>
                   <td className="p-4">30 / 30</td>
@@ -199,4 +143,4 @@ const Submission = () => {
   );
 };
 
-export default Submission;
+export default SubmissionUser;

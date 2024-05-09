@@ -17,9 +17,9 @@ const Registration = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [redirectstate, setRedirectstate] = useState(false);
-  // const usernameSmater = "11168186";
-  // const passwordSmater = "60-dayfreetrial";
-  // const encodedCredentials = btoa(`${usernameSmater}:${passwordSmater}`);
+  const username = "11168186";
+  const password = "60-dayfreetrial";
+  const encodedCredentials = btoa(`${username}:${password}`);
   const submitRegister = async (e) => {
     e.preventDefault();
     console.log({ name, email, password });
@@ -33,13 +33,18 @@ const Registration = () => {
     //     },
     //     body: JSON.stringify({ name, email, password }),
     //   }
-    await fetch("http://localhost:8000/api/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name, email, password }),
-    });
+    await fetch(
+      "http://localhost:8000/api/register",
+      // "https://yunomix280304-001-site1.ftempurl.com/api/register",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          // Authorization: `Basic ${encodedCredentials}`,
+        },
+        body: JSON.stringify({ name, email, password }),
+      }
+    );
     // const content = await response.json();
     // console.log(content);
     setRedirectstate(true);
@@ -50,7 +55,7 @@ const Registration = () => {
 
   return (
     <div className="flex items-start w-full h-screen">
-      <div className="relative flex flex-col hidden laptop:w-1/2 laptop:block h-full">
+      <div className="relative flex flex-col laptop:w-1/2 laptop:block h-full">
         <div className="absolute top-[20%] left-[10%] flex flex-col">
           <h1 className="my-4 text-4xl font-extrabold text-white">
             Turn Your Ideas into reality
@@ -112,7 +117,9 @@ const Registration = () => {
 
           <div className="laptop:relative flex items-center justify-center w-full py-2">
             <div className="w-full hidden laptop:block h-[1px] bg-black/40"></div>
-            <p className="laptop:absolute text-lg bg-[#f5f5f5] text-black/80">or</p>
+            <p className="laptop:absolute text-lg bg-[#f5f5f5] text-black/80">
+              or
+            </p>
           </div>
 
           <div className="w-full text-[#060606] bg-white border border-black/40 rounded-md p-4 text-center flex items-center justify-center my-2 font-semibold cursor-pointer">
