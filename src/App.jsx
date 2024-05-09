@@ -64,7 +64,7 @@ const App = () => {
               </ChakraProvider>
             }
           ></Route>
-          <Route path="/" element={<MainHome></MainHome>}></Route>
+          <Route path="/home" element={<MainHome></MainHome>}></Route>
           <Route path="/mark-score" element={<ChamDiem></ChamDiem>}></Route>
           <Route path="/submission" element={<Submission></Submission>}></Route>
           <Route
