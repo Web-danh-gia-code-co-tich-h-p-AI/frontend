@@ -22,7 +22,7 @@ const BlockUpload = ({ generateContent }) => {
 
   async function handleUpload() {
     if (taskRequired.trim() === "") {
-      alert("Please enter the task requirement.");
+      alert("Vui lòng nhập yêu cầu đề bài (bắt buộc) !");
       return; // Stop function execution if taskRequired is empty
     }
 
@@ -32,13 +32,13 @@ const BlockUpload = ({ generateContent }) => {
         await generateContent(fileContent, taskRequired);
       } catch (error) {
         console.error("Error generating content:", error);
-        alert("Error generating content. Please try again.");
+        alert("Tải nội dung thất bại. Vui lòng thử lại.");
       } finally {
         setIsLoading(false); // Đặt trạng thái isLoading thành false khi upload hoàn tất
       }
     } else {
-      console.log("File content is empty. Cannot submit.");
-      alert("Please select a file to upload.");
+      console.log("Không có dữ liệu !");
+      alert("Vui lòng chọn một file có nội dung.");
     }
   }
 

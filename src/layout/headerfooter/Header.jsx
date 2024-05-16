@@ -17,7 +17,7 @@ const Header = (props) => {
 
   if (props.name === "") {
     menu = (
-      <ul className="navbar-nav me-auto mb-2 mb-md-0">
+      <ul className="mb-2 navbar-nav me-auto mb-md-0">
         <li className="nav-item active">
           <Link to="/login" className="nav-link">
             Login
@@ -32,7 +32,7 @@ const Header = (props) => {
     );
   } else {
     menu = (
-      <ul className="navbar-nav me-auto mb-2 mb-md-0">
+      <ul className="mb-2 navbar-nav me-auto mb-md-0">
         <li className="nav-item active">
           <Link to="/login" className="nav-link" onClick={logout}>
             Logout
@@ -73,7 +73,7 @@ const Header = (props) => {
   return (
     <div className="w-full">
       <header className="w-full bg-main-black">
-        <div className="w-full flex items-center justify-between px-4 py-4">
+        <div className="flex items-center justify-between w-full px-4 py-4">
           <div className="flex items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -96,7 +96,7 @@ const Header = (props) => {
             <div className="laptop:hidden">
               <button
                 onClick={toggleMenu}
-                className="text-white bg-zinc-500 boder rounded-sm focus:outline-none"
+                className="text-white rounded-sm bg-zinc-500 boder focus:outline-none"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

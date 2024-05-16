@@ -65,6 +65,10 @@ const BlockXemDiem = () => {
   };
 
   const handleDelete = async (id) => {
+    const isConfirmed = window.confirm("Bạn chắc chắn Xoá ?");
+    if (!isConfirmed) {
+        return; // Hủy hành động nếu người dùng chọn "Cancel"
+    }
     try {
       await axios.delete(`${connectionString}/delete-user/${id}`, {
         headers: {

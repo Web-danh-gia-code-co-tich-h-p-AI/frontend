@@ -20,7 +20,7 @@ const ServiceCard = ({ title, description, imageUrl }) => {
 // Main component
 const Main = () => {
     return (
-        <main className={`${containerClass} px-4`}>
+        <main className={`${containerClass} bg-[url('/src/assets/images/login-cover-image.jpg')] px-4`}>
             <section id="hero" className="mt-8 text-center">
                 <h2 className="text-3xl font-bold">Tối ưu thời gian cho Học sinh - Giáo viên khi chấm code</h2>
                 <p className="mt-2 text-lg">Chúng tôi cung cấp dịch vụ chấm code tự động bằng AI đem tới khả năng tối ưu thời gian đánh giá cho bạn.</p>
@@ -36,12 +36,12 @@ const Main = () => {
                 </div>
             </section>
 
-            <section id="about" className="mt-12 text-center">
+            <section id="about" className="mt-12 text-center text-white">
                 <h3 className={sectionTitleClass}>About Us</h3>
                 <p className="mt-4">Chúng tôi là một đội ngũ sinh viên năm 2 trường đại học CMC - Đây là bài dự án kết thúc môn</p>
             </section>
 
-            <section id="contact" className="mt-12 text-center">
+            <section id="contact" className="mt-12 text-center text-white">
                 <h3 className={sectionTitleClass}>Get in Touch</h3>
                 <p className="mt-4">Bạn có bất cứ câu hỏi nào hay cần trợ giúp hãy liên hệ với chúng tôi bằng Email.</p>
                 <a href="mailto: toquangduc2004@gmail.com" className={`${buttonBaseClass} mt-4`}>Email Us</a>

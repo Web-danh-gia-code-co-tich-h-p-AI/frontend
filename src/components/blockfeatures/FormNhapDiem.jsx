@@ -85,6 +85,7 @@ const FormNhapDiem = ({ generatedValues }) => {
   const [scoreAI, setScoreAI] = useState("");
   const [aiNotes, setAiNotes] = useState("");
   const [value, setValue] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const username = "11166969";
   const password = "60-dayfreetrial";
   const basic = `${username}:${password}`;
@@ -118,6 +119,7 @@ const FormNhapDiem = ({ generatedValues }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setIsLoading(true);
     try {
       const response = await axios.post(
         "https://bewbewbew-001-site1.ftempurl.com/api/demo/add-user",
@@ -144,6 +146,7 @@ const FormNhapDiem = ({ generatedValues }) => {
       alert("Gửi thông tin thất bại. Vui lòng kiểm tra lại thông tin.");
       // Xử lý khi gặp lỗi
     }
+    setIsLoading(false);
   };
 
   return (
@@ -184,8 +187,9 @@ const FormNhapDiem = ({ generatedValues }) => {
           value={aiNotes}
         />
         <div className="w-full ">
-          <button type="submit" className={buttonClass}>
-            Gửi thông tin
+          <button type="submit" className={`${buttonClass} ${
+              isLoading ? "opacity-50 cursor-not-allowed" : ""
+            }`}> {isLoading ? "Đang gửi..." : "Gửi thông tin"}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 16 16"

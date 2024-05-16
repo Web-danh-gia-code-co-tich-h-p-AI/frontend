@@ -23,11 +23,11 @@ const ChamDiem = () => {
                     "'" +
                     taskRequired +
                     "'" +
-                    ".Sau đó chỉ trả response của bạn cho tôi ở định dạng JSON bằng tiếng Việt gồm các trường đóng vai trò là Key: Score, Note (max 30 kí tự): " +
+                    ".Sau đó chỉ trả response của bạn cho tôi ở định dạng JSON bằng tiếng Việt gồm các trường đóng vai trò là Key: Score, Note (tối đa 30 kí tự): " +
                     "\n" +
                     inputContent +
                     "\n" +
-                    "Nếu bên trên không phải là code của các ngôn ngữ trên hoặc sai yêu cầu đề bài thì đánh giá 0 điểm và nêu chi tiết như ở định dạng json yêu cầu trên.",
+                    "Nếu bên trên không phải là code của các ngôn ngữ trên hoặc sai yêu cầu đề bài thì đánh giá 1 điểm và nêu chi tiết như ở định dạng json yêu cầu trên.",
                 },
               ],
             },
@@ -43,6 +43,9 @@ const ChamDiem = () => {
     } catch (error) {
       console.error("Error generating content:", error);
       setErrorMessage("Có lỗi xảy ra. Vui lòng thử lại.");
+      setTimeout(() => {
+        setErrorMessage("");
+      }, 5000);
     }
   };
 
@@ -141,7 +144,7 @@ const ChamDiem = () => {
               </div>
             </div>
           </div>
-          <div className="laptop:flex laptop:flex-wrap w-full">
+          <div className="w-full laptop:flex laptop:flex-wrap">
             <div className="w-full p-1 laptop:w-1/3">
               <FormNhapDiem generatedValues={generatedValues} />
             </div>
