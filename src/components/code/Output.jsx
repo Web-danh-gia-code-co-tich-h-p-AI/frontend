@@ -5,9 +5,9 @@ import PropTypes from "prop-types";
 import { withErrorBoundary } from "react-error-boundary";
 import FallbackComponent from "../../utils/FallbackComponent";
 
-const Output = ({ editorRef, language }) => {
+const Output = ({ editorRef, language, setOutput }) => {
   const toast = useToast();
-  const [output, setOutput] = useState(null);
+  const [output, setLocalOutput] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
@@ -16,9 +16,9 @@ const Output = ({ editorRef, language }) => {
     if (!sourceCode) return;
     try {
       setIsLoading(true);
-      //Trích xuất giá trị key run từ object được trả về bởi executeCode và gán giá trị đó cho một biến mới tên là result.
       const { run: result } = await executeCode(language, sourceCode);
-      setOutput(result.output.split("\n"));
+      setLocalOutput(result.output.split("\n"));
+      setOutput(result.output.split("\n")); // Set output for parent component
       result.stderr ? setIsError(true) : setIsError(false);
     } catch (error) {
       console.log(error);
@@ -68,6 +68,7 @@ const Output = ({ editorRef, language }) => {
 Output.propTypes = {
   editorRef: PropTypes.object,
   language: PropTypes.string,
+  setOutput: PropTypes.func, // Add propTypes for setOutput
 };
 
 const EnhancedOutput = withErrorBoundary(Output, {
