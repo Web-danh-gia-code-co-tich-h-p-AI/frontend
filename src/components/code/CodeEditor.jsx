@@ -51,13 +51,13 @@ const CodeEditor = () => {
         setValue(fileContent);
       } catch (error) {
         console.error("Error generating content:", error);
-        alert("Error generating content. Please try again.");
+        alert("Không thể đọc nội dung. Vui lòng thử lại.");
       } finally {
         setIsLoading(false);
       }
     } else {
       console.log("File content is empty. Cannot submit.");
-      alert("Please select a file to upload.");
+      alert("Vui lòng chọn một file chứa nội dung hợp lệ.");
     }
   }
 
@@ -69,6 +69,7 @@ const CodeEditor = () => {
   }
 
   const generateContent = async (value, output) => {
+    setIsLoading(true)
     try {
       const response = await axios.post(
         "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyB4A_fWNEQPntj8TS4tmhDnw44hY_pY9uQ",
@@ -78,10 +79,12 @@ const CodeEditor = () => {
               parts: [
                 {
                   text:
-                    "Hãy tìm ra lỗi trong code hoặc tối ưu code và sửa nó trong đoạn code (Python, Java, JavaScript, TypeScript, PHP, C#) sau: " +
+                    "Hãy tìm ra lỗi trong code hoặc tối ưu code và sửa nó trong đoạn code (Python, Java, JavaScript, TypeScript, PHP, C#) sau: " + 
+                    "\n" +
                     "'" +
                     value +
                     "'" +
+                    "\n" +
                     "và đây là output " +
                     "\n" +
                     output +
@@ -106,6 +109,7 @@ const CodeEditor = () => {
         setErrorMessage("");
       }, 5000);
     }
+    setIsLoading(false);
   };
 
   return (
@@ -210,8 +214,9 @@ const CodeEditor = () => {
           onClick={() => generateContent(value, output)}
           colorScheme="blue"
           mt={4}
+          className={`${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
         >
-          Generate Content
+          {isLoading ? "Debugging..." : "Debug"}
         </Button>
         {isDataLoaded && (
           <Box mt={4} p={4} border="1px solid" borderColor="gray.300" borderRadius="md">
