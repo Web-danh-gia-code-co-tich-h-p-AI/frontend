@@ -48,14 +48,14 @@ const CreateQuestion = () => {
         <label className="block text-sm font-medium text-gray-700">Total Points</label>
         <input type="number" name="totalPoints" value={form.totalPoints} onChange={handleChange} className="block w-full mt-1" />
       </div>
-      <div className="mb-4">
+      {/* <div className="mb-4">
         <label className="block text-sm font-medium text-gray-700">Answer File URL</label>
         <input type="text" name="answerFileURL" value={form.answerFileURL} onChange={handleChange} className="block w-full mt-1" />
       </div>
       <div className="mb-4">
         <label className="block text-sm font-medium text-gray-700">Status</label>
         <input type="text" name="status" value={form.status} onChange={handleChange} className="block w-full mt-1" />
-      </div>
+      </div> */}
       <button type="submit" className="px-4 py-2 text-white bg-blue-500">Create</button>
     </form>
   );
