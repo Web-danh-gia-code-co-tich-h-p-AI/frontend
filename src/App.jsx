@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import ChamDiem from "./pages/score/ChamDiem";
 import MainHome from "./pages/home/MainHome";
 import Questions from "./pages/score/Questions";
+import Dashboard from "./pages/dashboard/Dashboard";
 import { lazy, Suspense, useEffect, useState } from "react";
 import { ChakraProvider, theme } from "@chakra-ui/react";
 
@@ -78,6 +79,7 @@ const App = () => {
             element={<SubmissionSubmit></SubmissionSubmit>}
           ></Route>
           <Route path="/problem" element={<Problem></Problem>}></Route>
+          <Route path="/dashboard" element={<Dashboard></Dashboard>}></Route>
         </Route>
       </Routes>
     </Suspense>
