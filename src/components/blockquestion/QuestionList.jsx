@@ -8,11 +8,15 @@ const QuestionList = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const recordsPerPage = 5;
 
-  useEffect(() => {
+  const fetchQuestions = () => {
     fetch('http://yunom2834-001-site1.gtempurl.com/api/TeacherQuestion/GetAllQuestion')
       .then(response => response.json())
       .then(data => setQuestions(data))
       .catch(error => console.error('Error fetching questions:', error));
+  };
+
+  useEffect(() => {
+    fetchQuestions();
   }, []);
 
   const handleDetails = (question) => {
@@ -53,7 +57,8 @@ const QuestionList = () => {
 
   const filteredQuestions = questions.filter(question =>
     question.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    question.description.toLowerCase().includes(searchQuery.toLowerCase())
+    question.id.toString().includes(searchQuery.toLowerCase())
+    //question.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   // Calculate the current records to display based on the current page
@@ -66,7 +71,7 @@ const QuestionList = () => {
   return (
     <div className="p-4">
       <h2 className="mb-4 text-2xl font-bold">Questions</h2>
-      <div className="mb-4">
+      <div className="mb-4 flex justify-between">
         <input
           type="text"
           placeholder="Search..."
@@ -74,40 +79,58 @@ const QuestionList = () => {
           onChange={handleSearchChange}
           className="w-full p-2 border rounded"
         />
+        <button 
+          onClick={fetchQuestions}
+          className="ml-4 px-4 py-2 bg-green-500 text-white rounded"
+        >
+          Reload
+        </button>
       </div>
-      <table className="w-full table-auto">
-        <thead>
-          <tr className="bg-gray-200">
-            <th className="border px-4 py-2">ID</th>
-            <th className="border px-4 py-2">Name</th>
-            <th className="border px-4 py-2">Description</th>
-            <th className="border px-4 py-2">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {currentRecords.map(question => (
-            <tr key={question.id}>
-              <td className="border px-4 py-2">{question.id}</td>
-              <td className="border px-4 py-2">{question.name}</td>
-              <td className="border px-4 py-2">{question.description}</td>
-              <td className="border px-4 py-2">
-                <button 
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded mr-2"
-                  onClick={() => handleDetails(question)}
-                >
-                  Details
-                </button>
-                <button 
-                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
-                  onClick={() => handleDelete(question.id)}
-                >
-                  Delete
-                </button>
-              </td>
+      <div className="">
+        <table className="w-full table-auto">
+          <thead>
+            <tr className="bg-gray-200">
+              <th className="border px-4 py-2">ID</th>
+              <th className="border px-4 py-2">Name</th>
+              <th className="border px-4 py-2">Action</th>
             </tr>
+          </thead>
+          <tbody>
+            {currentRecords.map(question => (
+              <tr key={question.id}>
+                <td className="border px-4 py-2">{question.id}</td>
+                <td className="border px-4 py-2">{question.name}</td>
+                <td className="border px-4 py-2">
+                  <button 
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded mr-2"
+                    onClick={() => handleDetails(question)}
+                  >
+                    Details
+                  </button>
+                  <button 
+                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
+                    onClick={() => handleDelete(question.id)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <div className="mt-4 flex justify-center">
+          {Array.from({ length: totalPages }, (_, index) => (
+            <button
+              key={index + 1}
+              onClick={() => handlePageChange(index + 1)}
+              className={`px-3 py-1 mx-1 border rounded ${currentPage === index + 1 ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+            >
+              {index + 1}
+            </button>
           ))}
-        </tbody>
-      </table>
+        </div>
+      </div>
+
 
       {selectedQuestion && (
         <UpdateQuestion 
@@ -116,18 +139,6 @@ const QuestionList = () => {
           onCancel={handleCancel} 
         />
       )}
-
-      <div className="mt-4 flex justify-center">
-        {Array.from({ length: totalPages }, (_, index) => (
-          <button
-            key={index + 1}
-            onClick={() => handlePageChange(index + 1)}
-            className={`px-3 py-1 mx-1 border rounded ${currentPage === index + 1 ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
-          >
-            {index + 1}
-          </button>
-        ))}
-      </div>
     </div>
   );
 };
