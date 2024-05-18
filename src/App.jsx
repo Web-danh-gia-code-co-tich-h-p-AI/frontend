@@ -25,7 +25,7 @@ const SubmissionSubmit = lazy(() =>
 );
 const Problem = lazy(() => import("./pages/submission/Problem"));
 
-const username = "11168186";
+const username = "11177298";
 const password = "60-dayfreetrial";
 const encodedCredentials = btoa(`${username}:${password}`);
 const App = () => {
@@ -34,12 +34,12 @@ const App = () => {
   useEffect(() => {
     (async () => {
       const response = await fetch(
-        "http://localhost:8000/api/user",
-        // "https://yunomix280304-001-site1.ftempurl.com/api/user",
+        // "http://localhost:8000/api/user",
+        "https://yunomixapi-001-site1.atempurl.com/api/user",
         {
           headers: {
             "Content-Type": "application/json",
-            // Authorization: `Basic ${encodedCredentials}`,
+            Authorization: `Basic ${encodedCredentials}`,
           },
           credentials: "include",
         }
