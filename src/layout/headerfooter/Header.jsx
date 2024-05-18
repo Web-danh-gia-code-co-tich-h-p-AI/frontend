@@ -128,7 +128,7 @@ const Header = (props) => {
               }`}
             >
               <NavLink
-                to="/"
+                to="/home"
                 className="flex items-center p-2 mr-4 text-white rounded-lg hover:bg-zinc-400 hover:text-white"
               >
                 <svg
