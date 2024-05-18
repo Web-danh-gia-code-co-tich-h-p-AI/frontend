@@ -58,14 +58,14 @@ const StatisticsScore = () => {
   }));
 
   return (
-    <div className="h-screen">
-      <h1 className="flex justify-between p-4 text-3xl font-bold bg-zinc-300">
-        Thống kê Điểm số học sinh
+    <div className="laptop:h-screen">
+      <h1 className="flex justify-between p-4 font-bold tablet:text-3xl bg-zinc-300">
+        Thống kê điểm số học sinh
         <button
           onClick={() => setReload(!reload)}
           className={`${
             loading ? "opacity-50 cursor-not-allowed" : ""
-          } p-2 mr-3 text-base font-normal text-white bg-blue-500 rounded-lg hover:bg-blue-600 flex`}
+          } p-2 mr-3 text-base font-normal max-h-10 text-white bg-blue-500 rounded-lg hover:bg-blue-600 flex`}
           disabled={loading}
         >
           <svg
@@ -85,9 +85,9 @@ const StatisticsScore = () => {
           {loading ? "Reloading..." : "Reload"}
         </button>
       </h1>
-      <div className="grid grid-cols-2">
+      <div className="laptop:grid laptop:grid-cols-2">
         <div className="flex p-4 bg-slate-100">
-          <div className="ml-4 p-2 border bg-zinc-500 text-white rounded-lg w-[200px] hidden laptop:block">
+          <div className="ml-4 p-2 border bg-zinc-500 text-white rounded-lg w-[200px] hidden tablet:block">
             <h2 className="">Score Statistics</h2>
             <table className="w-full text-left border-collapse">
               <thead>
@@ -106,12 +106,12 @@ const StatisticsScore = () => {
               </tbody>
             </table>
           </div>
-          <div className="">
-            <ScoreChart dataPoints={scoreDataPoints} title="Thống kê điểm số" />
+          <div className="w-screen laptop:w-full">
+            <ScoreChart dataPoints={scoreDataPoints} title="Thống kê điểm chấm tay" />
           </div>
         </div>
         <div className="flex p-4 bg-slate-100">
-          <div className="ml-4 p-2 border text-white bg-zinc-500 rounded-lg w-[200px] hidden laptop:block">
+          <div className="ml-4 p-2 border text-white bg-zinc-500 rounded-lg w-[200px] hidden tablet:block">
             <h2 className="">Score AI Statistics</h2>
             <table className="w-full text-left border-collapse">
               <thead>
@@ -130,10 +130,10 @@ const StatisticsScore = () => {
               </tbody>
             </table>
           </div>
-          <div className="">
+          <div className="w-screen laptop:w-full">
             <ScoreChart
               dataPoints={scoreAIDataPoints}
-              title="Thống kê điểm số AI"
+              title="Thống kê điểm AI"
             />
           </div>
         </div>
