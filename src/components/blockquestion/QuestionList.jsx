@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import UpdateQuestion from './UpdateQuestion';
+import { set } from 'react-hook-form';
 
 const QuestionList = () => {
   const [questions, setQuestions] = useState([]);
@@ -13,6 +14,7 @@ const QuestionList = () => {
       .then(response => response.json())
       .then(data => setQuestions(data))
       .catch(error => console.error('Error fetching questions:', error));
+
   };
 
   useEffect(() => {
@@ -30,6 +32,7 @@ const QuestionList = () => {
       .then(response => {
         if (response.ok) {
           setQuestions(questions.filter(question => question.id !== id));
+          alert('Xóa câu hỏi thành công!');
         } else {
           console.error('Error deleting question:', response.statusText);
         }
@@ -69,7 +72,7 @@ const QuestionList = () => {
   const totalPages = Math.ceil(filteredQuestions.length / recordsPerPage);
 
   return (
-    <div className="p-4 bg-white px-6 py-24 sm:py-32 lg:px-8">
+    <div className="p-4 px-6 py-24 sm:py-32 lg:px-8">
       {/* <div
           className="absolute inset-x-0 top-[-10rem] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[-20rem]"
           aria-hidden="true"
@@ -123,7 +126,7 @@ const QuestionList = () => {
                     className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
                     onClick={() => handleDelete(question.id)}
                   >
-                    Delete
+                    Xoá
                   </button>
                 </td>
               </tr>
