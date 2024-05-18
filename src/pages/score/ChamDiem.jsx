@@ -19,7 +19,7 @@ const ChamDiem = () => {
               parts: [
                 {
                   text:
-                    "Hãy đánh giá đoạn code (Python, Java, JavaScript, TypeScript, PHP, C#) sau khắt khe nhất trên thang điểm 10 bằng testcase theo đề bài: " +
+                    "Hãy đánh giá đoạn code (thuộc Python, Java, JavaScript, TypeScript, PHP, C#) sau khắt khe nhất trên thang điểm 10 bằng testcase theo đề bài: " +
                     "'" +
                     taskRequired +
                     "'" +

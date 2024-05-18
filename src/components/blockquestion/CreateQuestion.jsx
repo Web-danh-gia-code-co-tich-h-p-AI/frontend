@@ -60,7 +60,14 @@ const handleSubmit = (e) => {
 return (
     <div className="px-6 border rounded-lg shadow-lg sm:py-12 lg:px-8">
     <div className="max-w-2xl mx-auto text-center">
-        <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Tạo câu hỏi</h2>
+        <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+           <div className="flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-10 h-10 mr-2 translate-y-1">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+                Tạo câu hỏi
+           </div>
+        </h2>
         <p className="mt-2 text-lg leading-8 text-gray-600">
         Tạo câu hỏi cho nhiều người tham gia có thể làm.
         </p>
@@ -79,6 +86,7 @@ return (
                 value={form.name}
                 onChange={handleChange}
                 autoComplete="given-name"
+                placeholder='Bắt buộc nhập tên câu hỏi...'
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
             </div>
@@ -94,6 +102,7 @@ return (
                 rows={4}
                 value={form.description}
                 onChange={handleChange}
+                placeholder='Nhập mô tả câu hỏi...'
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
             </div>
@@ -105,6 +114,7 @@ return (
             name="totalPoints"
             value={form.totalPoints}
             onChange={handleChange}
+            placeholder='Bắt buộc nhập điểm tối đa...'
             className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-600"
             />
         </div>

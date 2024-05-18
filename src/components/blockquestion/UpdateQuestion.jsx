@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 const UpdateQuestion = ({ question, onSave, onCancel }) => {
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
   const [form, setForm] = useState({
     id: '',
     name: '',
@@ -32,6 +33,7 @@ const UpdateQuestion = ({ question, onSave, onCancel }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsDataLoaded(true);
     fetch(`http://yunom2834-001-site1.gtempurl.com/api/TeacherQuestion/UpdateQuestion${form.id}`, {
       method: 'PUT',
       headers: {
@@ -49,23 +51,24 @@ const UpdateQuestion = ({ question, onSave, onCancel }) => {
       .then(data => {
         console.log('Question updated:', data);
         onSave(data);
+        setIsDataLoaded(false);
       })
       .catch(error => console.error('Error updating question:', error));
   };
 
   return (
     <form onSubmit={handleSubmit} className="p-4 mt-4 border rounded-lg shadow-lg">
-      <h2 className="mb-4 text-2xl font-bold">Update Question</h2>
+      <h2 className="mb-4 text-2xl font-bold">Chi tiết và Cập nhật câu hỏi</h2>
       <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700">Name</label>
+        <label className="block text-sm font-medium text-gray-700">Tên câu hỏi *</label>
         <input type="text" name="name" value={form.name} onChange={handleChange} className="block w-full p-2 mt-1 border rounded" />
       </div>
       <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700">Description</label>
+        <label className="block text-sm font-medium text-gray-700">Mô tả</label>
         <textarea name="description" value={form.description} onChange={handleChange} className="block w-full p-2 mt-1 border rounded"></textarea>
       </div>
       <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700">Total Points</label>
+        <label className="block text-sm font-medium text-gray-700">Điểm tối đa *</label>
         <input type="number" name="totalPoints" value={form.totalPoints} onChange={handleChange} className="block w-full p-2 mt-1 border rounded" />
       </div>
       {/* <div className="mb-4">
@@ -88,7 +91,7 @@ const UpdateQuestion = ({ question, onSave, onCancel }) => {
           type="submit" 
           className="px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600"
         >
-          Save
+          {isDataLoaded ? 'Saving...' : 'Save'}
         </button>
       </div>
     </form>
