@@ -86,10 +86,10 @@ const FormNhapDiem = ({ generatedValues }) => {
   const [aiNotes, setAiNotes] = useState("");
   const [value, setValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const username = "11166969";
-  const password = "60-dayfreetrial";
-  const basic = `${username}:${password}`;
-  const basicAuthHeader = `Basic ${btoa(basic)}`;
+  // const username = "11166969";
+  // const password = "60-dayfreetrial";
+  // const basic = `${username}:${password}`;
+  // const basicAuthHeader = `Basic ${btoa(basic)}`;
 
   const handleChange = (e) => {
     const inputValue = e.target.value;
@@ -132,7 +132,7 @@ const FormNhapDiem = ({ generatedValues }) => {
         },
         {
           headers: {
-            Authorization: basicAuthHeader,
+            //Authorization: basicAuthHeader,
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*",
           },
@@ -162,7 +162,7 @@ const FormNhapDiem = ({ generatedValues }) => {
           id="evaluationScore"
           label="Điểm đánh giá"
           type="number"
-          placeholder="Nhập điểm đánh giá trên thang 100"
+          placeholder="Nhập điểm đánh giá trên thang 10"
           value={value}
           onChange={handleChange}
         />
