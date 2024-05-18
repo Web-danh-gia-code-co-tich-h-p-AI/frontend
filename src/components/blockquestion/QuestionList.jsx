@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import UpdateQuestion from './UpdateQuestion';
-import { set } from 'react-hook-form';
 
 const QuestionList = () => {
   const [questions, setQuestions] = useState([]);
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const recordsPerPage = 5;
 
   const fetchQuestions = () => {
+    setIsLoading(true); // Start loading
     fetch('http://yunom2834-001-site1.gtempurl.com/api/TeacherQuestion/GetAllQuestion')
       .then(response => response.json())
       .then(data => setQuestions(data))
-      .catch(error => console.error('Error fetching questions:', error));
-
+      .catch(error => console.error('Error fetching questions:', error))
+      .finally(() => setIsLoading(false)); // End loading
   };
 
   useEffect(() => {
@@ -26,23 +27,29 @@ const QuestionList = () => {
   };
 
   const handleDelete = (id) => {
-    fetch(`http://yunom2834-001-site1.gtempurl.com/api/TeacherQuestion/DeleteQuestion${id}`, {
-      method: 'DELETE',
-    })
-      .then(response => {
-        if (response.ok) {
-          setQuestions(questions.filter(question => question.id !== id));
-          alert('Xóa câu hỏi thành công!');
-        } else {
-          console.error('Error deleting question:', response.statusText);
-        }
+    const confirmDelete = window.confirm('Bạn có chắc chắn xoá?');
+    if (confirmDelete) {
+      fetch(`http://yunom2834-001-site1.gtempurl.com/api/TeacherQuestion/DeleteQuestion${id}`, {
+        method: 'DELETE',
       })
-      .catch(error => console.error('Error deleting question:', error));
+        .then(response => {
+          if (response.ok) {
+            setQuestions(questions.filter(question => question.id !== id));
+            alert('Xóa câu hỏi thành công!');
+          } else {
+            console.error('Error deleting question:', response.statusText);
+          }
+        })
+        .catch(error => console.error('Error deleting question:', error));
+    } else {
+      return;
+    }
   };
 
   const handleSave = (updatedQuestion) => {
     setQuestions(questions.map(q => q.id === updatedQuestion.id ? updatedQuestion : q));
     setSelectedQuestion(null);
+    alert('Cập nhật câu hỏi thành công!');
   };
 
   const handleCancel = () => {
@@ -61,7 +68,6 @@ const QuestionList = () => {
   const filteredQuestions = questions.filter(question =>
     question.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     question.id.toString().includes(searchQuery.toLowerCase())
-    //question.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   // Calculate the current records to display based on the current page
@@ -72,21 +78,9 @@ const QuestionList = () => {
   const totalPages = Math.ceil(filteredQuestions.length / recordsPerPage);
 
   return (
-    <div className="p-4 px-6 py-24 sm:py-32 lg:px-8">
-      {/* <div
-          className="absolute inset-x-0 top-[-10rem] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[-20rem]"
-          aria-hidden="true"
-      >
-          <div
-              className="relative left-1/2 -z-10 aspect-[1155/678] w-[36.125rem] max-w-none -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-40rem)] sm:w-[72.1875rem]"
-              style={{
-                  clipPath:
-                      'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
-              }}
-          />
-      </div> */}
+    <div className="h-full p-4 px-6 lg:px-8">
       <h2 className="mb-4 text-2xl font-bold">Danh sách câu hỏi</h2>
-      <div className="mb-4 flex justify-between">
+      <div className="flex justify-between mb-4">
         <input
           type="text"
           placeholder="Search..."
@@ -96,34 +90,35 @@ const QuestionList = () => {
         />
         <button 
           onClick={fetchQuestions}
-          className="ml-4 px-4 py-2 bg-green-500 text-white rounded"
+          className={`px-4 py-2 ml-4 text-white rounded ${isLoading ? 'bg-gray-400' : 'bg-green-500'}`}
+          disabled={isLoading}
         >
-          Reload
+          {isLoading ? 'Loading...' : 'Reload'}
         </button>
       </div>
-      <div className="">
+      <div className="laptop:relative h-96">
         <table className="w-full table-auto">
           <thead>
             <tr className="bg-gray-200">
-              <th className="border px-4 py-2">ID</th>
-              <th className="border px-4 py-2">Name</th>
-              <th className="border px-4 py-2">Action</th>
+              <th className="px-4 py-2 border">ID</th>
+              <th className="px-4 py-2 border">Name</th>
+              <th className="px-4 py-2 border">Action</th>
             </tr>
           </thead>
           <tbody>
             {currentRecords.map(question => (
               <tr key={question.id}>
-                <td className="border px-4 py-2">{question.id}</td>
-                <td className="border px-4 py-2">{question.name}</td>
-                <td className="border px-4 py-2">
+                <td className="px-4 py-2 border">{question.id}</td>
+                <td className="px-4 py-2 border"><pre className='w-16 truncate'>{question.name}</pre></td>
+                <td className="px-4 py-2 border">
                   <button 
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded mr-2"
+                    className="px-2 py-1 mr-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
                     onClick={() => handleDetails(question)}
                   >
                     Details
                   </button>
                   <button 
-                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
+                    className="px-2 py-1 font-bold text-white bg-red-500 rounded hover:bg-red-700"
                     onClick={() => handleDelete(question.id)}
                   >
                     Xoá
@@ -133,19 +128,18 @@ const QuestionList = () => {
             ))}
           </tbody>
         </table>
-        <div className="mt-4 flex justify-center">
+        <div className="bottom-0 flex justify-center mt-4 laptop:absolute">
           {Array.from({ length: totalPages }, (_, index) => (
             <button
               key={index + 1}
               onClick={() => handlePageChange(index + 1)}
-              className={`px-3 py-1 mx-1 border rounded ${currentPage === index + 1 ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+              className={`px-3 py-1 mx-1 border rounded hover:-translate-y-1 ${currentPage === index + 1 ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
             >
               {index + 1}
             </button>
           ))}
         </div>
       </div>
-
 
       {selectedQuestion && (
         <UpdateQuestion 

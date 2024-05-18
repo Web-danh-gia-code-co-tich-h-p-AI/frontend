@@ -211,12 +211,12 @@ const CodeEditor = () => {
           <Output editorRef={editorRef} language={language} setOutput={setOutput} /> {/* Pass setOutput */}
         </HStack>
         <Button
-          onClick={() => generateContent(value, output)}
-          colorScheme="blue"
-          mt={4}
-          className={`${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
-        >
-          {isLoading ? "Debugging..." : "Debug"}
+            onClick={() => generateContent(value, output)}
+            colorScheme="blue"
+            isLoading={isLoading}
+            className="w-full mt-4"
+          >
+            Debug
         </Button>
         {isDataLoaded && (
           <Box mt={4} p={4} border="1px solid" borderColor="gray.300" borderRadius="md">

@@ -54,19 +54,19 @@ const UpdateQuestion = ({ question, onSave, onCancel }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-4">
+    <form onSubmit={handleSubmit} className="p-4 mt-4 border rounded-lg shadow-lg">
       <h2 className="mb-4 text-2xl font-bold">Update Question</h2>
       <div className="mb-4">
         <label className="block text-sm font-medium text-gray-700">Name</label>
-        <input type="text" name="name" value={form.name} onChange={handleChange} className="block w-full mt-1" />
+        <input type="text" name="name" value={form.name} onChange={handleChange} className="block w-full p-2 mt-1 border rounded" />
       </div>
       <div className="mb-4">
         <label className="block text-sm font-medium text-gray-700">Description</label>
-        <textarea name="description" value={form.description} onChange={handleChange} className="block w-full mt-1"></textarea>
+        <textarea name="description" value={form.description} onChange={handleChange} className="block w-full p-2 mt-1 border rounded"></textarea>
       </div>
       <div className="mb-4">
         <label className="block text-sm font-medium text-gray-700">Total Points</label>
-        <input type="number" name="totalPoints" value={form.totalPoints} onChange={handleChange} className="block w-full mt-1" />
+        <input type="number" name="totalPoints" value={form.totalPoints} onChange={handleChange} className="block w-full p-2 mt-1 border rounded" />
       </div>
       {/* <div className="mb-4">
         <label className="block text-sm font-medium text-gray-700">Answer File URL</label>
@@ -79,14 +79,14 @@ const UpdateQuestion = ({ question, onSave, onCancel }) => {
       <div className="flex justify-end">
         <button 
           type="button" 
-          className="px-4 py-2 mr-2 text-white bg-gray-500"
+          className="px-4 py-2 mr-2 text-white bg-gray-500 rounded-md hover:bg-gray-600"
           onClick={onCancel}
         >
           Cancel
         </button>
         <button 
           type="submit" 
-          className="px-4 py-2 text-white bg-blue-500"
+          className="px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600"
         >
           Save
         </button>
