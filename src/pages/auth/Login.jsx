@@ -12,7 +12,7 @@ import FallbackComponent from "../../utils/FallbackComponent";
 //   background: "#F5F5F5",
 //   disbaled: "#D9D9D9",
 // };
-const username = "11168186";
+const username = "11177298";
 const password = "60-dayfreetrial";
 const encodedCredentials = btoa(`${username}:${password}`);
 
@@ -24,13 +24,13 @@ const Login = (props) => {
   const submitLogin = async (e) => {
     e.preventDefault();
     const response = await fetch(
-      "http://localhost:8000/api/login",
-      // "https://yunomix280304-001-site1.ftempurl.com/api/login",
+      // "http://localhost:8000/api/login",
+      "https://yunomixapi-001-site1.atempurl.com/api/login",
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          // Authorization: `Basic ${encodedCredentials}`,
+          Authorization: `Basic ${encodedCredentials}`,
         },
         credentials: "include",
         body: JSON.stringify({ email, password }),
