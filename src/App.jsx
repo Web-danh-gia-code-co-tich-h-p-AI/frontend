@@ -49,7 +49,7 @@ const App = () => {
         <Route path="/" element={<HomeFirst />} />
 
         {/* Uncomment and use these routes as necessary */}
-        {/* 
+        
         <Route element={<Main />}>
           <Route path="/home" element={<Home />} />
           <Route 
@@ -75,7 +75,7 @@ const App = () => {
           <Route path="/problem" element={<Problem></Problem>}></Route>
           <Route path="/dashboard" element={<Dashboard></Dashboard>}></Route>
         </Route>
-        */}
+       
       </Routes>
     </Suspense>
   );

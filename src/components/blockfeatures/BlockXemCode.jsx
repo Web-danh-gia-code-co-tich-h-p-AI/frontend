@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { FALSE } from "sass";
 
 const BlockXemCode = ({onSendToForm}) => {
     const connectionString = "http://bewcutoe-001-site1.ctempurl.com";
