@@ -39,7 +39,7 @@ const BlockXemCode = ({onSendToForm}) => {
         setButtonText('Đã gửi');
         setTimeout(() => {
         setButtonText('Gửi tới Form');
-        }, 1000);
+        }, 2000);
     };
 
     const handleReload = async () => {
@@ -237,7 +237,7 @@ const BlockXemCode = ({onSendToForm}) => {
                     viewBox="0 0 24 24"
                     strokeWidth={1.5}
                     stroke="currentColor"
-                    className="w-6 h-6 mr-3 scale-150 translate-y-2"
+                    className="w-6 h-6 mr-3 scale-150 laptop:translate-y-2"
                 >
                     <path
                     strokeLinecap="round"
@@ -376,33 +376,33 @@ const BlockXemCode = ({onSendToForm}) => {
             </table>
             {showDetail && selectedUser && (
                 <div className="inset-0 flex items-center justify-center w-full bg-gray-800 bg-opacity-50 rounded-lg laptop:absolute">
-                <div className="max-h-full p-8 bg-white rounded-lg text-zinc-700">
+                <div className="h-full w-full laptop:w-2/3 laptop:h-3/4 p-8 bg-white tablet:rounded-lg text-zinc-700">
                     <h2 className="mb-4 text-xl font-semibold">Chi tiết thông tin</h2>
-                    <div className="max-h-full">
-                    <div className="flex max-h-80">
-                        <div className="p-3">
-                        <div className="mb-6">
-                            <label className="block mb-2">ID</label>
-                            <input
-                            type="text"
-                            name="id"
-                            value={selectedUser.id}
-                            onChange={handleInputChange}
-                            className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-zinc-700"
-                            />
-                        </div>
-                        <div className="mb-6">
-                            <label className="block mb-2">Name Code</label>
-                            <input
-                            name="name"
-                            value={selectedUser.name}
-                            onChange={handleInputChange}
-                            className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md resize-none text-zinc-700"
-                            />
-                        </div>
+                    <div className="h-full w-full">
+                    <div className="flex h-3/4">
+                        <div className="p-2 w-1/3">
+                            <div className="mb-6">
+                                <label className="block mb-2">ID</label>
+                                <input
+                                type="text"
+                                name="id"
+                                value={selectedUser.id}
+                                onChange={handleInputChange}
+                                className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-zinc-700"
+                                />
+                            </div>
+                            <div className="mb-6">
+                                <label className="block mb-2">Name Code</label>
+                                <input
+                                name="name"
+                                value={selectedUser.name}
+                                onChange={handleInputChange}
+                                className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md resize-none text-zinc-700"
+                                />
+                            </div>
                         </div>
 
-                        <div className="p-3">
+                        <div className="p-2 w-2/3">
                         <div className="mb-6">
                             <label className="block mb-2">Code Details</label>
                                 <textarea
@@ -410,7 +410,7 @@ const BlockXemCode = ({onSendToForm}) => {
                                     name="codeDetails"
                                     value={selectedUser.codeDetails}
                                     onChange={handleInputChange}
-                                    className="w-full h-32 px-3 py-2 bg-white border border-gray-300 rounded-md text-zinc-700"
+                                    className="w-full bg-slate-600 text-white h-32 tablet:h-56 px-3 py-2 border border-gray-300 rounded-md"
                                 />
                         </div>
                         </div>

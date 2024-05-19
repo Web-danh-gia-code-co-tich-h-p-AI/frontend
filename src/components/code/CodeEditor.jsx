@@ -185,7 +185,7 @@ const CodeEditor = () => {
                     "\n" +
                     output +
                     "\n" +
-                    "Nếu đoạn code không lỗi hoặc đã tối ưu thì đánh giá hướng phát triển.",
+                    "Nếu đoạn code có kết quả tức là không lỗi hoặc đã tối ưu thì thông báo code tốt và đánh giá hướng phát triển (nếu có).",
                 },
               ],
             },
