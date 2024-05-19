@@ -45,6 +45,12 @@ npm i @monaco-editor/react
 npm i react-slider
 npm i @chakra-ui/react @emotion/react @emotion/styled framer-motion
 npm i react-awesome-slider
+npm install js-cookie
+npm install yup formik
+npm install react-toastify
+
+
+
 
 
 KEY: AIzaSyB4A_fWNEQPntj8TS4tmhDnw44hY_pY9uQ

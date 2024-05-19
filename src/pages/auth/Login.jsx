@@ -1,53 +1,99 @@
 import COVER_IMAGE from "../../assets/images/login-cover-image.jpg";
 import GOOGLE_ICON from "../../assets/images/google-icon.png";
 import MICROSOFT_ICON from "../../assets/images/microsoft-icon.png";
-import { useState } from "react";
-import { redirect } from "react-router-dom";
-import PropTypes from "prop-types";
-import { withErrorBoundary } from "react-error-boundary";
-import FallbackComponent from "../../utils/FallbackComponent";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "../../api/axiosConfig"; // Sử dụng instance axios đã cấu hình
+import Cookies from "js-cookie";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Link } from "react-router-dom";
 
-// const colors = {
-//   primary: "#060606",
-//   background: "#F5F5F5",
-//   disbaled: "#D9D9D9",
-// };
-const username = "11177298";
-const password = "60-dayfreetrial";
-const encodedCredentials = btoa(`${username}:${password}`);
+const Login = () => {
+  const navigate = useNavigate();
+  const [rememberMe, setRememberMe] = useState(false);
 
-const Login = (props) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [redirectstate, setRedirectstate] = useState(false);
+  useEffect(() => {
+    const rememberMeCookie = Cookies.get("rememberMe");
+    if (rememberMeCookie === "true") {
+      setRememberMe(true);
+    }
+  }, []);
 
-  const submitLogin = async (e) => {
-    e.preventDefault();
-    const response = await fetch(
-      // "http://localhost:8000/api/login",
-      "https://yunomixapi-001-site1.atempurl.com/api/login",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Basic ${encodedCredentials}`,
-        },
-        credentials: "include",
-        body: JSON.stringify({ email, password }),
-      }
-    );
-
-    const content = await response.json();
-
-    setRedirectstate(true);
-    props.setName(content.name);
+  const initialValues = {
+    email: "",
+    password: "",
   };
-  if (redirectstate) {
-    return redirect("/");
-  }
+
+  const validationSchema = Yup.object().shape({
+    email: Yup.string()
+      .email("Invalid email address")
+      .required("Email is required"),
+    password: Yup.string()
+      .required("Password is required")
+      .min(8, "Password must be at least 8 characters")
+      .matches(
+        /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*[a-z]).{8,}$/,
+        "Password must contain at least one uppercase letter, one lowercase letter, and one special character"
+      ),
+  });
+
+  const handleLogin = async (values, { setSubmitting }) => {
+    try {
+      const response = await axios.post("/Account/login", values);
+
+      const { token, roles } = response.data;
+
+      // Lưu token vào cookie
+      Cookies.set("token", token, {
+        expires: 7,
+        secure: true,
+        sameSite: "Strict",
+      });
+
+      if (roles[0] === "Admin") {
+        navigate("/admin");
+      } else if (roles[0] === "User") {
+        navigate("/student");
+      }
+
+      // Hiển thị toast thông báo đăng nhập thành công
+      toast.success("Login successful!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    } catch (error) {
+      console.error("Error logging in", error);
+      toast.error("Login failed:", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleRememberMeChange = (e) => {
+    const isChecked = e.target.checked;
+    setRememberMe(isChecked);
+    Cookies.set("rememberMe", isChecked, { expires: 30 });
+  };
+
   return (
     <div className="flex items-start w-full h-screen">
-      <div className="relative flex flex-col hidden h-full laptop:w-1/2 laptop:block">
+      <div className="relative flex flex-col h-full laptop:w-1/2 laptop:block">
         <div className="absolute top-[20%] left-[10%] flex flex-col">
           <h1 className="my-4 text-4xl font-extrabold text-white">
             Turn Your Ideas into reality
@@ -76,42 +122,68 @@ const Login = (props) => {
             </p>
           </div>
 
-          <div className="flex flex-col w-full">
-            <form onSubmit={submitLogin}>
-              <input
-                className="w-full py-2 my-2 text-black bg-transparent border-b border-black outline-none focus:outline-none"
-                type="email"
-                placeholder="Enter your email address"
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <input
-                className="w-full py-2 my-2 text-black bg-transparent border-b border-black outline-none focus:outline-none"
-                type="password"
-                placeholder="Enter your password"
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <div className="items-center justify-between w-full tablet:flex">
-                <div className="flex items-center w-full">
-                  <input type="checkbox" className="w-4 h-4 mr-2" />
-                  <p className="text-sm">Remember me for 30 days</p>
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={handleLogin}
+          >
+            {({ isSubmitting }) => (
+              <Form>
+                <Field
+                  type="email"
+                  name="email"
+                  id="email"
+                  placeholder="Enter your email address"
+                  className="w-full py-2 my-2 text-black bg-transparent border-b border-black outline-none focus:outline-none"
+                />
+                <ErrorMessage
+                  name="email"
+                  component="div"
+                  className="text-red-500"
+                />
+
+                <Field
+                  type="password"
+                  name="password"
+                  id="password"
+                  placeholder="Enter your password"
+                  className="w-full py-2 my-2 text-black bg-transparent border-b border-black outline-none focus:outline-none"
+                />
+                <ErrorMessage
+                  name="password"
+                  component="div"
+                  className="text-red-500"
+                />
+
+                <div className="items-center justify-between w-full tablet:flex">
+                  <div className="flex items-center w-full">
+                    <input
+                      type="checkbox"
+                      className="w-4 h-4 mr-2"
+                      id="rememberMe"
+                      checked={rememberMe}
+                      onChange={handleRememberMeChange}
+                    />
+                    <label htmlFor="rememberMe" className="text-sm">
+                      Remember me for 30 days
+                    </label>
+                  </div>
+                  <p className="text-sm font-medium underline cursor-pointer whitespace-nowrap underline-offset-2">
+                    Forgot Password ?
+                  </p>
                 </div>
-                <p className="text-sm font-medium underline cursor-pointer whitespace-nowrap underline-offset-2">
-                  Forgot Password ?
-                </p>
-              </div>
-              <div className="flex flex-col w-full my-4">
-                <button
-                  className="w-full text-white bg-[#060606] rounded-md p-4 text-center flex items-center justify-center my-2 font-semibold cursor-pointer"
-                  type="submit"
-                >
-                  Log in
-                </button>
-                {/* <button className="w-full text-[#060606] bg-white border border-black rounded-md p-4 text-center flex items-center justify-center my-2 font-semibold cursor-pointer">
-              Register
-            </button> */}
-              </div>
-            </form>
-          </div>
+                <div className="flex flex-col w-full my-4">
+                  <button
+                    className="w-full text-white bg-[#060606] rounded-md p-4 text-center flex items-center justify-center my-2 font-semibold cursor-pointer"
+                    type="submit"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? "Logging in..." : "Log in"}
+                  </button>
+                </div>
+              </Form>
+            )}
+          </Formik>
 
           <div className="flex items-center justify-center w-full py-2 laptop:relative">
             <div className="w-full h-[1px] hidden laptop:block bg-black/40"></div>
@@ -135,25 +207,20 @@ const Login = (props) => {
         </div>
 
         <div className="flex items-center justify-center w-full">
-          {/* <p>Dont have an account? Please tell to the add to get the account</p> */}
           <p className="text-sm font-normal text-[#583838]">
             Dont have an account?{" "}
-            <span className="font-semibold underline cursor-pointer underline-offset-2">
+            <Link
+              to="/register"
+              className="font-semibold underline cursor-pointer underline-offset-2"
+            >
               Sign up for free
-            </span>
+            </Link>
           </p>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };
 
-// Login.propTypes = {
-//   setName: PropTypes.func.isRequired,
-// };
-
-const EnhancedLogin = withErrorBoundary(Login, {
-  FallbackComponent,
-});
-
-export default EnhancedLogin;
+export default Login;
