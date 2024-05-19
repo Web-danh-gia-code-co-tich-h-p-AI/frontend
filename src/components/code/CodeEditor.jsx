@@ -40,6 +40,7 @@ const CodeEditor = () => {
   const [fileContent, setFileContent] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef(null);
+  const [codeFileName, setCodeFileName] = useState("");
 
   function handleFileChange(e) {
     const file = e.target.files[0];
@@ -53,22 +54,81 @@ const CodeEditor = () => {
     reader.readAsText(file);
   }
 
-  async function handleUpload() {
-    if (fileContent.trim() !== "") {
-      setIsLoading(true);
-      try {
-        await saveFileToApi(fileName, fileContent); // Call the function to save the file to API
-      } catch (error) {
-        console.error("Error generating content:", error);
-        alert("Không thể đọc nội dung. Vui lòng thử lại.");
-      } finally {
-        setIsLoading(false);
-      }
+
+  // Hàm xử lý thay đổi tên file code
+  const handleFileNameChange = (e) => {
+    setCodeFileName(e.target.value);
+  };
+
+  const handleUpload = () => {
+    let uploadFileName = fileName;
+    let uploadFileContent = fileContent;
+  
+    // Kiểm tra giá trị của fileName và setFileName
+    if (!fileName && !setFileName) {
+      alert("Vui lòng chọn một file hoặc nhập tên file.");
+      return;
+    } else if (!fileName) {
+      uploadFileName = codeFileName;
+    } else if (!codeFileName) {
+      uploadFileName = fileName;
     } else {
-      console.log("File content is empty. Cannot submit.");
-      alert("Vui lòng chọn một file chứa nội dung hợp lệ.");
+      uploadFileName = fileName;
     }
-  }
+  
+    // Chuyển đổi uploadFileName thành chuỗi nếu không phải là chuỗi
+    uploadFileName = uploadFileName ? String(uploadFileName) : "";
+  
+    // Kiểm tra và cập nhật nội dung file content nếu cần
+    if (!fileContent && fileInputRef.current.files[0]) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        uploadFileContent = e.target.result;
+        setFileContent(uploadFileContent);
+        setValue(uploadFileContent);
+        // Sau khi đọc nội dung file, thực hiện upload
+        if (uploadFileName.trim() !== "" && uploadFileContent.trim() !== "") {
+          setIsLoading(true);
+          saveFileToApi(uploadFileName, uploadFileContent)
+            .then(() => {
+              alert("Lưu file thành công!");
+            })
+            .catch((error) => {
+              console.error("Error saving file:", error);
+              alert("Lưu file thất bại. Vui lòng thử lại.");
+            })
+            .finally(() => {
+              setIsLoading(false);
+            });
+        } else {
+          console.log("File content is empty. Cannot submit.");
+          alert("Vui lòng chọn một file chứa nội dung hợp lệ.");
+        }
+      };
+      reader.readAsText(fileInputRef.current.files[0]);
+    } else {
+      // Nếu không cần đọc nội dung từ file, thực hiện upload ngay
+      if (uploadFileName.trim() !== "" && (uploadFileContent || value).trim() !== "") {
+        setIsLoading(true);
+        saveFileToApi(uploadFileName, uploadFileContent || value)
+          .then(() => {
+            alert("Lưu file thành công!");
+          })
+          .catch((error) => {
+            console.error("Error saving file:", error);
+            alert("Lưu file thất bại. Vui lòng thử lại.");
+          })
+          .finally(() => {
+            setIsLoading(false);
+          });
+      } else {
+        console.log("File content is empty. Cannot submit.");
+        alert("Vui lòng chọn một file chứa nội dung hợp lệ.");
+      }
+    }
+  };
+  
+
 
   function handleCancel() {
     setFileContent("");
@@ -81,27 +141,31 @@ const CodeEditor = () => {
   const saveFileToApi = async (fileName, fileContent) => {
     const confirmSubmit = window.confirm('Bạn có chắc chắn nộp bài ?');
     if (confirmSubmit) {
-    try {
-      await axios.post('http://bewcutoe-001-site1.ctempurl.com/api/demo/add-coder', 
-      {
-        headers: {
-          Authorization: basicAuthHeader,
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-        },
-      },
-      {
-        name: fileName,
-        codeDetails: fileContent,
-      });
-      alert('Lưu file thành công!');
-    } catch (error) {
-      console.error("Error saving file:", error);
-      alert('Lưu file thất bại. Vui lòng thử lại.');
-    }} else {
+      try {
+        await axios.post(
+          'http://bewcutoe-001-site1.ctempurl.com/add-new-coder',
+          {
+            name: fileName,
+            codeDetails: fileContent,
+          },
+          {
+            headers: {
+              Authorization: basicAuthHeader,
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*',
+            },
+          }
+        );
+        alert('Lưu file thành công!');
+      } catch (error) {
+        console.error('Error saving file:', error);
+        alert('Lưu file thất bại. Vui lòng thử lại.');
+      }
+    } else {
       return;
     }
   };
+  
 
   const generateContent = async (value, output) => {
     setIsLoading(true);
@@ -224,6 +288,16 @@ const CodeEditor = () => {
                 Cancel
               </button>
             </div>
+          </div>
+          <div className="mb-3 mt-3 w-1/2">
+            <p className="font-bold ml-2">Hoặc nhập tên File (Code trực tiếp)</p>
+            <input
+              type="text"
+              value={codeFileName}
+              onChange={handleFileNameChange}
+              placeholder="Nhập tên file code..."
+              className={`${commonPadding} ${commonBorderColor} w-full ${commonRounded} shadow-sm text-sm leading-4 font-medium ${commonTextColor} bg-slate-100 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-zinc-400 file:text-white hover:file:bg-slate-600 hover:file:cursor-pointer`}
+            />
           </div>
         </div>
         <HStack spacing={4}>

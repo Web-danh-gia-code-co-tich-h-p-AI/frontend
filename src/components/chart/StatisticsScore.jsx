@@ -58,7 +58,7 @@ const StatisticsScore = () => {
   }));
 
   return (
-    <div className="laptop:h-screen">
+    <div className="laptop:h-full">
       <h1 className="flex justify-between p-4 font-bold tablet:text-3xl bg-zinc-300">
         Thống kê điểm số học sinh
         <di className="flex">
@@ -96,9 +96,7 @@ const StatisticsScore = () => {
               <option value="column">Column</option>
               <option value="bar">Bar</option>
               <option value="line">Line</option>
-              <option value="pie">Pie</option>
               <option value="spline">Spline</option>
-              <option value="doughnut">Doughnut</option>
             </select>
           </div>
         </di>
