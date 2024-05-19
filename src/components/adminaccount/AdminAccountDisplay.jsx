@@ -3,7 +3,7 @@ import axios from "axios";
 
 const AdminAccountDisplay = () => {
     const [users, setUsers] = useState([]);
-    const [role, setRole] = useState("Student");
+    const [role, setRole] = useState("User");
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [usersPerPage] = useState(5);
@@ -44,9 +44,9 @@ const AdminAccountDisplay = () => {
     };
 
     return (
-        <div className="container mx-auto mb-4 h-full laptop:relative laptop:h-[500px]">
-            <h1 className="flex justify-between p-4 font-bold tablet:text-3xl bg-zinc-300">Manager Account</h1>
-            <div className="flex items-center mb-4 ml-5">
+        <div className="container mx-auto mb-4 h-full laptop:relative laptop:h-[450px]">
+            <h1 className="flex justify-between p-4 font-bold tablet:text-3xl bg-zinc-300">Quản lý thông tin tài khoản</h1>
+            <div className="tablet:flex items-center mb-4 ml-5">
                 <span className="mr-2 mt-3">Select Role:</span>
                 <select
                 value={role}
@@ -60,7 +60,7 @@ const AdminAccountDisplay = () => {
                 </select>
                 <input
                 type="text"
-                placeholder="Search by name"
+                placeholder="Search by name..."
                 value={searchTerm}
                 onChange={handleSearch}
                 className="px-2 py-1 ml-4 border rounded mt-3"

@@ -1,4 +1,3 @@
-// App.jsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ScoreChart from "./ScoreChart";
@@ -9,6 +8,7 @@ const StatisticsScore = () => {
   const [scoreAIStats, setScoreAIStats] = useState({});
   const [loading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
+  const [chartType, setChartType] = useState("area"); // Default chart type
 
   useEffect(() => {
     // Fetch data from API
@@ -61,29 +61,47 @@ const StatisticsScore = () => {
     <div className="laptop:h-screen">
       <h1 className="flex justify-between p-4 font-bold tablet:text-3xl bg-zinc-300">
         Thống kê điểm số học sinh
-        <button
-          onClick={() => setReload(!reload)}
-          className={`${
-            loading ? "opacity-50 cursor-not-allowed" : ""
-          } p-2 mr-3 text-base font-normal max-h-10 text-white bg-blue-500 rounded-lg hover:bg-blue-600 flex`}
-          disabled={loading}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className={`${loading ? "animate-spin" : ""} w-6 h-6 mr-2`}
+        <di className="flex">
+          <button
+            onClick={() => setReload(!reload)}
+            className={`${
+              loading ? "opacity-50 cursor-not-allowed" : ""
+            } p-2 mr-3 text-base font-normal max-h-10 text-white bg-blue-500 rounded-lg hover:bg-blue-600 flex`}
+            disabled={loading}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"
-            />
-          </svg>
-          {loading ? "Reloading..." : "Reload"}
-        </button>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className={`${loading ? "animate-spin" : ""} w-6 h-6 mr-2`}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"
+              />
+            </svg>
+            {loading ? "Reloading..." : "Reload"}
+          </button>
+          <div className="text-base mt-1">
+            <span className="mr-2">Select Chart Type:</span>
+            <select
+              value={chartType}
+              onChange={(e) => setChartType(e.target.value)}
+              className="px-2 py-1 border rounded"
+            >
+              <option value="area">Area</option>
+              <option value="column">Column</option>
+              <option value="bar">Bar</option>
+              <option value="line">Line</option>
+              <option value="pie">Pie</option>
+              <option value="spline">Spline</option>
+              <option value="doughnut">Doughnut</option>
+            </select>
+          </div>
+        </di>
       </h1>
       <div className="laptop:grid laptop:grid-cols-2">
         <div className="flex p-4 bg-slate-100">
@@ -107,7 +125,11 @@ const StatisticsScore = () => {
             </table>
           </div>
           <div className="w-screen laptop:w-auto">
-            <ScoreChart dataPoints={scoreDataPoints} title="Thống kê điểm chấm tay" />
+            <ScoreChart
+              dataPoints={scoreDataPoints}
+              title="Thống kê điểm chấm tay"
+              typeChart={chartType}
+            />
           </div>
         </div>
         <div className="flex p-4 bg-slate-100">
@@ -134,6 +156,7 @@ const StatisticsScore = () => {
             <ScoreChart
               dataPoints={scoreAIDataPoints}
               title="Thống kê điểm AI"
+              typeChart={chartType}
             />
           </div>
         </div>

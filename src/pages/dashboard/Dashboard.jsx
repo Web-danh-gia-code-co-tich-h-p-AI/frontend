@@ -5,8 +5,10 @@ import AdminAccountDisplay from '../../components/adminaccount/AdminAccountDispl
 const Dashboard = () => {
     return (
         <div>
-            <h1 className='text-3xl'>Dashboard</h1>
-            <p>Welcome to the dashboard!</p>
+            <div className='m-5 font-bold'>
+                <h1 className='text-3xl'>Dashboard</h1>
+                <p>Welcome to the dashboard!</p>
+            </div>
             <AdminAccountDisplay />
             <StatisticsScore />
         </div>
