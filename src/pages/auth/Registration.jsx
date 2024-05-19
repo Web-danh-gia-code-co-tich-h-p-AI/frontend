@@ -74,17 +74,17 @@ const Registration = () => {
     <div className="flex items-start w-full h-screen">
       <div className="relative flex flex-col h-full laptop:w-1/2 laptop:block">
         <div className="absolute top-[20%] left-[10%] flex flex-col">
-          <h1 className="my-4 text-4xl font-extrabold text-white">
+          <h1 className="my-4 text-4xl hidden laptop:block font-extrabold text-white">
             Turn Your Ideas into reality
           </h1>
-          <p className="text-xl font-normal text-white">
+          <p className="text-xl font-normal hidden laptop:block text-white">
             Start for free and get attractive offers from the community
           </p>
         </div>
         <img
           src={COVER_IMAGE}
           alt="login-cover-image"
-          className="object-cover w-full h-full"
+          className="object-cover hidden laptop:block w-full h-full"
         />
       </div>
 
