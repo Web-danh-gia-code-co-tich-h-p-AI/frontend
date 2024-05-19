@@ -2,12 +2,18 @@ import { useState } from "react";
 import BlockUpload from "../../components/blockfeatures/BlockUpload";
 import FormNhapDiem from "../../components/blockfeatures/FormNhapDiem";
 import BlockXemDiem from "../../components/blockfeatures/BlockXemDiem";
+import BlockXemCode from "../../components/blockfeatures/BlockXemCode";
 import axios from "axios";
 
 const ChamDiem = () => {
   const [generatedValues, setGeneratedValues] = useState({});
   const [errorMessage, setErrorMessage] = useState("");
   const [isDataLoaded, setIsDataLoaded] = useState(false);
+
+  const handleSendToForm = (values) => {
+    setGeneratedValues(values);
+  };
+
 
   const generateContent = async (inputContent, taskRequired) => {
     try {
@@ -85,6 +91,9 @@ const ChamDiem = () => {
     <div className="max-w-screen">
       <div className="w-full bg-white p-9">
         <main className="flex flex-wrap space-y-6">
+          <div className="w-full h-fit laptop:flex laptop:h-[600px]">
+              <BlockXemCode onSendToForm={handleSendToForm}/>
+          </div>
           <div className="w-full laptop:flex">
             <BlockUpload generateContent={generateContent} />
             <div className="w-full pt-2 mb-4 rounded-lg laptop:w-1/2 laptop:pl-6 text-zinc-800">
@@ -110,7 +119,7 @@ const ChamDiem = () => {
                     <ul className="mt-4">
                       {Object.entries(generatedValues).map(([key, value]) => (
                         <li key={key} className="mb-2">
-                          <strong>{key}:</strong> {value}
+                          <strong className="text-red-700 underline">{key}:</strong> {value}
                         </li>
                       ))}
                     </ul>

@@ -20,6 +20,12 @@ const CodeEditor = () => {
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [generatedContent, setGeneratedContent] = useState("");
+  const [fileName, setFileName] = useState("");
+
+  const username = "11177529";
+  const password = "60-dayfreetrial";
+  const basic = `${username}:${password}`;
+  const basicAuthHeader = `Basic ${btoa(basic)}`;
 
   const onMount = (editor) => {
     editorRef.current = editor;
@@ -34,42 +40,132 @@ const CodeEditor = () => {
   const [fileContent, setFileContent] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef(null);
+  const [codeFileName, setCodeFileName] = useState("");
 
   function handleFileChange(e) {
     const file = e.target.files[0];
+    setFileName(file.name);
     const reader = new FileReader();
     reader.onload = (e) => {
-      setFileContent(e.target.result);
+      const content = e.target.result;
+      setFileContent(content);
+      setValue(content); // Automatically set the content to <Editor>
     };
     reader.readAsText(file);
   }
 
-  async function handleUpload() {
-    if (fileContent.trim() !== "") {
-      setIsLoading(true);
-      try {
-        setValue(fileContent);
-      } catch (error) {
-        console.error("Error generating content:", error);
-        alert("Không thể đọc nội dung. Vui lòng thử lại.");
-      } finally {
-        setIsLoading(false);
-      }
-    } else {
-      console.log("File content is empty. Cannot submit.");
-      alert("Vui lòng chọn một file chứa nội dung hợp lệ.");
-    }
-  }
+  // Hàm xử lý thay đổi tên file code
+  const handleFileNameChange = (e) => {
+    setCodeFileName(e.target.value);
+  };
 
+  const handleUpload = () => {
+    let uploadFileName = fileName;
+    let uploadFileContent = fileContent;
+  
+    // Kiểm tra giá trị của fileName và setFileName
+    if (!fileName && !setFileName) {
+      alert("Vui lòng chọn một file hoặc nhập tên file.");
+      return;
+    } else if (!fileName) {
+      uploadFileName = codeFileName;
+    } else if (!codeFileName) {
+      uploadFileName = fileName;
+    } else {
+      uploadFileName = fileName;
+    }
+  
+    // Chuyển đổi uploadFileName thành chuỗi nếu không phải là chuỗi
+    uploadFileName = uploadFileName ? String(uploadFileName) : "";
+  
+    // Kiểm tra và cập nhật nội dung file content nếu cần
+    if (!fileContent && fileInputRef.current.files[0]) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        uploadFileContent = e.target.result;
+        setFileContent(uploadFileContent);
+        setValue(uploadFileContent);
+        // Sau khi đọc nội dung file, thực hiện upload
+        if (uploadFileName.trim() !== "" && uploadFileContent.trim() !== "") {
+          setIsLoading(true);
+          saveFileToApi(uploadFileName, uploadFileContent)
+            .then(() => {
+              alert("Lưu file thành công!");
+            })
+            .catch((error) => {
+              console.error("Error saving file:", error);
+              alert("Lưu file thất bại. Vui lòng thử lại.");
+            })
+            .finally(() => {
+              setIsLoading(false);
+            });
+        } else {
+          console.log("File content is empty. Cannot submit.");
+          alert("Vui lòng chọn một file chứa nội dung hợp lệ.");
+        }
+      };
+      reader.readAsText(fileInputRef.current.files[0]);
+    } else {
+      // Nếu không cần đọc nội dung từ file, thực hiện upload ngay
+      if (uploadFileName.trim() !== "" && (uploadFileContent || value).trim() !== "") {
+        setIsLoading(true);
+        saveFileToApi(uploadFileName, uploadFileContent || value)
+          .then(() => {
+            alert("Lưu file thành công!");
+          })
+          .catch((error) => {
+            console.error("Error saving file:", error);
+            alert("Lưu file thất bại. Vui lòng thử lại.");
+          })
+          .finally(() => {
+            setIsLoading(false);
+          });
+      } else {
+        console.log("File content is empty. Cannot submit.");
+        alert("Vui lòng chọn một file chứa nội dung hợp lệ.");
+      }
+    }
+  };
+  
   function handleCancel() {
     setFileContent("");
+    setFileName("");
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
   }
 
+  const saveFileToApi = async (fileName, fileContent) => {
+    const confirmSubmit = window.confirm('Bạn có chắc chắn nộp bài ?');
+    if (confirmSubmit) {
+      try {
+        await axios.post(
+          'http://bewcutoe-001-site1.ctempurl.com/add-new-coder',
+          {
+            name: fileName,
+            codeDetails: fileContent,
+          },
+          {
+            headers: {
+              Authorization: basicAuthHeader,
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*',
+            },
+          }
+        );
+        alert('Lưu file thành công!');
+      } catch (error) {
+        console.error('Error saving file:', error);
+        alert('Lưu file thất bại. Vui lòng thử lại.');
+      }
+    } else {
+      return;
+    }
+  };
+  
+
   const generateContent = async (value, output) => {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
       const response = await axios.post(
         "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyB4A_fWNEQPntj8TS4tmhDnw44hY_pY9uQ",
@@ -79,7 +175,7 @@ const CodeEditor = () => {
               parts: [
                 {
                   text:
-                    "Hãy tìm ra lỗi trong code hoặc tối ưu code và sửa nó trong đoạn code (Python, Java, JavaScript, TypeScript, PHP, C#) sau: " + 
+                    "Hãy tìm ra lỗi trong code hoặc tối ưu code và sửa nó trong đoạn code (Python, Java, JavaScript, TypeScript, PHP, C#) sau: " +
                     "\n" +
                     "'" +
                     value +
@@ -162,7 +258,7 @@ const CodeEditor = () => {
                   >
                     <path
                       fillRule="evenodd"
-                      d="M4.5 1.938a.75.75 0 0 1 1.025.274l.652 1.131c.351-.138.71-.233 1.073-.288V1.75a.75.75 0 0 1 1.5 0v1.306a5.03 5.03 0 0 1 1.072.288l.654-1.132a.75.75 0 1 1 1.298.75l-.652 1.13c.286.23.55.492.785.786l1.13-.653a.75.75 0 1 1 .75 1.3l-1.13.652c.137.351.233.71.288 1.073h1.305a.75.75 0 0 1 0 1.5h-1.306a5.032 5.032 0 0 1-.288 1.072l1.132.654a.75.75 0 0 1-.75 1.298l-1.13-.652c-.23.286-.492.55-.786.785l.652 1.13a.75.75 0 0 1-1.298.75l-.653-1.13c-.351.137-.71.233-1.073.288v1.305a.75.75 0 0 1-1.5 0v-1.306a5.032 5.032 0 0 1-1.072-.288l-.653 1.132a.75.75 0 0 1-1.3-.75l.653-1.13a4.966 4.966 0 0 1-.785-.786l-1.13.652a.75.75 0 1 1-.75-1.298l1.13-.654a5.03 5.03 0 0 1-.288-1.072H1.75a.75.75 0 0 1 0-1.5h1.306a5.03 5.03 0 0 1 .288-1.072l-.653-.653a.75.75 0 0 1 1.06-1.06Zm1.14 3.476a3.501 3.501 0 0 0 0 5.172L7.135 8 5.641 5.414ZM8.434 8.75 6.94 11.336a3.491 3.491 0 0 0 2.81-.305 3.49 3.49 0 0 0 1.669-2.281H8.433Zm2.987-1.5H8.433L6.94 4.664a3.501 3.501 0 0 1 4.48 2.586Z"
+                      d="M4.5 1.938a.75.75 0 0 1 1.025.274l.652 1.131c.351-.138.71-.233 1.073-.288V1.75a.75.75 0 0 1 1.5 0v1.306a5.03 5.03 0 0 1 1.072.288l.654-1.132a.75.75 0 1 1 1.298.75l-.652 1.13c.286.23.55.492.785.786l1.13-.653a.75.75 0 1 1 .75 1.3l-1.13.652c.137.351.233.71.288 1.073h1.305a.75.75 0 0 1 0 1.5h-1.306a5.032 5.032 0 0 1-.288 1.072l1.132.653a.75.75 0 1 1-.75 1.298l-1.13-.652c-.23.286-.492.55-.786.785l.652 1.13a.75.75 0 0 1-1.298.75l-.653-1.13c-.351.137-.71.233-1.073.288v1.305a.75.75 0 0 1-1.5 0v-1.306a5.03 5.03 0 0 1-1.072-.288l-.653 1.132a.75.75 0 0 1-1.3-.75l.653-1.13a4.966 4.966 0 0 1-.785-.786l-1.13.652a.75.75 0 1 1-.75-1.298l1.13-.654a5.03 5.03 0 0 1-.288-1.072H1.75a.75.75 0 0 1 0-1.5h1.306a5.03 5.03 0 0 1 .288-1.072l-.653-.653a.75.75 0 0 1 1.06-1.06Zm1.14 3.476a3.501 3.501 0 0 0 0 5.172L7.135 8 5.641 5.414ZM8.434 8.75 6.94 11.336a3.491 3.491 0 0 0 2.81-.305 3.49 3.49 0 0 0 1.669-2.281H8.433Zm2.987-1.5H8.433L6.94 4.664a3.501 3.501 0 0 1 4.48 2.586Z"
                       clipRule="evenodd"
                     />
                   </svg>
@@ -189,6 +285,16 @@ const CodeEditor = () => {
                 Cancel
               </button>
             </div>
+          </div>
+          <div className="mb-3 mt-3 w-1/2">
+            <p className="font-bold ml-2">Hoặc nhập tên File (Code trực tiếp)</p>
+            <input
+              type="text"
+              value={codeFileName}
+              onChange={handleFileNameChange}
+              placeholder="Nhập tên file code..."
+              className={`${commonPadding} ${commonBorderColor} w-full ${commonRounded} shadow-sm text-sm leading-4 font-medium ${commonTextColor} bg-slate-100 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-zinc-400 file:text-white hover:file:bg-slate-600 hover:file:cursor-pointer`}
+            />
           </div>
         </div>
         <HStack spacing={4}>

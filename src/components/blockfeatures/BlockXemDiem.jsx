@@ -11,10 +11,10 @@ const BlockXemDiem = () => {
   const [showDetail, setShowDetail] = useState(false); // State để hiển thị form chi tiết
   const [selectedUser, setSelectedUser] = useState(null); // State để lưu thông tin người dùng đang được chọn để sửa
 
-  const username = "11166969";
-  const password = "60-dayfreetrial";
-  const basic = `${username}:${password}`;
-  const basicAuthHeader = `Basic ${btoa(basic)}`;
+  // const username = "11166969";
+  // const password = "60-dayfreetrial";
+  // const basic = `${username}:${password}`;
+  // const basicAuthHeader = `Basic ${btoa(basic)}`;
 
   useEffect(() => {
     fetchUsers();
@@ -72,7 +72,7 @@ const BlockXemDiem = () => {
     try {
       await axios.delete(`${connectionString}/delete-user/${id}`, {
         headers: {
-          Authorization: basicAuthHeader,
+          //Authorization: basicAuthHeader,
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "*",
         },
@@ -103,7 +103,7 @@ const BlockXemDiem = () => {
         selectedUser,
         {
           headers: {
-            Authorization: basicAuthHeader,
+            //Authorization: basicAuthHeader,
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*",
           },

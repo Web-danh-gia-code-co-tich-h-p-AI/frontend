@@ -2,6 +2,7 @@ npm install -D tailwindcss postcss autoprefixer
 npm create vite@latest
 npm install axios
 npm install react-markdown
+npm install @canvasjs/react-charts
 npm install -D tailwindcss@latest postcss@latest autoprefixer@latest
 npx tailwindcss init -p
 /** @type {import('tailwindcss').Config} */

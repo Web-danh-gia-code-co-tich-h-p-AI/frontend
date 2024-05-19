@@ -3,7 +3,8 @@ import { Route, Routes } from "react-router-dom";
 import ChamDiem from "./pages/score/ChamDiem";
 import MainHome from "./pages/home/MainHome";
 import Questions from "./pages/score/Questions";
-import { lazy, Suspense } from "react";
+import Dashboard from "./pages/dashboard/Dashboard";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { ChakraProvider, theme } from "@chakra-ui/react";
 import PrivateRoute from "./pages/auth/PrivateRoute";
 import HomeFirst from "./pages/auth/HomeFirst";
@@ -57,15 +58,22 @@ const App = () => {
               <ChakraProvider theme={theme}>
                 <Code />
               </ChakraProvider>
-            } 
-          />
-          <Route path="/home" element={<MainHome />} />
-          <Route path="/mark-score" element={<ChamDiem />} />
-          <Route path="/questions" element={<Questions />} />
-          <Route path="/submission" element={<Submission />} />
-          <Route path="/submission/user/:slug" element={<SubmissionUser />} />
-          <Route path="/submission/:slug" element={<SubmissionSubmit />} />
-          <Route path="/problem" element={<Problem />} />
+            }
+          ></Route>
+          <Route path="/home" element={<MainHome></MainHome>}></Route>
+          <Route path="/mark-score" element={<ChamDiem></ChamDiem>}></Route>
+          <Route path="/questions" element={<Questions></Questions>}></Route>
+          <Route path="/submission" element={<Submission></Submission>}></Route>
+          <Route
+            path="/submission/user/:slug"
+            element={<SubmissionUser></SubmissionUser>}
+          ></Route>
+          <Route
+            path="/submission/:slug"
+            element={<SubmissionSubmit></SubmissionSubmit>}
+          ></Route>
+          <Route path="/problem" element={<Problem></Problem>}></Route>
+          <Route path="/dashboard" element={<Dashboard></Dashboard>}></Route>
         </Route>
         */}
       </Routes>
