@@ -122,7 +122,7 @@ const CodeEditor = () => {
           });
       } else {
         console.log("File content is empty. Cannot submit.");
-        alert("Vui lòng chọn một file chứa nội dung hợp lệ.");
+        alert("Vui lòng chọn một file chứa nội dung hợp lệ, lưu ý không dùng code mẫu.");
       }
     }
   };
