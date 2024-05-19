@@ -7,9 +7,13 @@ import axios from "axios";
 
 const ChamDiem = () => {
   const [generatedValues, setGeneratedValues] = useState({});
-  const [generatedValuesHand, setGeneratedValuesHand] = useState({});
   const [errorMessage, setErrorMessage] = useState("");
   const [isDataLoaded, setIsDataLoaded] = useState(false);
+
+  const handleSendToForm = (values) => {
+    setGeneratedValues(values);
+  };
+
 
   const generateContent = async (inputContent, taskRequired) => {
     try {
@@ -88,7 +92,7 @@ const ChamDiem = () => {
       <div className="w-full bg-white p-9">
         <main className="flex flex-wrap space-y-6">
           <div className="w-full laptop:flex h-[600px]">
-              <BlockXemCode generateContent={generatedValuesHand}/>
+              <BlockXemCode onSendToForm={handleSendToForm}/>
           </div>
           <div className="w-full laptop:flex">
             <BlockUpload generateContent={generateContent} />

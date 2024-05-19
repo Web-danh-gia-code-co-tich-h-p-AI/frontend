@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { FALSE } from "sass";
 
-const BlockXemCode = ({ generateContent }) => {
+const BlockXemCode = ({onSendToForm}) => {
     const connectionString = "http://bewcutoe-001-site1.ctempurl.com";
     const [users, setUsers] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -13,6 +14,8 @@ const BlockXemCode = ({ generateContent }) => {
     const [isDataLoaded, setIsDataLoaded] = useState(false);
     const [generatedValues, setGeneratedValues] = useState({});
     const [errorMessage, setErrorMessage] = useState("");
+    const [buttonText, setButtonText] = useState('Gửi tới Form');
+    const [isSending, setIsSending] = useState(false);
 
     const username = "11177529";
     const password = "60-dayfreetrial";
@@ -30,6 +33,14 @@ const BlockXemCode = ({ generateContent }) => {
     } catch (error) {
         console.error("Error fetching users:", error);
     }
+    };
+
+    const handleSendToForm = () => {
+        onSendToForm(generatedValues);
+        setButtonText('Đã gửi');
+        setTimeout(() => {
+        setButtonText('Gửi tới Form');
+        }, 1000);
     };
 
     const handleReload = async () => {
@@ -155,7 +166,7 @@ const BlockXemCode = ({ generateContent }) => {
         }
     };
     const handleSubmitAI = async () => {
-        console.log(selectedUser.codeDetails)
+        setIsSending(true);
         try {
         const response = await axios.post(
             "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyB4A_fWNEQPntj8TS4tmhDnw44hY_pY9uQ",
@@ -191,7 +202,9 @@ const BlockXemCode = ({ generateContent }) => {
             setTimeout(() => {
                 setErrorMessage("");
                 }, 5000);
-        }
+        } finally {
+            setIsSending(false);
+        } 
     };
 
     const handleInputChange = (event) => {
@@ -419,9 +432,9 @@ const BlockXemCode = ({ generateContent }) => {
                         </button>
                         <button
                         onClick={handleSubmitAI}
-                        className="px-4 py-2 ml-2 text-white bg-green-500 rounded-md hover:bg-green-600"
+                        className={`${isSending ? "opacity-50 cursor-not-allowed" : ""} px-4 py-2 ml-2 text-white bg-green-500 rounded-md hover:bg-green-600`}
                         >
-                        Gửi AI chấm
+                            {isSending ? "Đang gửi..." : "Gửi AI chấm"}
                         </button>
                     </div>
                     </div>
@@ -468,14 +481,24 @@ const BlockXemCode = ({ generateContent }) => {
             <div className="w-full">
             {isDataLoaded ? (
                 // Khối dữ liệu
-                <div className="w-full">
-                <ul className="mt-4">
-                    {Object.entries(generatedValues).map(([key, value]) => (
-                    <li key={key} className="mb-2">
-                        <strong className="text-red-700 underline">{key}:</strong> {value}
-                    </li>
-                    ))}
-                </ul>
+                <div>
+                    <div className="w-full">
+                    <ul className="mt-4">
+                        {Object.entries(generatedValues).map(([key, value]) => (
+                        <li key={key} className="mb-2">
+                            <strong className="text-red-700 underline">{key}:</strong> {value}
+                        </li>
+                        ))}
+                    </ul>
+                    </div>
+                    <div className="flex justify-center mt-4">
+                        <button
+                        onClick={handleSendToForm}
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50"
+                        >
+                        {buttonText}
+                        </button>
+                    </div>
                 </div>
             ) : (
                 // Khối loading
