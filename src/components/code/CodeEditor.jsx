@@ -54,7 +54,6 @@ const CodeEditor = () => {
     reader.readAsText(file);
   }
 
-
   // Hàm xử lý thay đổi tên file code
   const handleFileNameChange = (e) => {
     setCodeFileName(e.target.value);
@@ -128,8 +127,6 @@ const CodeEditor = () => {
     }
   };
   
-
-
   function handleCancel() {
     setFileContent("");
     setFileName("");

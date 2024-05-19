@@ -91,7 +91,7 @@ const ChamDiem = () => {
     <div className="max-w-screen">
       <div className="w-full bg-white p-9">
         <main className="flex flex-wrap space-y-6">
-          <div className="w-full laptop:flex h-[600px]">
+          <div className="w-full h-fit laptop:flex laptop:h-[600px]">
               <BlockXemCode onSendToForm={handleSendToForm}/>
           </div>
           <div className="w-full laptop:flex">

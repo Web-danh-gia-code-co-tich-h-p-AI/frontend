@@ -227,7 +227,7 @@ const BlockXemCode = ({onSendToForm}) => {
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     return (
-        <>
+        <div className="laptop:flex w-full laptop:h-auto h-fit">
         <div className="w-full h-full rounded-lg shadow-lg laptop:relative justify-items-center laptop:w-full">
             <div className="h-full">
             <div className="flex justify-between">
@@ -441,7 +441,6 @@ const BlockXemCode = ({onSendToForm}) => {
                 </div>
                 </div>
             )}
-            </div>
             <div className="inset-x-0 bottom-0 flex flex-wrap justify-center w-full laptop:absolute">
             {users.length > 0 && (
                 <ul className="flex">
@@ -461,8 +460,10 @@ const BlockXemCode = ({onSendToForm}) => {
                 </ul>
             )}
             </div>
+            </div>
+            
         </div>
-        <div className="w-full pt-2 mb-4 rounded-lg laptop:w-1/2 laptop:pl-6 text-zinc-800">
+        <div className="laptop:w-1/3 pt-2 mb-4 rounded-lg laptop:pl-6 text-zinc-800">
             <h2 className="flex text-lg font-semibold">
             <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -528,7 +529,7 @@ const BlockXemCode = ({onSendToForm}) => {
             )}
             </div>
         </div>
-        </>
+        </div>
     );
 };
 
