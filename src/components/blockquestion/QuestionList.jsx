@@ -8,11 +8,25 @@ const QuestionList = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const recordsPerPage = 5;
+  // let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjI3YjBkYmEyLWE4NzctNDllMS05Mzk1LWI1ZDVlM2UyYjlkMiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJTdXBlciIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6InN1cGVyYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjpbIlRlYWNoZXIiLCJBZG1pbiIsIlN1cGVyQWRtaW4iLCJTdHVkZW50Il0sImV4cCI6MTcxNjE5NjY0NywiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzIwMiIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjcyMDIifQ.zOIP0voT79oOdpLhCPRrxj0e6OJ6ZIHUYCCX2-haD3w';
 
   const fetchQuestions = () => {
     setIsLoading(true); // Start loading
-    fetch(`http://yunom2834-001-site1.gtempurl.com/api/TeacherQuestion/GetAllQuestion`, {method:'GET'})
-      .then(response => response.json())
+    fetch('http://localhost:5136/api/TeacherQuestion/GetAllQuestion', {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        // Add your token here if needed, example:
+        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjI3YjBkYmEyLWE4NzctNDllMS05Mzk1LWI1ZDVlM2UyYjlkMiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJTdXBlciIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6InN1cGVyYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjpbIlRlYWNoZXIiLCJBZG1pbiIsIlN1cGVyQWRtaW4iLCJTdHVkZW50Il0sImV4cCI6MTcxNjE5NjY0NywiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzIwMiIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjcyMDIifQ.zOIP0voT79oOdpLhCPRrxj0e6OJ6ZIHUYCCX2-haD3w" 
+      },
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
       .then(data => setQuestions(data))
       .catch(error => console.error('Error fetching questions:', error))
       .finally(() => setIsLoading(false)); // End loading
@@ -29,14 +43,14 @@ const QuestionList = () => {
   const handleDelete = (id) => {
     const confirmDelete = window.confirm('Bạn có chắc chắn xoá?');
     if (confirmDelete) {
-      fetch(`http://yunom2834-001-site1.gtempurl.com/api/TeacherQuestion/DeleteQuestion${id}`, 
+      fetch(`http://localhost:5136/api/TeacherQuestion/DeleteQuestion/${id}`, 
           {
             method: 'DELETE',
-          },
-          {
             headers: {
               "Content-Type": "application/json",
               "Access-Control-Allow-Origin": "*",
+              // Add your token here if needed, example:
+              "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjI3YjBkYmEyLWE4NzctNDllMS05Mzk1LWI1ZDVlM2UyYjlkMiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJTdXBlciIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6InN1cGVyYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjpbIlRlYWNoZXIiLCJBZG1pbiIsIlN1cGVyQWRtaW4iLCJTdHVkZW50Il0sImV4cCI6MTcxNjE5NjY0NywiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzIwMiIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjcyMDIifQ.zOIP0voT79oOdpLhCPRrxj0e6OJ6ZIHUYCCX2-haD3w"
             },
           }
         )

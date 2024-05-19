@@ -52,7 +52,7 @@ const Main = () => {
 
 
 // App component
-const MainHome = () => {
+const LandingHome= () => {
     return (
         <div className="antialiased bg-white text-zinc-900 dark:bg-zinc-800 dark:text-white">
             <Main />
@@ -60,4 +60,4 @@ const MainHome = () => {
     );
 };
 
-export default MainHome;
+export default LandingHome;

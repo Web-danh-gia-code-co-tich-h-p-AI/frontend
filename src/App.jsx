@@ -1,14 +1,13 @@
 import "./App.scss";
 import { Route, Routes } from "react-router-dom";
 import ChamDiem from "./pages/score/ChamDiem";
-import MainHome from "./pages/home/MainHome";
+import LandingHome from "./pages/home/LandingHome";
 import Questions from "./pages/score/Questions";
 import Dashboard from "./pages/dashboard/Dashboard";
 import { lazy, Suspense, useEffect, useState } from "react";
 import { ChakraProvider, theme } from "@chakra-ui/react";
 import PrivateRoute from "./pages/auth/PrivateRoute";
 import HomeFirst from "./pages/auth/HomeFirst";
-
 import AdminPage from "./pages/auth/AdminPage";
 import StudentPage from "./pages/auth/StudentPage";
 
@@ -60,7 +59,6 @@ const App = () => {
               </ChakraProvider>
             }
           ></Route>
-          <Route path="/home" element={<MainHome></MainHome>}></Route>
           <Route path="/mark-score" element={<ChamDiem></ChamDiem>}></Route>
           <Route path="/questions" element={<Questions></Questions>}></Route>
           <Route path="/submission" element={<Submission></Submission>}></Route>
@@ -74,6 +72,7 @@ const App = () => {
           ></Route>
           <Route path="/problem" element={<Problem></Problem>}></Route>
           <Route path="/dashboard" element={<Dashboard></Dashboard>}></Route>
+          <Route path="/landinghome" element={<LandingHome></LandingHome>}></Route>
         </Route>
        
       </Routes>

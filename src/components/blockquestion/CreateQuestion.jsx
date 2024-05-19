@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 export default function Example() {
 const [isLoading, setIsLoading] = useState(false);
+// let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjI3YjBkYmEyLWE4NzctNDllMS05Mzk1LWI1ZDVlM2UyYjlkMiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJTdXBlciIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6InN1cGVyYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjpbIlRlYWNoZXIiLCJBZG1pbiIsIlN1cGVyQWRtaW4iLCJTdHVkZW50Il0sImV4cCI6MTcxNjE5NjY0NywiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzIwMiIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjcyMDIifQ.zOIP0voT79oOdpLhCPRrxj0e6OJ6ZIHUYCCX2-haD3w';
 
 const [form, setForm] = useState({
     name: '',
@@ -28,12 +29,14 @@ const handleSubmit = (e) => {
     }
 
     setIsLoading(true);
-
-    fetch('http://yunom2834-001-site1.gtempurl.com/api/TeacherQuestion/CreateQuestion', {
+    //http://localhost:5136
+    //http://yunom2834-001-site1.gtempurl.com
+    fetch('http://localhost:5136/api/TeacherQuestion/CreateQuestion', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
+        'Authorization' : 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjI3YjBkYmEyLWE4NzctNDllMS05Mzk1LWI1ZDVlM2UyYjlkMiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJTdXBlciIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6InN1cGVyYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjpbIlRlYWNoZXIiLCJBZG1pbiIsIlN1cGVyQWRtaW4iLCJTdHVkZW50Il0sImV4cCI6MTcxNjE5NjY0NywiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzIwMiIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjcyMDIifQ.zOIP0voT79oOdpLhCPRrxj0e6OJ6ZIHUYCCX2-haD3w'
     },
     body: JSON.stringify(form),
     })
@@ -61,12 +64,12 @@ return (
     <div className="px-6 border rounded-lg shadow-lg sm:py-12 lg:px-8">
     <div className="max-w-2xl mx-auto text-center">
         <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-           <div className="flex items-center justify-center">
+            <div className="flex items-center justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-10 h-10 mr-2 translate-y-1">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                 </svg>
                 Tạo câu hỏi
-           </div>
+            </div>
         </h2>
         <p className="mt-2 text-lg leading-8 text-gray-600">
         Tạo câu hỏi cho nhiều người tham gia có thể làm.

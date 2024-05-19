@@ -122,7 +122,7 @@ const CodeEditor = () => {
           });
       } else {
         console.log("File content is empty. Cannot submit.");
-        alert("Vui lòng chọn một file chứa nội dung hợp lệ, lưu ý không dùng code mẫu.");
+        alert("Vui lòng chọn một file chứa nội dung hợp lệ, và lưu ý không dùng code mẫu.");
       }
     }
   };
@@ -287,7 +287,7 @@ const CodeEditor = () => {
             </div>
           </div>
           <div className="mb-3 mt-3 w-1/2">
-            <p className="font-bold ml-2">Hoặc nhập tên File (Code trực tiếp)</p>
+            <p className="font-bold ml-2">Hoặc nhập tên File (Nếu bạn Code trực tiếp)</p>
             <input
               type="text"
               value={codeFileName}
