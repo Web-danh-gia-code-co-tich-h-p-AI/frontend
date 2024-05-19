@@ -110,7 +110,7 @@ const ChamDiem = () => {
                     <ul className="mt-4">
                       {Object.entries(generatedValues).map(([key, value]) => (
                         <li key={key} className="mb-2">
-                          <strong>{key}:</strong> {value}
+                          <strong className="text-red-700 underline">{key}:</strong> {value}
                         </li>
                       ))}
                     </ul>

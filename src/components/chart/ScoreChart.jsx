@@ -1,8 +1,9 @@
 // ScoreChart.jsx
-import React from 'react';
+import React, { Component } from 'react';
 import CanvasJSReact from '@canvasjs/react-charts';
 
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
+
 
 const ScoreChart = ({ dataPoints, title }) => {
     const options = {

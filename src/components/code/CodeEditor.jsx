@@ -22,6 +22,11 @@ const CodeEditor = () => {
   const [generatedContent, setGeneratedContent] = useState("");
   const [fileName, setFileName] = useState("");
 
+  const username = "11177529";
+  const password = "60-dayfreetrial";
+  const basic = `${username}:${password}`;
+  const basicAuthHeader = `Basic ${btoa(basic)}`;
+
   const onMount = (editor) => {
     editorRef.current = editor;
     editor.focus();
@@ -77,7 +82,15 @@ const CodeEditor = () => {
     const confirmSubmit = window.confirm('Bạn có chắc chắn nộp bài ?');
     if (confirmSubmit) {
     try {
-      await axios.post('http://bewcutoe-001-site1.ctempurl.com/api/demo/add-coder', {
+      await axios.post('http://bewcutoe-001-site1.ctempurl.com/api/demo/add-coder', 
+      {
+        headers: {
+          Authorization: basicAuthHeader,
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+      },
+      {
         name: fileName,
         codeDetails: fileContent,
       });
