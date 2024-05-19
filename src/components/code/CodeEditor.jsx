@@ -90,7 +90,12 @@ const CodeEditor = () => {
           setIsLoading(true);
           saveFileToApi(uploadFileName, uploadFileContent)
             .then(() => {
-              alert("Lưu file thành công!");
+              alert("Nộp file thành công!");
+              setFileContent("");
+              setFileName("");
+              if (fileInputRef.current) {
+                fileInputRef.current.value = "";
+              }
             })
             .catch((error) => {
               console.error("Error saving file:", error);
@@ -111,7 +116,11 @@ const CodeEditor = () => {
         setIsLoading(true);
         saveFileToApi(uploadFileName, uploadFileContent || value)
           .then(() => {
-            alert("Lưu file thành công!");
+            setFileContent("");
+            setFileName("");
+            if (fileInputRef.current) {
+              fileInputRef.current.value = "";
+            }
           })
           .catch((error) => {
             console.error("Error saving file:", error);
