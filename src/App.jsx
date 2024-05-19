@@ -4,6 +4,7 @@ import ChamDiem from "./pages/score/ChamDiem";
 import LandingHome from "./pages/home/LandingHome";
 import Questions from "./pages/score/Questions";
 import Dashboard from "./pages/dashboard/Dashboard";
+import ProfilePage from "./pages/profile/ProfilePage";
 import { lazy, Suspense, useEffect, useState } from "react";
 import { ChakraProvider, theme } from "@chakra-ui/react";
 import PrivateRoute from "./pages/auth/PrivateRoute";
@@ -72,6 +73,7 @@ const App = () => {
           ></Route>
           <Route path="/problem" element={<Problem></Problem>}></Route>
           <Route path="/dashboard" element={<Dashboard></Dashboard>}></Route>
+          <Route path="/profile" element={<ProfilePage></ProfilePage>}></Route>
           <Route path="/landinghome" element={<LandingHome></LandingHome>}></Route>
         </Route>
        
