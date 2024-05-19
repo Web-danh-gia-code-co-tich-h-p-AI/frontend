@@ -106,7 +106,7 @@ const StatisticsScore = () => {
               </tbody>
             </table>
           </div>
-          <div className="w-screen laptop:w-full">
+          <div className="w-screen laptop:w-auto">
             <ScoreChart dataPoints={scoreDataPoints} title="Thống kê điểm chấm tay" />
           </div>
         </div>
@@ -130,7 +130,7 @@ const StatisticsScore = () => {
               </tbody>
             </table>
           </div>
-          <div className="w-screen laptop:w-full">
+          <div className="w-screen laptop:w-auto">
             <ScoreChart
               dataPoints={scoreAIDataPoints}
               title="Thống kê điểm AI"

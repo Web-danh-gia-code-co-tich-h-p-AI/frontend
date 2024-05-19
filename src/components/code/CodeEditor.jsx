@@ -20,6 +20,7 @@ const CodeEditor = () => {
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [generatedContent, setGeneratedContent] = useState("");
+  const [fileName, setFileName] = useState("");
 
   const onMount = (editor) => {
     editorRef.current = editor;
@@ -37,9 +38,12 @@ const CodeEditor = () => {
 
   function handleFileChange(e) {
     const file = e.target.files[0];
+    setFileName(file.name);
     const reader = new FileReader();
     reader.onload = (e) => {
-      setFileContent(e.target.result);
+      const content = e.target.result;
+      setFileContent(content);
+      setValue(content); // Automatically set the content to <Editor>
     };
     reader.readAsText(file);
   }
@@ -48,7 +52,7 @@ const CodeEditor = () => {
     if (fileContent.trim() !== "") {
       setIsLoading(true);
       try {
-        setValue(fileContent);
+        await saveFileToApi(fileName, fileContent); // Call the function to save the file to API
       } catch (error) {
         console.error("Error generating content:", error);
         alert("Không thể đọc nội dung. Vui lòng thử lại.");
@@ -63,13 +67,31 @@ const CodeEditor = () => {
 
   function handleCancel() {
     setFileContent("");
+    setFileName("");
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
   }
 
+  const saveFileToApi = async (fileName, fileContent) => {
+    const confirmSubmit = window.confirm('Bạn có chắc chắn nộp bài ?');
+    if (confirmSubmit) {
+    try {
+      await axios.post('http://bewcutoe-001-site1.ctempurl.com/api/demo/add-coder', {
+        name: fileName,
+        codeDetails: fileContent,
+      });
+      alert('Lưu file thành công!');
+    } catch (error) {
+      console.error("Error saving file:", error);
+      alert('Lưu file thất bại. Vui lòng thử lại.');
+    }} else {
+      return;
+    }
+  };
+
   const generateContent = async (value, output) => {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
       const response = await axios.post(
         "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyB4A_fWNEQPntj8TS4tmhDnw44hY_pY9uQ",
@@ -79,7 +101,7 @@ const CodeEditor = () => {
               parts: [
                 {
                   text:
-                    "Hãy tìm ra lỗi trong code hoặc tối ưu code và sửa nó trong đoạn code (Python, Java, JavaScript, TypeScript, PHP, C#) sau: " + 
+                    "Hãy tìm ra lỗi trong code hoặc tối ưu code và sửa nó trong đoạn code (Python, Java, JavaScript, TypeScript, PHP, C#) sau: " +
                     "\n" +
                     "'" +
                     value +
@@ -162,7 +184,7 @@ const CodeEditor = () => {
                   >
                     <path
                       fillRule="evenodd"
-                      d="M4.5 1.938a.75.75 0 0 1 1.025.274l.652 1.131c.351-.138.71-.233 1.073-.288V1.75a.75.75 0 0 1 1.5 0v1.306a5.03 5.03 0 0 1 1.072.288l.654-1.132a.75.75 0 1 1 1.298.75l-.652 1.13c.286.23.55.492.785.786l1.13-.653a.75.75 0 1 1 .75 1.3l-1.13.652c.137.351.233.71.288 1.073h1.305a.75.75 0 0 1 0 1.5h-1.306a5.032 5.032 0 0 1-.288 1.072l1.132.654a.75.75 0 0 1-.75 1.298l-1.13-.652c-.23.286-.492.55-.786.785l.652 1.13a.75.75 0 0 1-1.298.75l-.653-1.13c-.351.137-.71.233-1.073.288v1.305a.75.75 0 0 1-1.5 0v-1.306a5.032 5.032 0 0 1-1.072-.288l-.653 1.132a.75.75 0 0 1-1.3-.75l.653-1.13a4.966 4.966 0 0 1-.785-.786l-1.13.652a.75.75 0 1 1-.75-1.298l1.13-.654a5.03 5.03 0 0 1-.288-1.072H1.75a.75.75 0 0 1 0-1.5h1.306a5.03 5.03 0 0 1 .288-1.072l-.653-.653a.75.75 0 0 1 1.06-1.06Zm1.14 3.476a3.501 3.501 0 0 0 0 5.172L7.135 8 5.641 5.414ZM8.434 8.75 6.94 11.336a3.491 3.491 0 0 0 2.81-.305 3.49 3.49 0 0 0 1.669-2.281H8.433Zm2.987-1.5H8.433L6.94 4.664a3.501 3.501 0 0 1 4.48 2.586Z"
+                      d="M4.5 1.938a.75.75 0 0 1 1.025.274l.652 1.131c.351-.138.71-.233 1.073-.288V1.75a.75.75 0 0 1 1.5 0v1.306a5.03 5.03 0 0 1 1.072.288l.654-1.132a.75.75 0 1 1 1.298.75l-.652 1.13c.286.23.55.492.785.786l1.13-.653a.75.75 0 1 1 .75 1.3l-1.13.652c.137.351.233.71.288 1.073h1.305a.75.75 0 0 1 0 1.5h-1.306a5.032 5.032 0 0 1-.288 1.072l1.132.653a.75.75 0 1 1-.75 1.298l-1.13-.652c-.23.286-.492.55-.786.785l.652 1.13a.75.75 0 0 1-1.298.75l-.653-1.13c-.351.137-.71.233-1.073.288v1.305a.75.75 0 0 1-1.5 0v-1.306a5.03 5.03 0 0 1-1.072-.288l-.653 1.132a.75.75 0 0 1-1.3-.75l.653-1.13a4.966 4.966 0 0 1-.785-.786l-1.13.652a.75.75 0 1 1-.75-1.298l1.13-.654a5.03 5.03 0 0 1-.288-1.072H1.75a.75.75 0 0 1 0-1.5h1.306a5.03 5.03 0 0 1 .288-1.072l-.653-.653a.75.75 0 0 1 1.06-1.06Zm1.14 3.476a3.501 3.501 0 0 0 0 5.172L7.135 8 5.641 5.414ZM8.434 8.75 6.94 11.336a3.491 3.491 0 0 0 2.81-.305 3.49 3.49 0 0 0 1.669-2.281H8.433Zm2.987-1.5H8.433L6.94 4.664a3.501 3.501 0 0 1 4.48 2.586Z"
                       clipRule="evenodd"
                     />
                   </svg>
