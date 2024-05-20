@@ -2,8 +2,6 @@ import React from "react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import ScoreChart from "./ScoreChart";
-import { withErrorBoundary } from "react-error-boundary";
-import FallbackComponent from "../../utils/FallbackComponent";
 
 const StatisticsScore = () => {
   const [data, setData] = useState([]);
@@ -166,8 +164,4 @@ const StatisticsScore = () => {
   );
 };
 
-const EnhancedStatisticsScore = withErrorBoundary(StatisticsScore, {
-  FallbackComponent,
-});
-
-export default EnhancedStatisticsScore;
+export default StatisticsScore;

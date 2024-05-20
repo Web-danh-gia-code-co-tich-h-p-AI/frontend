@@ -1,7 +1,5 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import FallbackComponent from "../../utils/FallbackComponent";
-import { withErrorBoundary } from "react-error-boundary";
 import AdminCreateAccount from "./AdminCreateAccount";
 import axiosInstance from "../../api/axiosConfig";
 
@@ -123,8 +121,4 @@ const AdminAccountDisplay = () => {
   );
 };
 
-const EnhancedAdminAccountDisplay = withErrorBoundary(AdminAccountDisplay, {
-  FallbackComponent,
-});
-
-export default EnhancedAdminAccountDisplay;
+export default AdminAccountDisplay;
