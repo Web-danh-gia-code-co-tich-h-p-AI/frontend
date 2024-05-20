@@ -8,7 +8,7 @@ const CreateUser = () => {
         email: '',
         password: '',
         confirmPassword: '',
-        accountType: 'student', // Default to student
+        accountType: 'student',
     });
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
@@ -40,7 +40,7 @@ const CreateUser = () => {
         } else if (accountType === 'teacher') {
         apiUrl = 'http://yunom2834-001-site1.gtempurl.com/api/Account/CreateTeacher';
         } else {
-        apiUrl = 'http://yunom2834-001-site1.gtempurl.com/api/Account/register';
+        apiUrl = 'http://yunom2834-001-site1.gtempurl.com/api/Account/CreateAdmin';
         }
 
         try {
@@ -51,18 +51,13 @@ const CreateUser = () => {
             confirmPassword,
         }, {
             headers: {
-                "Authorization": `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
             },
         });
+
         setSuccess('User account created successfully!');
-        setTimeout(() => {
-            setSuccess("");
-        }, 3000);
         } catch (error) {
-            setError(error.response?.data?.message || 'Failed to create user account');
-            setTimeout(() => {
-                setError("");
-            }, 3000);
+        setError(error.response?.data?.message || 'Failed to create user account');
         }
     };
 

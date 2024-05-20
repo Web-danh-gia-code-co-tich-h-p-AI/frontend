@@ -59,7 +59,22 @@ const BlockInfoAccount = () => {
   }
 
   return (
-    <div className="container p-4 mx-auto mt-12">
+    <div className="container p-4 mx-auto">
+      <div className="flex items-center justify-center mt-12">
+        <div className="p-4 mb-3 bg-gray-100 rounded-lg shadow-md w-fit">
+          <p className="text-xl font-bold text-gray-700">Your Roles</p>
+          <div className="grid grid-cols-1 gap-2 mt-2 md:grid-cols-4">
+            {userData.userRoles.map((role, index) => (
+              <p
+                key={index}
+                className="p-4 font-extrabold text-center text-gray-900 rounded-md shadow-md hover:-translate-y-1 bg-slate-200"
+              >
+                {role}
+              </p>
+            ))}
+          </div>
+        </div>
+      </div>
       <div className="p-6 bg-white rounded-lg shadow-md">
         <div className="mb-4">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
