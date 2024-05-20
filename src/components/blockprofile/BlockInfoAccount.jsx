@@ -3,6 +3,7 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { withErrorBoundary } from "react-error-boundary";
 import FallbackComponent from "../../utils/FallbackComponent";
+import axiosInstance from "../../api/axiosConfig";
 
 const BlockInfoAccount = () => {
   const navigate = useNavigate();
@@ -57,10 +58,10 @@ const BlockInfoAccount = () => {
   const handleLogout = () => {
     const isConfirmed = window.confirm("Bạn muốn Thoát tài khoản?");
     if (!isConfirmed) {
-      return; // Hủy hành động nếu người dùng chọn "Cancel"
+      return;
     }
-    Cookies.remove("token"); // Xóa cookie chứa token
-    navigate("/login"); // Điều hướng người dùng đến trang đăng nhập
+    Cookies.remove("token");
+    navigate("/login");
   };
 
   const handleInputChange = (e) => {
@@ -78,23 +79,16 @@ const BlockInfoAccount = () => {
     }
 
     try {
-      const response = await fetch(
-        `https://yunom2834-001-site1.gtempurl.com/api/Account/UpdateAccount/${userData.id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(formData),
-        }
+      const response = await axiosInstance.put(
+        `/Account/UpdateAccount/${userData.id}`,
+        userData.id
       );
-
+      console.log(response);
       if (!response.ok) {
         throw new Error("Failed to update user data");
       }
 
-      const data = await response.json();
+      const data = response.data;
       setUserData(data);
       setIsEditing(false);
     } catch (error) {
@@ -205,12 +199,12 @@ const BlockInfoAccount = () => {
                 <p className="font-medium text-gray-700">Phone Number</p>
                 <p className="text-gray-900">{userData.phoneNumber}</p>
               </div>
-              <div className="p-4 bg-gray-100 rounded-lg shadow-md hover:-translate-y-1 hover:bg-slate-200 hover:scale-105">
+              {/* <div className="p-4 bg-gray-100 rounded-lg shadow-md hover:-translate-y-1 hover:bg-slate-200 hover:scale-105">
                 <p className="font-medium text-gray-700">Email Confirmed</p>
                 <p className="text-gray-900">
                   {userData.emailConfirmed ? "Yes" : "No"}
                 </p>
-              </div>
+              </div> */}
             </div>
             <button
               onClick={() => setIsEditing(true)}

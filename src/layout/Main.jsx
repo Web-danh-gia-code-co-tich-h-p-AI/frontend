@@ -18,7 +18,7 @@ const Main = () => {
     const fetchUserData = async () => {
       const token = Cookies.get("token");
       if (!token) {
-        setLoading(false); // Set loading to false if no token
+        setLoading(false);
         return;
       }
 
