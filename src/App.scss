@@ -1,0 +1,17 @@
+.login-button {
+  background-color: #060606;
+}
+
+.login-button:disabled {
+  background-color: #9e9e9e;
+  cursor: not-allowed;
+}
+
+.register-button {
+  background-color: #060606;
+}
+
+.register-button:disabled {
+  background-color: #9e9e9e;
+  cursor: not-allowed;
+}

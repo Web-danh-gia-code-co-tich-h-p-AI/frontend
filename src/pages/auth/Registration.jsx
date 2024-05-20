@@ -170,7 +170,7 @@ const Registration = () => {
 
                 <div className="flex flex-col w-full my-4">
                   <button
-                    className="w-full text-white bg-[#060606] rounded-md p-4 text-center flex items-center justify-center my-2 font-semibold cursor-pointer"
+                    className="w-full text-white bg-[#060606] rounded-md p-4 text-center flex items-center justify-center my-2 font-semibold cursor-pointer register-button"
                     type="submit"
                     disabled={isSubmitting}
                   >
