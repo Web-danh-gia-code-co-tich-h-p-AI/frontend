@@ -4,32 +4,22 @@ import PropTypes from "prop-types";
 import { CalendarDaysIcon, HandRaisedIcon } from "@heroicons/react/24/outline";
 
 const links = [
-  { name: "Open roles", href: "#" },
-  { name: "Internship program", href: "#" },
-  { name: "Our values", href: "#" },
-  { name: "Meet our leadership", href: "#" },
+  { name: "Trang chủ", href: "/" },
+  { name: "Code", href: "/code" },
+  { name: "Chấm điểm", href: "/mark-score" },
 ];
 
-const stats = [
-  { name: "Offices worldwide", value: "12" },
-  { name: "Full-time colleagues", value: "300+" },
-  { name: "Hours per week", value: "40" },
-  { name: "Paid time off", value: "Unlimited" },
-];
-
-const containerClass = "container bg-zinc-200 text-main-black mx-auto p-8";
 const sectionTitleClass = "text-2xl font-bold text-center";
 const buttonBaseClass =
   "inline-block bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors";
 
-// ServiceCard component
 const ServiceCard = ({ title, description, imageUrl }) => {
   return (
-    <div className="p-4 text-white bg-white rounded-lg shadow-lg dark:bg-zinc-700">
+    <div className="p-4 text-white bg-[#112d36] rounded-lg shadow-lg">
       <img
         src={imageUrl}
         alt={title}
-        className="h-[200px] w-[300px] rounded-lg "
+        className="h-[200px] w-[300px] rounded-lg"
       />
       <h4 className="mt-2 font-bold">{title}</h4>
       <p>{description}</p>
@@ -37,7 +27,6 @@ const ServiceCard = ({ title, description, imageUrl }) => {
   );
 };
 
-// Main component
 const Main = () => {
   return (
     <div className="relative py-24 overflow-hidden bg-gray-900 isolate sm:py-32">
@@ -99,17 +88,17 @@ const Main = () => {
               <ServiceCard
                 title="Tạo code trực tiếp"
                 description="Bạn có thể trực tiếp viết code trên trang của chúng tôi và đánh giá chúng bằng AI."
-                imageUrl="https://thumbs.dreamstime.com/b/compile-concept-random-parts-program-code-programming-abstract-technology-background-software-developer-computer-153537342.jpg"
+                imageUrl="https://img.freepik.com/free-vector/programmer-s-workplace-writing-code-laptop_80328-238.jpg?t=st=1716229150~exp=1716232750~hmac=7ae3967c98e1ebc8f7ef45facf7005eb38e5ad961beb0422c396ca95a2e3caa8&w=900"
               />
               <ServiceCard
                 title="Upload File code của bạn"
                 description="Bạn có thể tải lên file code của bạn để AI có thể đánh giá khách quan cho bạn."
-                imageUrl="https://www.verduins.com/wp-content/uploads/2014/12/bigstock-Hand-Press-Upload-Button-On-Ke-102346865-300x200.jpg"
+                imageUrl="https://img.freepik.com/free-vector/online-image-upload-landing-page_23-2148282428.jpg?t=st=1716229181~exp=1716232781~hmac=df9cb646647e302fa8c41eb99eefa47a881e7937a55d1d0414c37dc849e03543&w=900"
               />
               <ServiceCard
                 title="Học sinh - Giáo viên"
                 description="Web có chức năng dành cho cả học sinh và giáo viên"
-                imageUrl="https://our.idtek.com.vn/content/images/2020/03/guide-to-wordpress-user-roles.png"
+                imageUrl="https://img.freepik.com/free-vector/human-resources-managers-doing-professional-staff-research-with-magnifier-human-resources-hr-team-work-headhunter-service-concept-illustration_335657-2061.jpg?w=900&t=st=1716228976~exp=1716229576~hmac=eba6a46adda54ae01b67a180d4ecc80473d2ad9147e01f502f18c7064b43cd00"
               />
             </div>
           </section>
@@ -257,7 +246,7 @@ const LandingHome = () => {
   return (
     <div className="antialiased bg-white text-zinc-900 dark:bg-zinc-800 dark:text-white">
       <Main />
-      <Newsletter /> {/* Added the Newsletter component here */}
+      <Newsletter />
     </div>
   );
 };
