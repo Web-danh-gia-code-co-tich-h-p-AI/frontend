@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import FallbackComponent from "../../utils/FallbackComponent";
 import { withErrorBoundary } from "react-error-boundary";
 import AdminCreateAccount from "./AdminCreateAccount";
+import axiosInstance from "../../api/axiosConfig";
 
 const AdminAccountDisplay = () => {
   const [users, setUsers] = useState([]);
@@ -13,22 +13,22 @@ const AdminAccountDisplay = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const response = await axiosInstance.get(
+          `/Account/GetUserByRole${role}`
+        );
+        setUsers(response.data);
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchData();
   }, [role, currentPage, searchTerm]);
-
-  const fetchData = async () => {
-    setLoading(true);
-    try {
-      const response = await axios.get(
-        `https://yunom2834-001-site1.gtempurl.com/api/Account/GetUserByRole${role}`
-      );
-      setUsers(response.data);
-    } catch (error) {
-      console.error("Error fetching data: ", error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   // Pagination
   const indexOfLastUser = currentPage * usersPerPage;
