@@ -24,6 +24,7 @@ const CodeEditor = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [generatedContent, setGeneratedContent] = useState("");
   const [fileName, setFileName] = useState("");
+  const [isFetching, setIsFetching] = useState(false)
 
   const username = "11177529";
   const password = "60-dayfreetrial";
@@ -159,10 +160,10 @@ const CodeEditor = () => {
     if (confirmSubmit) {
       try {
         await axios.post(
-          "http://bewcutoe-001-site1.ctempurl.com/add-new-coder",
+          "https://toqquangduc2-001-site1.jtempurl.com/api/add-new-coder",
           {
             id: userData.id,
-            userName: userData.userName,
+            userName: userData.name,
             email: userData.email,
             name: fileName,
             codeDetails: fileContent,
@@ -231,6 +232,7 @@ const CodeEditor = () => {
 
   useEffect(() => {
     const fetchUserData = async () => {
+      setIsFetching(true)
       const token = Cookies.get("token");
       if (!token) {
         setError("No token found. Please log in.");
@@ -255,6 +257,8 @@ const CodeEditor = () => {
         setUserData(data);
       } catch (error) {
         setError(error.message);
+      } finally {
+        setIsFetching(false);
       }
     };
 
@@ -272,8 +276,8 @@ const CodeEditor = () => {
         bg="#ffffff"
       >
         <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-          <div className="p-4 bg-gray-100 rounded-lg shadow-md hover:-translate-y-1 hover:bg-slate-200 hover:scale-105">
-            {userData && <p className="font-medium text-gray-700">Tên người dùng: <strong>{userData.name}</strong></p>}
+          <div className="flex p-4 font-medium text-gray-700 bg-gray-100 rounded-lg shadow-md hover:-translate-y-1 hover:bg-slate-200 hover:scale-105">
+          Tên người dùng: {isFetching ? (<p className="ml-2 text-gray-700">Loading...</p>) : (userData && <p className="ml-2 font-medium text-gray-700"> <strong>{userData.name}</strong></p>)}
           </div>
         </div>
         <div className="mb-3">

@@ -3,9 +3,10 @@ import axios from "axios";
 import PropTypes from "prop-types";
 import { withErrorBoundary } from "react-error-boundary";
 import FallbackComponent from "../../utils/FallbackComponent";
+import Cookies from "js-cookie";
 
 const BlockXemCode = ({ onSendToForm }) => {
-  const connectionString = "http://bewcutoe-001-site1.ctempurl.com";
+  const connectionString = "https://toqquangduc2-001-site1.jtempurl.com/api";
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [usersPerPage] = useState(5); // Số người dùng hiển thị trên mỗi trang
@@ -19,10 +20,6 @@ const BlockXemCode = ({ onSendToForm }) => {
   const [buttonText, setButtonText] = useState("Gửi tới Form");
   const [isSending, setIsSending] = useState(false);
 
-  const username = "11177529";
-  const password = "60-dayfreetrial";
-  const basic = `${username}:${password}`;
-  const basicAuthHeader = `Basic ${btoa(basic)}`;
 
   useEffect(() => {
     fetchUsers();
@@ -112,15 +109,17 @@ const BlockXemCode = ({ onSendToForm }) => {
     }
   };
 
-  const handleDelete = async (id) => {
+  const token = Cookies.get("token");
+  
+  const handleDelete = async (idCode) => {
     const isConfirmed = window.confirm("Bạn chắc chắn Xoá ?");
     if (!isConfirmed) {
       return; // Hủy hành động nếu người dùng chọn "Cancel"
     }
     try {
-      await axios.delete(`${connectionString}/delete-by-id/${id}`, {
+      await axios.delete(`${connectionString}/delete-by-id/${idCode}`, {
         headers: {
-          Authorization: basicAuthHeader,
+          "Authorization": `Bearer ${token}`,
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "*",
         },
@@ -147,11 +146,11 @@ const BlockXemCode = ({ onSendToForm }) => {
   const handleSaveDetail = async () => {
     try {
       await axios.put(
-        `${connectionString}/put-by-id/${selectedUser.id}`,
+        `${connectionString}/put-by-id/${selectedUser.idCode}`,
         selectedUser,
         {
           headers: {
-            Authorization: basicAuthHeader,
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*",
           },
@@ -234,25 +233,22 @@ const BlockXemCode = ({ onSendToForm }) => {
         <div className="h-full">
           <div className="flex justify-between">
             <h2 className="flex pl-4 mt-3 mb-4 text-3xl text-zinc-700 text-[24px] laptop:text-[36px]">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6 mr-3 scale-150 laptop:translate-y-2"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"
-                />
-              </svg>
-              Bảng Code
+            <svg 
+            xmlns="http://www.w3.org/2000/svg" 
+            viewBox="0 0 24 24" 
+            fill="currentColor" 
+            className="w-8 h-8 mr-2 translate-y-1">
+              <path d="M5.507 4.048A3 3 0 0 1 7.785 3h8.43a3 3 0 0 1 2.278 1.048l1.722 2.008A4.533 4.533 0 0 0 19.5 6h-15c-.243 0-.482.02-.715.056l1.722-2.008Z" />
+              <path 
+              fillRule="evenodd"
+              d="M1.5 10.5a3 3 0 0 1 3-3h15a3 3 0 1 1 0 6h-15a3 3 0 0 1-3-3Zm15 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm2.25.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM4.5 15a3 3 0 1 0 0 6h15a3 3 0 1 0 0-6h-15Zm11.25 3.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM19.5 18a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" 
+              clipRule="evenodd" />
+            </svg>
+              Code Storage
             </h2>
             <button
               onClick={handleReload}
-              className={`mt-3 px-4 py-2 mr-3 mb-4 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 ${
+              className={`mt-3 max-h-12 px-4 py-2 mr-3 mb-4 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 ${
                 isReloading ? "opacity-50 cursor-not-allowed" : ""
               }`}
               disabled={isReloading}
@@ -312,8 +308,9 @@ const BlockXemCode = ({ onSendToForm }) => {
           <table className="w-full">
             <thead className="w-full">
               <tr className="bg-gray-100 text-zinc-600">
-                <th className="px-4 py-2 text-center">ID</th>
                 <th className="px-4 py-2 text-center">Name</th>
+                <th className="hidden px-4 py-2 text-center laptop:table-cell">File Name</th>
+                <th className="hidden px-4 py-2 text-center laptop:table-cell">Email</th>
                 <th className="hidden px-4 py-2 text-center laptop:table-cell">
                   Details Code
                 </th>
@@ -326,8 +323,9 @@ const BlockXemCode = ({ onSendToForm }) => {
                   key={user.studentID}
                   className="border-b border-gray-300 text-zinc-800 "
                 >
-                  <td className="px-4 py-2 text-center ">{user.id}</td>
+                  <td className="px-4 py-2 text-center ">{user.userName}</td>
                   <td className="px-4 py-2 text-center ">{user.name}</td>
+                  <td className="hidden px-4 py-2 text-center tablet:table-cell ">{user.email}</td>
                   <td className="hidden px-4 py-2 text-center laptop:table-cell">
                     <pre className="truncate max-w-32">{user.codeDetails}</pre>
                   </td>
@@ -352,7 +350,7 @@ const BlockXemCode = ({ onSendToForm }) => {
                       </svg>
                     </button>
                     <button
-                      onClick={() => handleDelete(user.id)}
+                      onClick={() => handleDelete(user.idCode)}
                       className="px-4 py-2 m-1 text-sm font-bold text-white bg-red-500 rounded hover:bg-red-700"
                     >
                       <svg
@@ -384,17 +382,40 @@ const BlockXemCode = ({ onSendToForm }) => {
                 <div className="w-full h-full">
                   <div className="flex h-3/4">
                     <div className="w-1/3 p-2">
-                      <div className="mb-6">
-                        <label className="block mb-2">ID</label>
+                      <div className="mb-2">
+                        <label className="block mb-2">ID Code</label>
+                        <input
+                          type="text"
+                          name="id"
+                          value={selectedUser.idCode}
+                          onChange={handleInputChange}
+                          className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-zinc-700"
+                          readOnly
+                        />
+                      </div>
+                      <div className="mb-2">
+                        <label className="block mb-2">Student ID</label>
                         <input
                           type="text"
                           name="id"
                           value={selectedUser.id}
                           onChange={handleInputChange}
                           className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-zinc-700"
+                          readOnly
                         />
                       </div>
-                      <div className="mb-6">
+                      <div className="mb-2">
+                        <label className="block mb-2">Email</label>
+                        <input
+                          type="text"
+                          name="id"
+                          value={selectedUser.email}
+                          onChange={handleInputChange}
+                          className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-zinc-700"
+                          readOnly
+                        />
+                      </div>
+                      <div className="mb-2">
                         <label className="block mb-2">Name Code</label>
                         <input
                           name="name"
@@ -414,6 +435,7 @@ const BlockXemCode = ({ onSendToForm }) => {
                           value={selectedUser.codeDetails}
                           onChange={handleInputChange}
                           className="w-full h-32 px-3 py-2 text-white border border-gray-300 rounded-md bg-slate-600 tablet:h-56"
+                          readOnly
                         />
                       </div>
                     </div>
