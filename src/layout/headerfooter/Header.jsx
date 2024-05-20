@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import Cookies from "js-cookie";
 import axios from "../../api/axiosConfig";
 import { withErrorBoundary } from "react-error-boundary";
@@ -9,23 +9,6 @@ import PropTypes from "prop-types";
 const Header = ({ name, setName }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null);
-
-  const logout = async () => {
-    try {
-      await axios.post(
-        "/Account/Logout",
-        {},
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }
-      );
-      setName("");
-      Cookies.remove("token");
-    } catch (error) {
-      console.error("Error logging out", error);
-    }
-  };
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -44,40 +27,6 @@ const Header = ({ name, setName }) => {
 
     fetchUserData();
   }, [setName]);
-
-  let menu;
-
-  if (!name) {
-    menu = (
-      <ul className="mb-2 navbar-nav me-auto mb-md-0">
-        <li className="nav-item active">
-          <Link to="/login" className="nav-link">
-            Login
-          </Link>
-        </li>
-        <li className="nav-item active">
-          <Link to="/register" className="nav-link">
-            Register
-          </Link>
-        </li>
-      </ul>
-    );
-  } else {
-    menu = (
-      <ul className="mb-2 navbar-nav me-auto mb-md-0">
-        <li className="nav-item active">
-          <Link to="/profile" className="nav-link">
-            {name}
-          </Link>
-        </li>
-        <li className="nav-item active">
-          <Link to="/login" className="nav-link" onClick={logout}>
-            Logout
-          </Link>
-        </li>
-      </ul>
-    );
-  }
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -103,6 +52,12 @@ const Header = ({ name, setName }) => {
       document.body.classList.remove("menu-open");
     }
   }, [isMenuOpen]);
+
+  const logout = async () => {
+    Cookies.remove("token");
+
+    setName("");
+  };
   return (
     <div className="w-full">
       <header className="w-full bg-main-black">
@@ -299,8 +254,9 @@ const Header = ({ name, setName }) => {
                     {name}
                   </NavLink>
                   <NavLink
-                    to="/logout"
+                    to="/login"
                     className="flex items-center p-2 text-white rounded-lg hover:bg-zinc-400 hover:text-white"
+                    onClick={logout}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -314,35 +270,6 @@ const Header = ({ name, setName }) => {
                   </NavLink>
                 </>
               )}
-              {/* <NavLink
-                to="/login"
-                className="flex items-center p-2 text-white rounded-lg hover:bg-zinc-400 hover:text-white"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  className="w-4 h-4 mr-1"
-                >
-                  <path d="M4.5 6.375a4.125 4.125 0 1 1 8.25 0a4.125 4.125 0 0 1-8.25 0ZM14.25 8.625a3.375 3.375 0 1 1 6.75 0a3.375 3.375 0 0 1-6.75 0ZM1.5 19.125a7.125 7.125 0 0 1 14.25 0v.003l-.001.119a.75.75 0 0 1-.363.63a13.067 13.067 0 0 1-6.761 1.873a.75.75 0 0 1-.364-.63l-.001-.122ZM17.25 19.128l-.001.144a2.25 2.25 0 0 1-.233.96a10.088 10.088 0 0 0 5.06-1.01a.75.75 0 0 0 .42-.643a4.875 4.875 0 0 0-6.957-4.611a8.586 8.586 0 0 1 1.71 5.157v.003Z" />
-                </svg>
-                Đăng nhập
-              </NavLink>
-              <NavLink
-                to="/register"
-                className="flex items-center p-2 text-white rounded-lg hover:bg-zinc-400 hover:text-white"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  className="w-4 h-4 mr-1"
-                >
-                  <path d="M5.25 6.375a4.125 4.125 0 1 1 8.25 0 4.125 4.125 0 0 1-8.25 0ZM2.25 19.125a7.125 7.125 0 0 1 14.25 0v.003l-.001.119a.75.75 0 0 1-.363.63 13.067 13.067 0 0 1-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 0 1-.364-.63l-.001-.122ZM18.75 7.5a.75.75 0 0 0-1.5 0v2.25H15a.75.75 0 0 0 0 1.5h2.25v2.25a.75.75 0 0 0 1.5 0v-2.25H21a.75.75 0 0 0 0-1.5h-2.25V7.5Z" />
-                </svg>
-                Đăng ký
-              </NavLink> */}
-              {menu}
             </div>
           </nav>
         </div>
