@@ -116,23 +116,6 @@ const Main = () => {
                     <section id="support" className="mt-12 text-white">
                         <div className="text-center">
                             <h2 className="text-4xl font-bold">Support center</h2>
-                            <p className="mt-6 text-lg leading-8 text-gray-300">
-                                Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat aliqua.
-                            </p>
-                        </div>
-                        <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                            <div className="p-6 bg-white bg-opacity-10 rounded-lg">
-                                <h3 className="text-xl font-bold text-white">Sales</h3>
-                                <p className="mt-2 text-gray-300">Consectetur vel non. Rerum ut consequatur nobis unde. Enim est quo corrupti consequatur.</p>
-                            </div>
-                            <div className="p-6 bg-white bg-opacity-10 rounded-lg">
-                                <h3 className="text-xl font-bold text-white">Technical Support</h3>
-                                <p className="mt-2 text-gray-300">Quod possimus sit modi rerum exercitationem quaerat atque tenetur ullam.</p>
-                            </div>
-                            <div className="p-6 bg-white bg-opacity-10 rounded-lg">
-                                <h3 className="text-xl font-bold text-white">Media Inquiries</h3>
-                                <p className="mt-2 text-gray-300">Ratione et porro eligendi est sed ratione rerum itaque. Placeat accusantium impedit eum odit.</p>
-                            </div>
                         </div>
                     </section>
 
