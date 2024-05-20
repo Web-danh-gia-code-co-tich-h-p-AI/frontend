@@ -140,7 +140,7 @@ const BlockXemDiem = () => {
     <div className="w-full h-full rounded-lg shadow-lg laptop:relative justify-items-center laptop:w-full">
       <div className="h-full">
         <div className="flex justify-between">
-          <h2 className="flex pl-4 mt-3 mb-4 text-3xl text-zinc-700 text-[24px] laptop:text-[36px]">
+          <h2 className="flex pl-4 mt-3 mb-4 text-3xl font-semibold text-zinc-700 text-[24px] laptop:text-[36px]">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
