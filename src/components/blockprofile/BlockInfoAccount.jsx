@@ -81,7 +81,12 @@ const BlockInfoAccount = () => {
     try {
       const response = await axiosInstance.put(
         `/Account/UpdateAccount/${userData.id}`,
-        userData.id
+        {body: {
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+          phoneNumber: formData.phoneNumber,
+        }},
       );
       console.log(response);
       if (!response.ok) {
@@ -185,18 +190,18 @@ const BlockInfoAccount = () => {
             <div className="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
               <div className="p-4 bg-gray-100 rounded-lg shadow-md hover:-translate-y-1 hover:bg-slate-200 hover:scale-105">
                 <p className="font-medium text-gray-700">Name</p>
-                <p className="text-gray-900">{userData.name}</p>
+                <p className="text-gray-900 ">{userData.name}</p>
               </div>
               <div className="p-4 bg-gray-100 rounded-lg shadow-md hover:-translate-y-1 hover:bg-slate-200 hover:scale-105">
                 <p className="font-medium text-gray-700">Username</p>
                 <p className="text-gray-900">{userData.userName}</p>
               </div>
               <div className="p-4 bg-gray-100 rounded-lg shadow-md hover:-translate-y-1 hover:bg-slate-200 hover:scale-105">
-                <p className="font-medium text-gray-700">Email</p>
+                <p className="font-medium text-gray-700 ">Email</p>
                 <p className="text-gray-900">{userData.email}</p>
               </div>
               <div className="p-4 bg-gray-100 rounded-lg shadow-md hover:-translate-y-1 hover:bg-slate-200 hover:scale-105">
-                <p className="font-medium text-gray-700">Phone Number</p>
+                <p className="font-medium text-gray-700 ">Phone Number</p>
                 <p className="text-gray-900">{userData.phoneNumber}</p>
               </div>
               {/* <div className="p-4 bg-gray-100 rounded-lg shadow-md hover:-translate-y-1 hover:bg-slate-200 hover:scale-105">

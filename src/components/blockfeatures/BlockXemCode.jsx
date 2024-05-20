@@ -89,25 +89,38 @@ const BlockXemCode = ({ onSendToForm }) => {
     const searchTerm = event.target.value.trim().toLowerCase();
     setSearchKeyword(searchTerm);
     setCurrentPage(1);
+  
     if (searchTerm) {
       const filteredUsers = users.filter((user) =>
-        user.id.toString().includes(searchTerm)
+        user.userName.toLowerCase().includes(searchTerm) ||
+        user.name.toLowerCase().includes(searchTerm) ||
+        user.email.toLowerCase().includes(searchTerm)
       );
+  
       const hiddenIds = users
-        .filter((user) => !user.id.toString().includes(searchTerm))
+        .filter((user) => !(
+          user.userName.toLowerCase().includes(searchTerm) ||
+          user.name.toLowerCase().includes(searchTerm) ||
+          user.email.toLowerCase().includes(searchTerm)
+        ))
         .map((user) => user.id);
+  
       const foundHiddenIdIndex = hiddenIds.indexOf(parseInt(searchTerm));
       if (foundHiddenIdIndex !== -1) {
         hiddenIds.splice(foundHiddenIdIndex, 1);
       }
+  
       const usersToShow = filteredUsers.concat(
         users.filter((user) => hiddenIds.includes(user.id))
       );
+  
       setUsers(usersToShow);
     } else {
       fetchUsers();
     }
   };
+  
+  
 
   const token = Cookies.get("token");
   
