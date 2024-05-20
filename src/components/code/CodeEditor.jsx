@@ -1,3 +1,4 @@
+import React from 'react';
 import { Box, HStack, Button, Text } from "@chakra-ui/react";
 import { Editor } from "@monaco-editor/react";
 import { useRef, useState, useEffect, useInsertionEffect } from "react";

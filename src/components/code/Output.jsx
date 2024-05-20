@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import { Box, Button, Text, useToast } from "@chakra-ui/react";
 import { executeCode } from "../../api/codeApi";

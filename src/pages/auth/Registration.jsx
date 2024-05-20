@@ -1,3 +1,4 @@
+import React from "react";
 import COVER_IMAGE from "../../assets/images/login-cover-image.jpg";
 import GOOGLE_ICON from "../../assets/images/google-icon.png";
 import MICROSOFT_ICON from "../../assets/images/microsoft-icon.png";

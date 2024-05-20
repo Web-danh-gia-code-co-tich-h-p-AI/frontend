@@ -1,3 +1,4 @@
+import React from "react";
 import { Outlet } from "react-router-dom";
 import { Suspense, useEffect, useState } from "react";
 import Cookies from "js-cookie";

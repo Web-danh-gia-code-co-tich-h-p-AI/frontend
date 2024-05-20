@@ -1,3 +1,4 @@
+import React from "react";
 import BlockInfoAccount from "../../components/blockprofile/BlockInfoAccount";
 import AvatarAccount from "../../components/blockprofile/AvatarAccount";
 import { withErrorBoundary } from "react-error-boundary";

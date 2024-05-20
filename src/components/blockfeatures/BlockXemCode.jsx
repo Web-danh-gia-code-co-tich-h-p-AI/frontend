@@ -1,3 +1,4 @@
+import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
@@ -19,7 +20,6 @@ const BlockXemCode = ({ onSendToForm }) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [buttonText, setButtonText] = useState("Gửi tới Form");
   const [isSending, setIsSending] = useState(false);
-
 
   useEffect(() => {
     fetchUsers();
@@ -89,41 +89,43 @@ const BlockXemCode = ({ onSendToForm }) => {
     const searchTerm = event.target.value.trim().toLowerCase();
     setSearchKeyword(searchTerm);
     setCurrentPage(1);
-  
+
     if (searchTerm) {
-      const filteredUsers = users.filter((user) =>
-        user.userName.toLowerCase().includes(searchTerm) ||
-        user.name.toLowerCase().includes(searchTerm) ||
-        user.email.toLowerCase().includes(searchTerm)
-      );
-  
-      const hiddenIds = users
-        .filter((user) => !(
+      const filteredUsers = users.filter(
+        (user) =>
           user.userName.toLowerCase().includes(searchTerm) ||
           user.name.toLowerCase().includes(searchTerm) ||
           user.email.toLowerCase().includes(searchTerm)
-        ))
+      );
+
+      const hiddenIds = users
+        .filter(
+          (user) =>
+            !(
+              user.userName.toLowerCase().includes(searchTerm) ||
+              user.name.toLowerCase().includes(searchTerm) ||
+              user.email.toLowerCase().includes(searchTerm)
+            )
+        )
         .map((user) => user.id);
-  
+
       const foundHiddenIdIndex = hiddenIds.indexOf(parseInt(searchTerm));
       if (foundHiddenIdIndex !== -1) {
         hiddenIds.splice(foundHiddenIdIndex, 1);
       }
-  
+
       const usersToShow = filteredUsers.concat(
         users.filter((user) => hiddenIds.includes(user.id))
       );
-  
+
       setUsers(usersToShow);
     } else {
       fetchUsers();
     }
   };
-  
-  
 
   const token = Cookies.get("token");
-  
+
   const handleDelete = async (idCode) => {
     const isConfirmed = window.confirm("Bạn chắc chắn Xoá ?");
     if (!isConfirmed) {
@@ -132,7 +134,7 @@ const BlockXemCode = ({ onSendToForm }) => {
     try {
       await axios.delete(`${connectionString}/delete-by-id/${idCode}`, {
         headers: {
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "*",
         },
@@ -246,17 +248,19 @@ const BlockXemCode = ({ onSendToForm }) => {
         <div className="h-full">
           <div className="flex justify-between">
             <h2 className="flex pl-4 mt-3 mb-4 text-3xl font-extrabold text-zinc-700 text-[24px] laptop:text-[36px]">
-            <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            viewBox="0 0 24 24" 
-            fill="currentColor" 
-            className="w-8 h-8 mr-2 translate-y-1">
-              <path d="M5.507 4.048A3 3 0 0 1 7.785 3h8.43a3 3 0 0 1 2.278 1.048l1.722 2.008A4.533 4.533 0 0 0 19.5 6h-15c-.243 0-.482.02-.715.056l1.722-2.008Z" />
-              <path 
-              fillRule="evenodd"
-              d="M1.5 10.5a3 3 0 0 1 3-3h15a3 3 0 1 1 0 6h-15a3 3 0 0 1-3-3Zm15 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm2.25.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM4.5 15a3 3 0 1 0 0 6h15a3 3 0 1 0 0-6h-15Zm11.25 3.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM19.5 18a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" 
-              clipRule="evenodd" />
-            </svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className="w-8 h-8 mr-2 translate-y-1"
+              >
+                <path d="M5.507 4.048A3 3 0 0 1 7.785 3h8.43a3 3 0 0 1 2.278 1.048l1.722 2.008A4.533 4.533 0 0 0 19.5 6h-15c-.243 0-.482.02-.715.056l1.722-2.008Z" />
+                <path
+                  fillRule="evenodd"
+                  d="M1.5 10.5a3 3 0 0 1 3-3h15a3 3 0 1 1 0 6h-15a3 3 0 0 1-3-3Zm15 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm2.25.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM4.5 15a3 3 0 1 0 0 6h15a3 3 0 1 0 0-6h-15Zm11.25 3.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM19.5 18a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
+                  clipRule="evenodd"
+                />
+              </svg>
               Code Storage
             </h2>
             <button
@@ -322,8 +326,12 @@ const BlockXemCode = ({ onSendToForm }) => {
             <thead className="w-full">
               <tr className="bg-gray-100 text-zinc-600">
                 <th className="px-4 py-2 text-center">Name</th>
-                <th className="hidden px-4 py-2 text-center laptop:table-cell">File Name</th>
-                <th className="hidden px-4 py-2 text-center tablet:table-cell">Email</th>
+                <th className="hidden px-4 py-2 text-center laptop:table-cell">
+                  File Name
+                </th>
+                <th className="hidden px-4 py-2 text-center tablet:table-cell">
+                  Email
+                </th>
                 <th className="hidden px-4 py-2 text-center laptop:table-cell">
                   Details Code
                 </th>
@@ -337,8 +345,12 @@ const BlockXemCode = ({ onSendToForm }) => {
                   className="border-b border-gray-300 text-zinc-800 "
                 >
                   <td className="px-4 py-2 text-center ">{user.userName}</td>
-                  <td className="hidden px-4 py-2 text-center laptop:table-cell ">{user.name}</td>
-                  <td className="hidden px-4 py-2 text-center tablet:table-cell ">{user.email}</td>
+                  <td className="hidden px-4 py-2 text-center laptop:table-cell ">
+                    {user.name}
+                  </td>
+                  <td className="hidden px-4 py-2 text-center tablet:table-cell ">
+                    {user.email}
+                  </td>
                   <td className="hidden px-4 py-2 text-center laptop:table-cell">
                     <pre className="truncate max-w-32">{user.codeDetails}</pre>
                   </td>

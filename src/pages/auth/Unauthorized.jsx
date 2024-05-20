@@ -1,3 +1,4 @@
+import React from "react";
 const containerClasses =
   "min-h-screen flex flex-col items-center justify-center bg-white text-zinc-800 dark:bg-zinc-900 dark:text-white";
 const titleClasses = "text-6xl font-bold mb-4";
