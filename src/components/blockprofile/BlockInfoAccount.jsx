@@ -19,7 +19,7 @@ const BlockInfoAccount = () => {
 
       try {
         const response = await fetch(
-          "http://localhost:5136/api/Account/Account",
+          "https://yunom2834-001-site1.gtempurl.com/api/Account/Account",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -42,6 +42,10 @@ const BlockInfoAccount = () => {
   }, []);
 
   const handleLogout = () => {
+    const isConfirmed = window.confirm("Bạn muốn Thoát tài khoản?");
+    if (!isConfirmed) {
+      return; // Hủy hành động nếu người dùng chọn "Cancel"
+    }
     Cookies.remove("token"); // Xóa cookie chứa token
     navigate("/login"); // Điều hướng người dùng đến trang đăng nhập
   };

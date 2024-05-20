@@ -14,12 +14,12 @@ const AdminAccountDisplay = () => {
   useEffect(() => {
     fetchData();
   }, [role, currentPage, searchTerm]);
-
+ //http://localhost:5136/api
   const fetchData = async () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `http://localhost:5136/api/Account/GetUserByRole${role}`
+        `https://yunom2834-001-site1.gtempurl.com/api/Account/GetUserByRole${role}`
       );
       setUsers(response.data);
     } catch (error) {
