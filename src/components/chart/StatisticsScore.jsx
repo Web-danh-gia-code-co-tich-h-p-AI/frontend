@@ -63,7 +63,7 @@ const StatisticsScore = () => {
     <div className="laptop:h-full">
       <h1 className="flex justify-between p-4 font-bold tablet:text-3xl bg-zinc-300">
         Thống kê điểm số học sinh
-        <di className="flex">
+        <div className="laptop:flex">
           <button
             onClick={() => setReload(!reload)}
             className={`${
@@ -101,9 +101,9 @@ const StatisticsScore = () => {
               <option value="spline">Spline</option>
             </select>
           </div>
-        </di>
+        </div>
       </h1>
-      <div className="laptop:grid laptop:grid-cols-2">
+      <div className="laptop:grid laptop:grid-cols-2 ">
         <div className="flex p-4 bg-slate-100">
           <div className="ml-4 p-2 border bg-zinc-500 text-white rounded-lg w-[200px] hidden tablet:block">
             <h2 className="">Score Statistics</h2>

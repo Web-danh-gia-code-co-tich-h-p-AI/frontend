@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import FallbackComponent from "../../utils/FallbackComponent";
 import { withErrorBoundary } from "react-error-boundary";
-import AdminCreateStudentAccount from "./AdminCreateStudentAccount";
+import AdminCreateAccount from "./AdminCreateAccount";
 
 const AdminAccountDisplay = () => {
   const [users, setUsers] = useState([]);
@@ -51,9 +51,9 @@ const AdminAccountDisplay = () => {
       <h1 className="flex justify-end p-4 font-bold h-fit tablet:text-3xl bg-zinc-300">
         Quản lý thông tin tài khoản
       </h1>
-      <div className="justify-start p-4 laptop:flex laptop:relative">
+      <div className="justify-center p-4 laptop:flex laptop:relative">
         <div className="p-6 mr-4 bg-white border border-gray-300 rounded-md shadow-md h-fit">
-          <div className="items-center mb-4 ml-5 tablet:flex laptop:relative">
+          <div className="items-center justify-center mb-4 tablet:flex">
             <span className="mt-3 mr-2">Select Role:</span>
             <select
               value={role}
@@ -78,7 +78,7 @@ const AdminAccountDisplay = () => {
               <p>Loading...</p>
             ) : (
               <>
-                <table className="w-1/3 border-collapse">
+                <table className="items-center w-full border-collapse">
                   <thead>
                     <tr>
                       <th className="px-4 py-2 border bg-zinc-300">Name</th>
@@ -96,26 +96,26 @@ const AdminAccountDisplay = () => {
                 </table>
               </>
             )}
-          </div>
-          <div className="mt-4 ml-4 laptop:absolute">
-            <ul className="flex">
-              {[...Array(Math.ceil(users.length / usersPerPage)).keys()].map(
-                (number) => (
-                  <li key={number} className="mx-1">
-                    <button
-                      onClick={() => paginate(number + 1)}
-                      className="px-3 py-1 border rounded bg-zinc-300 hover:bg-zinc-400"
-                    >
-                      {number + 1}
-                    </button>
-                  </li>
-                )
-              )}
-            </ul>
+            <div className="mt-4 ml-4">
+              <ul className="flex">
+                {[...Array(Math.ceil(users.length / usersPerPage)).keys()].map(
+                  (number) => (
+                    <li key={number} className="mx-1">
+                      <button
+                        onClick={() => paginate(number + 1)}
+                        className="px-3 py-1 border rounded bg-zinc-300 hover:bg-zinc-400"
+                      >
+                        {number + 1}
+                      </button>
+                    </li>
+                  )
+                )}
+              </ul>
+            </div>
           </div>
         </div>
         <div className="mt-3 laptop:mt-0 h-fit">
-          <AdminCreateStudentAccount />
+          <AdminCreateAccount />
         </div>
       </div>
     </div>
