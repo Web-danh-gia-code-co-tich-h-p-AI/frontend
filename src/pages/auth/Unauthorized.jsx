@@ -13,6 +13,12 @@ const Unauthorized = () => {
         Sorry, you do not have access to this page, please contact your
         administrator.
       </p>
+      <a
+        href="/"
+        className="px-4 py-2 mt-6 text-white bg-blue-600 rounded-md hover:bg-blue-700"
+      >
+        Go back to home page
+      </a>
     </div>
   );
 };

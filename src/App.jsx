@@ -21,6 +21,7 @@ const AdminPage = lazy(() => import("./pages/auth/AdminPage"));
 const Code = lazy(() => import("./pages/code/Code"));
 
 // Other pages lazy loading
+const AboutUs = lazy(() => import("./pages/auth/AboutUs"));
 const Unauthorized = lazy(() => import("./pages/auth/Unauthorized"));
 const NotFound = lazy(() => import("./pages/auth/NotFound"));
 
@@ -101,6 +102,7 @@ const App = () => {
             }
           ></Route>
 
+          <Route path="/about-us" element={<AboutUs />}></Route>
           <Route path="/unauthorized" element={<Unauthorized />}></Route>
           <Route path="*" element={<NotFound />}></Route>
         </Route>
