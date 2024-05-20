@@ -3,21 +3,19 @@ import { Route, Routes } from "react-router-dom";
 import ChamDiem from "./pages/score/ChamDiem";
 import LandingHome from "./pages/home/LandingHome";
 import Questions from "./pages/score/Questions";
-import Dashboard from "./pages/dashboard/Dashboard";
 import ProfilePage from "./pages/profile/ProfilePage";
 import { lazy, Suspense } from "react";
 import { ChakraProvider, theme } from "@chakra-ui/react";
 import PrivateRoute from "./pages/auth/PrivateRoute";
 
-import AdminPage from "./pages/auth/AdminPage";
-import StudentPage from "./pages/auth/StudentPage";
-import TeacherPage from "./pages/auth/TeacherPage";
-import UserPage from "./pages/auth/UserPage";
-
 // Auth pages lazy loading
 const Main = lazy(() => import("./layout/Main"));
 const Login = lazy(() => import("./pages/auth/Login"));
 const Registration = lazy(() => import("./pages/auth/Registration"));
+const UserPage = lazy(() => import("./pages/auth/UserPage"));
+const StudentPage = lazy(() => import("./pages/auth/StudentPage"));
+const TeacherPage = lazy(() => import("./pages/auth/TeacherPage"));
+const AdminPage = lazy(() => import("./pages/auth/AdminPage"));
 
 // Code pages lazy loading
 const Code = lazy(() => import("./pages/code/Code"));

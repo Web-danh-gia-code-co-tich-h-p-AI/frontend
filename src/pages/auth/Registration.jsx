@@ -10,6 +10,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
 import { withErrorBoundary } from "react-error-boundary";
 import FallbackComponent from "../../utils/FallbackComponent";
+import { useEffect } from "react";
+import Cookies from "js-cookie";
 
 const Registration = () => {
   const navigate = useNavigate();
@@ -71,6 +73,12 @@ const Registration = () => {
     }
   };
 
+  useEffect(() => {
+    const token = Cookies.get("token");
+    if (token) {
+      navigate("/");
+    }
+  }, [navigate]);
   return (
     <div className="flex items-start w-full h-screen">
       <div className="relative flex flex-col h-full laptop:w-1/2 laptop:block">
