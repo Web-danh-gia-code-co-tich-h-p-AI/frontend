@@ -8,12 +8,11 @@ import ProfilePage from "./pages/profile/ProfilePage";
 import { lazy, Suspense } from "react";
 import { ChakraProvider, theme } from "@chakra-ui/react";
 import PrivateRoute from "./pages/auth/PrivateRoute";
-import HomeFirst from "./pages/auth/HomeFirst";
+
 import AdminPage from "./pages/auth/AdminPage";
 import StudentPage from "./pages/auth/StudentPage";
-
-// Home page lazy loading
-const Home = lazy(() => import("./pages/Home"));
+import TeacherPage from "./pages/auth/TeacherPage";
+import UserPage from "./pages/auth/UserPage";
 
 // Auth pages lazy loading
 const Main = lazy(() => import("./layout/Main"));
@@ -23,85 +22,83 @@ const Registration = lazy(() => import("./pages/auth/Registration"));
 // Code pages lazy loading
 const Code = lazy(() => import("./pages/code/Code"));
 
-// Submission pages lazy loading
-const Submission = lazy(() => import("./pages/submission/Submission"));
-const SubmissionUser = lazy(() => import("./pages/submission/SubmissionUser"));
-const SubmissionSubmit = lazy(() =>
-  import("./pages/submission/SubmissionSubmit")
-);
-
-const Problem = lazy(() => import("./pages/submission/Problem"));
+// Other pages lazy loading
+const Unauthorized = lazy(() => import("./pages/auth/Unauthorized"));
+const NotFound = lazy(() => import("./pages/auth/NotFound"));
 
 const App = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Routes>
+        <Route
+          path="/"
+          element={<LandingHome />}
+          allowedRoles={["Teacher", "Admin", "User", "Student"]}
+        />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Registration />} />
         <Route
           path="/admin"
-          element={<PrivateRoute element={<AdminPage />} />}
+          element={
+            <PrivateRoute element={<AdminPage />} allowedRoles="Admin" />
+          }
+        />
+        <Route
+          path="/teacher"
+          element={
+            <PrivateRoute element={<TeacherPage />} allowedRoles="Teacher" />
+          }
         />
         <Route
           path="/student"
-          element={<PrivateRoute element={<StudentPage />} />}
+          element={
+            <PrivateRoute element={<StudentPage />} allowedRoles="Student" />
+          }
         />
-        <Route path="/" element={<HomeFirst />} />
+        <Route
+          path="/user"
+          element={<PrivateRoute element={<UserPage />} allowedRoles="User" />}
+        />
 
         <Route element={<Main />}>
-          <Route path="/home" element={<Home />} />
           <Route
             path="/code"
             element={
-              <ChakraProvider theme={theme}>
-                <Code />
-              </ChakraProvider>
+              <PrivateRoute
+                element={
+                  <ChakraProvider theme={theme}>
+                    <Code />
+                  </ChakraProvider>
+                }
+                allowedRoles={["Student", "Teacher"]}
+              />
             }
           ></Route>
           <Route
             path="/mark-score"
             element={
-              <PrivateRoute element={<ChamDiem></ChamDiem>}></PrivateRoute>
+              <PrivateRoute
+                element={<ChamDiem></ChamDiem>}
+                allowedRoles="Teacher"
+              ></PrivateRoute>
             }
           ></Route>
           <Route
             path="/questions"
             element={
-              <PrivateRoute element={<Questions></Questions>}></PrivateRoute>
-            }
-          ></Route>
-          <Route
-            path="/submission"
-            element={
-              <PrivateRoute element={<Submission></Submission>}></PrivateRoute>
-            }
-          ></Route>
-          <Route
-            path="/submission/user/:slug"
-            element={
               <PrivateRoute
-                element={<SubmissionUser></SubmissionUser>}
+                element={<Questions></Questions>}
+                allowedRoles="Teacher"
               ></PrivateRoute>
-            }
-          ></Route>
-          <Route
-            path="/submission/:slug"
-            element={
-              <PrivateRoute
-                element={<SubmissionSubmit></SubmissionSubmit>}
-              ></PrivateRoute>
-            }
-          ></Route>
-          <Route
-            path="/problem"
-            element={
-              <PrivateRoute element={<Problem></Problem>}></PrivateRoute>
             }
           ></Route>
           <Route
             path="/dashboard"
             element={
-              <PrivateRoute element={<Dashboard></Dashboard>}></PrivateRoute>
+              <PrivateRoute
+                element={<Dashboard></Dashboard>}
+                allowedRoles={["Teacher", "Admin", "User", "Student"]}
+              ></PrivateRoute>
             }
           ></Route>
           <Route
@@ -109,13 +106,13 @@ const App = () => {
             element={
               <PrivateRoute
                 element={<ProfilePage></ProfilePage>}
+                allowedRoles={["Teacher", "Admin", "User", "Student"]}
               ></PrivateRoute>
             }
           ></Route>
-          <Route
-            path="/landinghome"
-            element={<LandingHome></LandingHome>}
-          ></Route>
+
+          <Route path="/unauthorized" element={<Unauthorized />}></Route>
+          <Route path="*" element={<NotFound />}></Route>
         </Route>
       </Routes>
     </Suspense>

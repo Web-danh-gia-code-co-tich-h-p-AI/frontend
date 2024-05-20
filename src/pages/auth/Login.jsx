@@ -47,6 +47,7 @@ const Login = () => {
       const response = await axios.post("/Account/login", values);
 
       const { token, roles } = response.data;
+      console.log(token, roles);
 
       // Lưu token vào cookie
       Cookies.set("token", token, {
@@ -58,10 +59,15 @@ const Login = () => {
       if (roles[0] === "Admin") {
         navigate("/admin");
       } else if (roles[0] === "User") {
+        navigate("/user");
+      } else if (roles[0] === "Student") {
         navigate("/student");
+      } else if (roles[0] === "Teacher") {
+        navigate("/teacher");
+      } else {
+        navigate("/");
       }
 
-      // Hiển thị toast thông báo đăng nhập thành công
       toast.success("Login successful!", {
         position: "top-right",
         autoClose: 3000,

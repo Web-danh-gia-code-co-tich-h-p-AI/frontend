@@ -15,7 +15,7 @@ const AdminAccountDisplay = () => {
   useEffect(() => {
     fetchData();
   }, [role, currentPage, searchTerm]);
- //http://localhost:5136/api
+
   const fetchData = async () => {
     setLoading(true);
     try {
