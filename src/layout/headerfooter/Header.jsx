@@ -6,7 +6,7 @@ import { withErrorBoundary } from "react-error-boundary";
 import FallbackComponent from "../../utils/FallbackComponent";
 import PropTypes from "prop-types";
 
-const Header = ({ name, setName }) => {
+const Header = ({ name, setName, role, setRole }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null);
 
@@ -20,13 +20,14 @@ const Header = ({ name, setName }) => {
           headers: { Authorization: `Bearer ${token}` },
         });
         setName(response.data.name);
+        setRole(response.data.userRoles[0]);
       } catch (error) {
         console.error("Error fetching user data", error);
       }
     };
 
     fetchUserData();
-  }, [setName]);
+  }, [setName, setRole]);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -130,57 +131,6 @@ const Header = ({ name, setName }) => {
                 Trang chủ
               </NavLink>
               <NavLink
-                to="/code"
-                className="flex items-center p-2 mr-4 text-white rounded-lg hover:bg-zinc-400 hover:text-white"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  className="w-4 h-4 mr-1"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M2.25 6a3 3 0 0 1 3-3h13.5a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V6Zm3.97.97a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06l-2.25 2.25a.75.75 0 0 1-1.06-1.06l1.72-1.72-1.72-1.72a.75.75 0 0 1 0-1.06Zm4.28 4.28a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                Code
-              </NavLink>
-              <NavLink
-                to="/questions"
-                className="flex items-center p-2 mr-4 text-white rounded-lg hover:bg-zinc-400 hover:text-white"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  className="w-4 h-4 mr-1"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm11.378-3.917c-.89-.777-2.366-.777-3.255 0a.75.75 0 0 1-.988-1.129c1.454-1.272 3.776-1.272 5.23 0 1.513 1.324 1.513 3.518 0 4.842a3.75 3.75 0 0 1-.837.552c-.676.328-1.028.774-1.028 1.152v.75a.75.75 0 0 1-1.5 0v-.75c0-1.279 1.06-2.107 1.875-2.502.182-.088.351-.199.503-.331.83-.727.83-1.857 0-2.584ZM12 18a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                Câu hỏi
-              </NavLink>
-              <NavLink
-                to="/mark-score"
-                className="flex items-center p-2 mr-4 text-white rounded-lg hover:bg-zinc-400 hover:text-white"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 16 16"
-                  fill="currentColor"
-                  className="w-4 h-4 mr-1"
-                >
-                  <path d="M7.702 1.368a.75.75 0 0 1 .597 0c2.098.91 4.105 1.99 6.004 3.223a.75.75 0 0 1-.194 1.348A34.27 34.27 0 0 0 8.341 8.25a.75.75 0 0 1-.682 0c-.625-.32-1.262-.62-1.909-.901v-.542a36.878 36.878 0 0 1 2.568-1.33a.75.75 0 0 0-.636-1.357a38.39 38.39 0 0 0-3.06 1.605a.75.75 0 0 0-.372.648v.365c-.773-.294-1.56-.56-2.359-.8a.75.75 0 0 1-.194-1.347a40.901 40.901 0 0 1 6.005-3.223ZM4.25 8.348c-.53-.212-1.067-.411-1.611-.596a40.973 40.973 0 0 0-.418 2.97a.75.75 0 0 0 .474.776c.175.068.35.138.524.21a5.544 5.544 0 0 1-.58.681a.75.75 0 1 0 1.06 1.06c.35-.349.655-.726.915-1.124a29.282 29.282 0 0 0-1.395-.617A5.483 5.483 0 0 0 4.25 8.5v-.152Z" />
-                  <path d="M7.603 13.96c-.96-.6-1.958-1.147-2.989-1.635a6.981 6.981 0 0 0 1.12-3.341c.419.192.834.393 1.244.602a2.25 2.25 0 0 0 2.045 0a32.787 32.787 0 0 1 4.338-1.834c.175.978.315 1.969.419 2.97a.75.75 0 0 1-.474.776a29.385 29.385 0 0 0-4.909 2.461a.75.75 0 0 1-.794 0Z" />
-                </svg>
-                Chấm điểm
-              </NavLink>
-              <NavLink
                 to="/dashboard"
                 className="flex items-center p-2 mr-4 text-white rounded-lg hover:bg-zinc-400 hover:text-white"
               >
@@ -198,6 +148,81 @@ const Header = ({ name, setName }) => {
                 </svg>
                 Dashboard
               </NavLink>
+              {role === "Student" && (
+                <NavLink
+                  to="/code"
+                  className="flex items-center p-2 mr-4 text-white rounded-lg hover:bg-zinc-400 hover:text-white"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="w-4 h-4 mr-1"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M2.25 6a3 3 0 0 1 3-3h13.5a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V6Zm3.97.97a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06l-2.25 2.25a.75.75 0 0 1-1.06-1.06l1.72-1.72-1.72-1.72a.75.75 0 0 1 0-1.06Zm4.28 4.28a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  Code
+                </NavLink>
+              )}
+              {role === "Teacher" && (
+                <>
+                  <NavLink
+                    to="/code"
+                    className="flex items-center p-2 mr-4 text-white rounded-lg hover:bg-zinc-400 hover:text-white"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      className="w-4 h-4 mr-1"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M2.25 6a3 3 0 0 1 3-3h13.5a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V6Zm3.97.97a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06l-2.25 2.25a.75.75 0 0 1-1.06-1.06l1.72-1.72-1.72-1.72a.75.75 0 0 1 0-1.06Zm4.28 4.28a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                    Code
+                  </NavLink>
+                  <NavLink
+                    to="/questions"
+                    className="flex items-center p-2 mr-4 text-white rounded-lg hover:bg-zinc-400 hover:text-white"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      className="w-4 h-4 mr-1"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm11.378-3.917c-.89-.777-2.366-.777-3.255 0a.75.75 0 0 1-.988-1.129c1.454-1.272 3.776-1.272 5.23 0 1.513 1.324 1.513 3.518 0 4.842a3.75 3.75 0 0 1-.837.552c-.676.328-1.028.774-1.028 1.152v.75a.75.75 0 0 1-1.5 0v-.75c0-1.279 1.06-2.107 1.875-2.502.182-.088.351-.199.503-.331.83-.727.83-1.857 0-2.584ZM12 18a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                    Câu hỏi
+                  </NavLink>
+                  <NavLink
+                    to="/mark-score"
+                    className="flex items-center p-2 mr-4 text-white rounded-lg hover:bg-zinc-400 hover:text-white"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 16 16"
+                      fill="currentColor"
+                      className="w-4 h-4 mr-1"
+                    >
+                      <path d="M7.702 1.368a.75.75 0 0 1 .597 0c2.098.91 4.105 1.99 6.004 3.223a.75.75 0 0 1-.194 1.348A34.27 34.27 0 0 0 8.341 8.25a.75.75 0 0 1-.682 0c-.625-.32-1.262-.62-1.909-.901v-.542a36.878 36.878 0 0 1 2.568-1.33a.75.75 0 0 0-.636-1.357a38.39 38.39 0 0 0-3.06 1.605a.75.75 0 0 0-.372.648v.365c-.773-.294-1.56-.56-2.359-.8a.75.75 0 0 1-.194-1.347a40.901 40.901 0 0 1 6.005-3.223ZM4.25 8.348c-.53-.212-1.067-.411-1.611-.596a40.973 40.973 0 0 0-.418 2.97a.75.75 0 0 0 .474.776c.175.068.35.138.524.21a5.544 5.544 0 0 1-.58.681a.75.75 0 1 0 1.06 1.06c.35-.349.655-.726.915-1.124a29.282 29.282 0 0 0-1.395-.617A5.483 5.483 0 0 0 4.25 8.5v-.152Z" />
+                      <path d="M7.603 13.96c-.96-.6-1.958-1.147-2.989-1.635a6.981 6.981 0 0 0 1.12-3.341c.419.192.834.393 1.244.602a2.25 2.25 0 0 0 2.045 0a32.787 32.787 0 0 1 4.338-1.834c.175.978.315 1.969.419 2.97a.75.75 0 0 1-.474.776a29.385 29.385 0 0 0-4.909 2.461a.75.75 0 0 1-.794 0Z" />
+                    </svg>
+                    Chấm điểm
+                  </NavLink>
+                </>
+              )}
 
               {!name ? (
                 <>
@@ -236,15 +261,17 @@ const Header = ({ name, setName }) => {
                     to="/profile"
                     className="flex items-center p-2 text-white rounded-lg hover:bg-zinc-400 hover:text-white"
                   >
-                    <svg 
-                    xmlns="http://www.w3.org/2000/svg" 
-                    viewBox="0 0 24 24" 
-                    fill="currentColor" 
-                    className="w-5 h-5 mr-1">
-                      <path 
-                      fillRule="evenodd" 
-                      d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" 
-                      clipRule="evenodd" />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      className="w-5 h-5 mr-1"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
+                        clipRule="evenodd"
+                      />
                     </svg>
                     {name}
                   </NavLink>
@@ -253,12 +280,17 @@ const Header = ({ name, setName }) => {
                     className="flex items-center p-2 text-white rounded-lg hover:bg-zinc-400 hover:text-white"
                     onClick={logout}
                   >
-                    <svg 
-                    xmlns="http://www.w3.org/2000/svg" 
-                    viewBox="0 0 24 24" 
-                    fill="currentColor" 
-                    className="w-5 h-5 mr-1">
-                      <path fillRule="evenodd" d="M12 2.25a.75.75 0 0 1 .75.75v9a.75.75 0 0 1-1.5 0V3a.75.75 0 0 1 .75-.75ZM6.166 5.106a.75.75 0 0 1 0 1.06 8.25 8.25 0 1 0 11.668 0 .75.75 0 1 1 1.06-1.06c3.808 3.807 3.808 9.98 0 13.788-3.807 3.808-9.98 3.808-13.788 0-3.808-3.807-3.808-9.98 0-13.788a.75.75 0 0 1 1.06 0Z" clipRule="evenodd" />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      className="w-5 h-5 mr-1"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M12 2.25a.75.75 0 0 1 .75.75v9a.75.75 0 0 1-1.5 0V3a.75.75 0 0 1 .75-.75ZM6.166 5.106a.75.75 0 0 1 0 1.06 8.25 8.25 0 1 0 11.668 0 .75.75 0 1 1 1.06-1.06c3.808 3.807 3.808 9.98 0 13.788-3.807 3.808-9.98 3.808-13.788 0-3.808-3.807-3.808-9.98 0-13.788a.75.75 0 0 1 1.06 0Z"
+                        clipRule="evenodd"
+                      />
                     </svg>
                     Đăng xuất
                   </NavLink>
@@ -275,6 +307,8 @@ const Header = ({ name, setName }) => {
 Header.propTypes = {
   name: PropTypes.string,
   setName: PropTypes.func,
+  role: PropTypes.string,
+  setRole: PropTypes.func,
 };
 
 const EnhancedHeader = withErrorBoundary(Header, {
