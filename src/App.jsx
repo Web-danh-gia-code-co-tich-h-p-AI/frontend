@@ -30,37 +30,38 @@ const App = () => {
   return (
     <Suspense fallback={<div>Loading...</div>} className="">
       <Routes>
-        <Route
-          path="/"
-          element={<LandingHome />}
-          allowedRoles={["Teacher", "Admin", "User", "Student"]}
-        />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Registration />} />
-        <Route
-          path="/admin"
-          element={
-            <PrivateRoute element={<AdminPage />} allowedRoles="Admin" />
-          }
-        />
-        <Route
-          path="/teacher"
-          element={
-            <PrivateRoute element={<TeacherPage />} allowedRoles="Teacher" />
-          }
-        />
-        <Route
-          path="/student"
-          element={
-            <PrivateRoute element={<StudentPage />} allowedRoles="Student" />
-          }
-        />
-        <Route
-          path="/user"
-          element={<PrivateRoute element={<UserPage />} allowedRoles="User" />}
-        />
-
         <Route element={<Main />}>
+          <Route
+            path="/"
+            element={<LandingHome />}
+            allowedRoles={["Teacher", "Admin", "User", "Student"]}
+          />
+          <Route
+            path="/admin"
+            element={
+              <PrivateRoute element={<AdminPage />} allowedRoles="Admin" />
+            }
+          />
+          <Route
+            path="/teacher"
+            element={
+              <PrivateRoute element={<TeacherPage />} allowedRoles="Teacher" />
+            }
+          />
+          <Route
+            path="/student"
+            element={
+              <PrivateRoute element={<StudentPage />} allowedRoles="Student" />
+            }
+          />
+          <Route
+            path="/user"
+            element={
+              <PrivateRoute element={<UserPage />} allowedRoles="User" />
+            }
+          />
           <Route
             path="/code"
             element={
@@ -89,15 +90,6 @@ const App = () => {
               <PrivateRoute
                 element={<Questions></Questions>}
                 allowedRoles="Teacher"
-              ></PrivateRoute>
-            }
-          ></Route>
-          <Route
-            path="/dashboard"
-            element={
-              <PrivateRoute
-                element={<Dashboard></Dashboard>}
-                allowedRoles={["Teacher", "Admin", "User", "Student"]}
               ></PrivateRoute>
             }
           ></Route>
