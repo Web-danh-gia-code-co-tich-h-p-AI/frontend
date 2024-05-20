@@ -1,74 +1,80 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-// Constants for repeated class strings
-const containerClasses = "bg-white dark:bg-zinc-700 shadow rounded-lg p-4";
-const titleClasses = "text-lg font-semibold text-zinc-800 dark:text-white";
-const valueClasses = "text-3xl font-bold";
+const StudentDashboard = () => {
+  const [submittedAssignments, setSubmittedAssignments] = useState(0);
+  const [totalFiles, setTotalFiles] = useState(0);
+  const [currentUser, setCurrentUser] = useState(null);
 
-// Data for each card
-const cardData = [
-    {
-        title: "Điểm trung bình",
-        value: "8.5",
-        valueColor: "text-blue-600 dark:text-blue-300",
-        imgSrc: "https://placehold.co/100x100",
-        altText: "Average Score"
-    },
-    {
-        title: "Số bài đã nộp",
-        value: "15",
-        valueColor: "text-green-600 dark:text-green-300",
-        imgSrc: "https://placehold.co/100x100",
-        altText: "Submitted Assignments"
-    },
-    {
-        title: "Số bài chưa hoàn thành",
-        value: "3",
-        valueColor: "text-red-600 dark:text-red-300",
-        imgSrc: "https://placehold.co/100x100",
-        altText: "Incomplete Assignments"
-    },
-    {
-        title: "Số bài đã hoàn thành",
-        value: "12",
-        valueColor: "text-blue-600 dark:text-blue-300",
-        imgSrc: "https://placehold.co/100x100",
-        altText: "Completed Assignments"
-    },
-    {
-        title: "Số bài bị muộn",
-        value: "2",
-        valueColor: "text-yellow-600 dark:text-yellow-300",
-        imgSrc: "https://placehold.co/100x100",
-        altText: "Late Assignments"
-    }
-];
+  useEffect(() => {
+    const fetchCurrentUser = async () => {
+      try {
+        const response = await axios.get('https://yunom2834-001-site1.gtempurl.com/api/Account/Account', {
+          headers: {
+            'Authorization': `Bearer ${getCookie('token')}`
+          }
+        });
+        setCurrentUser(response.data);
+      } catch (error) {
+        console.error('Error fetching current user:', error);
+      }
+    };
 
-// Card component
-const Card = ({ title, value, valueColor, imgSrc, altText }) => (
-    <div className={containerClasses}>
-        <div className="flex items-center justify-between">
-            <div>
-                <h4 className={titleClasses}>{title}</h4>
-                <div className={`${valueClasses} ${valueColor}`}>{value}</div>
-            </div>
-            <img className="w-12 h-12" src={imgSrc} alt={altText} />
+    const fetchSubmittedAssignments = async () => {
+      try {
+        const response = await axios.get('https://toqquangduc2-001-site1.jtempurl.com/api/get-coder-list');
+        const assignments = response.data;
+
+        if (currentUser) {
+          const userEmail = currentUser.email;
+          const count = assignments.filter(assignment => assignment.email === userEmail).length;
+          setSubmittedAssignments(count);
+        }
+      } catch (error) {
+        console.error('Error fetching submitted assignments:', error);
+      }
+    };
+
+    const fetchTotalFiles = async () => {
+      try {
+        const response = await axios.get('https://toqquangduc2-001-site1.jtempurl.com/api/get-coder-list');
+        const files = response.data;
+        setTotalFiles(files.length);
+      } catch (error) {
+        console.error('Error fetching total files:', error);
+      }
+    };
+
+    fetchCurrentUser().then(() => {
+      fetchSubmittedAssignments();
+      fetchTotalFiles();
+    });
+  }, [currentUser]);
+
+  const getCookie = (name) => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+  };
+
+  return (
+    <div className='flex flex-col items-center justify-center h-screen bg-gray-100'>
+      <h1 className='m-3 text-3xl font-extrabold text-gray-900'>Student Dashboard</h1>
+      <div className='w-2/3 p-6 m-3 bg-white rounded-lg shadow-md md:w-1/3'>
+        <div className='text-xl font-bold text-center text-gray-800'>Xin chào, {currentUser?.name}</div>
+        <div className='flex items-center justify-center mt-5'>
+          <p className='w-full p-6 text-lg text-center bg-gray-200 rounded-lg'>
+            Số bài bạn đã nộp là: <span className='font-extrabold text-gray-900'>{submittedAssignments}</span>
+          </p>
         </div>
+        <div className='flex items-center justify-center mt-5'>
+          <p className='w-full p-6 text-lg text-center bg-gray-200 rounded-lg'>
+            Tổng file: <span className='font-extrabold text-gray-900'>{totalFiles}</span>
+          </p>
+        </div>
+      </div>
     </div>
-);
-
-// Main component
-const Dashboard = () => {
-    return (
-        <div className="min-h-screen p-4 bg-zinc-100">
-          <div className='p-3 mb-3 text-3xl font-semibold'>Thông tin chính</div>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {cardData.map((card, index) => (
-                    <Card key={index} {...card} />
-                ))}
-            </div>
-        </div>
-    );
+  );
 };
 
-export default Dashboard;
+export default StudentDashboard;
