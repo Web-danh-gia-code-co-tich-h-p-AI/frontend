@@ -28,7 +28,7 @@ const NotFound = lazy(() => import("./pages/auth/NotFound"));
 
 const App = () => {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<div>Loading...</div>} className="">
       <Routes>
         <Route
           path="/"
