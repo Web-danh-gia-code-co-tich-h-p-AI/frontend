@@ -121,15 +121,15 @@ const Main = () => {
                         <div className="grid grid-cols-1 gap-6 mt-6 md:grid-cols-2 lg:grid-cols-3">
                             <div className="p-6 bg-white bg-opacity-10 rounded-lg">
                                 <h3 className="text-xl font-bold text-white">Sales</h3>
-                                <p className="mt-2 text-gray-300">Consectetur vel non. Rerum ut consequatur nobis unde. Enim est quo corrupti consequatur.</p>
+                                <p className="mt-2 text-gray-300">Chỉ với 0đ bạn có thể chấm chữa cho học sinh và học sinh cũng có thể được chấm bài một cách nhanh chóng và chính xác nhất</p>
                             </div>
                             <div className="p-6 bg-white bg-opacity-10 rounded-lg">
                                 <h3 className="text-xl font-bold text-white">Technical Support</h3>
-                                <p className="mt-2 text-gray-300">Quod possimus sit modi rerum exercitationem quaerat atque tenetur ullam.</p>
+                                <p className="mt-2 text-gray-300">Hãy liên hệ chúng tôi khi gặp phải trường hợp lỗi hệ thống hay sever</p>
                             </div>
                             <div className="p-6 bg-white bg-opacity-10 rounded-lg">
-                                <h3 className="text-xl font-bold text-white">Media Inquiries</h3>
-                                <p className="mt-2 text-gray-300">Ratione et porro eligendi est sed ratione rerum itaque. Placeat accusantium impedit eum odit.</p>
+                                <h3 className="text-xl font-bold text-white">24/7</h3>
+                                <p className="mt-2 text-gray-300">Chúng tôi cam kết hỗ trợ 24/24 trong tất cả trường hợp. Hãy liên hệ ngay nếu bạn gặp vấn đề.</p> 
                             </div>
                         </div>
                     </section>
