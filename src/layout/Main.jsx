@@ -1,20 +1,24 @@
-import Header from "../layout/headerfooter/Header";
-import Footer from "../layout/headerfooter/Footer";
 import { Outlet } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import axios from "../api/axiosConfig";
 import { withErrorBoundary } from "react-error-boundary";
 import FallbackComponent from "../utils/FallbackComponent";
+import { lazy } from "react";
+
+const Header = lazy(() => import("../layout/headerfooter/Header"));
+const Footer = lazy(() => import("../layout/headerfooter/Footer"));
 
 const Main = () => {
   const [name, setName] = useState("");
   const [role, setRole] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUserData = async () => {
       const token = Cookies.get("token");
       if (!token) {
+        setLoading(false); // Set loading to false if no token
         return;
       }
 
@@ -31,6 +35,8 @@ const Main = () => {
         setRole(role[0]);
       } catch (error) {
         console.error("Error fetching user data", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -39,9 +45,17 @@ const Main = () => {
 
   return (
     <>
-      <Header name={name} role={role} setName={setName} setRole={setRole} />
+      <Suspense fallback={<div>Loading Header...</div>}>
+        {!loading && (
+          <Header name={name} role={role} setName={setName} setRole={setRole} />
+        )}
+      </Suspense>
+
       <Outlet />
-      <Footer />
+
+      <Suspense fallback={<div>Loading Footer...</div>}>
+        {!loading && <Footer />}
+      </Suspense>
     </>
   );
 };

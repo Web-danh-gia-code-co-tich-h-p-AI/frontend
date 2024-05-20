@@ -94,12 +94,12 @@ const BlockInfoAccount = () => {
               <p className="font-medium text-gray-700">Phone Number</p>
               <p className="text-gray-900">{userData.phoneNumber}</p>
             </div>
-            <div className="p-4 bg-gray-100 rounded-lg shadow-md hover:-translate-y-1 hover:bg-slate-200 hover:scale-105">
+            {/* <div className="p-4 bg-gray-100 rounded-lg shadow-md hover:-translate-y-1 hover:bg-slate-200 hover:scale-105">
               <p className="font-medium text-gray-700">Email Confirmed</p>
               <p className="text-gray-900">
                 {userData.emailConfirmed ? "Yes" : "No"}
               </p>
-            </div>
+            </div> */}
           </div>
         </div>
         <button

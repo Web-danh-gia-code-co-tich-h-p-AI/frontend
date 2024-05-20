@@ -99,6 +99,15 @@ const Login = () => {
     Cookies.set("rememberMe", isChecked, { expires: 30 });
   };
 
+  // Redirect user if token exists
+  useEffect(() => {
+    const token = Cookies.get("token");
+    if (token) {
+      // Perform role-based redirection here if needed
+      navigate("/"); // Redirect to dashboard or appropriate route
+    }
+  }, [navigate]);
+
   return (
     <div className="flex items-start w-full h-screen">
       <div className="relative flex flex-col h-full laptop:w-1/2 laptop:block">
