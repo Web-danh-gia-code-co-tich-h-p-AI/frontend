@@ -59,7 +59,7 @@ const StudentPage = () => {
         </div>
         <div className='flex items-center justify-center mt-5'>
           <p className='w-full p-6 text-lg text-center bg-gray-200 rounded-lg'>
-            Tổng số lượng file đã lưu là: <span className='font-extrabold text-gray-900'>{totalFiles}</span>
+            Tổng lượng file: <span className='font-extrabold text-gray-900'>{totalFiles}</span>
           </p>
         </div>
         <div className='flex items-center justify-center mt-5'>
