@@ -2,7 +2,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 const axiosInstance = axios.create({
-  baseURL: "https://yunom2834-001-site1.gtempurl.com/api", // Thay đổi URL này tùy theo server của bạn
+  baseURL: "https://yunom2834-001-site1.gtempurl.com/api", //"http://localhost:5136/api",
 });
 
 axiosInstance.interceptors.request.use(
