@@ -40,6 +40,7 @@ const Registration = () => {
   const handleRegister = async (values, { setSubmitting }) => {
     try {
       const response = await axios.post("/Account/register", values);
+      console.log(response.data);
 
       // Hiển thị toast thông báo đăng ký thành công
       toast.success("Registration successful!", {

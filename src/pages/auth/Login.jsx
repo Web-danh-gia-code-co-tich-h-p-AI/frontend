@@ -45,7 +45,7 @@ const Login = () => {
       const response = await axios.post("/Account/login", values);
 
       const { token, roles } = response.data;
-
+      console.log(token, roles);
       // Lưu token vào cookie
       Cookies.set("token", token, {
         expires: 7,

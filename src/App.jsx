@@ -49,11 +49,11 @@ const App = () => {
         <Route path="/" element={<HomeFirst />} />
 
         {/* Uncomment and use these routes as necessary */}
-        {/* 
+
         <Route element={<Main />}>
           <Route path="/home" element={<Home />} />
-          <Route 
-            path="/code" 
+          <Route
+            path="/code"
             element={
               <ChakraProvider theme={theme}>
                 <Code />
@@ -75,7 +75,6 @@ const App = () => {
           <Route path="/problem" element={<Problem></Problem>}></Route>
           <Route path="/dashboard" element={<Dashboard></Dashboard>}></Route>
         </Route>
-        */}
       </Routes>
     </Suspense>
   );
