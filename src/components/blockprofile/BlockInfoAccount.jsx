@@ -81,7 +81,14 @@ const BlockInfoAccount = () => {
     try {
       const response = await axiosInstance.put(
         `/Account/UpdateAccount/${userData.id}`,
-        userData.id
+        {
+          body: {
+            name: formData.name,
+            email: formData.email,
+            password: formData.password,
+            phoneNumber: formData.phoneNumber,
+          },
+        }
       );
       console.log(response);
       if (!response.ok) {

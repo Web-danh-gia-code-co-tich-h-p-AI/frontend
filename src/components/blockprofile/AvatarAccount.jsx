@@ -48,7 +48,7 @@ const BlockInfoAccount = () => {
     if (file) {
       const reader = new FileReader();
       reader.onload = (upload) => {
-        setAvatar(upload.target.result); // Set the uploaded image as avatar
+        setAvatar(upload.target.result);
       };
       reader.readAsDataURL(file);
     }
@@ -59,18 +59,18 @@ const BlockInfoAccount = () => {
     if (file) {
       const reader = new FileReader();
       reader.onload = (upload) => {
-        setBackground(upload.target.result); // Set the uploaded image as background
+        setBackground(upload.target.result);
       };
       reader.readAsDataURL(file);
     }
   };
 
   const handleAvatarIconClick = () => {
-    avatarInputRef.current.click(); // Trigger avatar file input click
+    avatarInputRef.current.click();
   };
 
   const handleBackgroundIconClick = () => {
-    backgroundInputRef.current.click(); // Trigger background file input click
+    backgroundInputRef.current.click();
   };
 
   if (error) {
