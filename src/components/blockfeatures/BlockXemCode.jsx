@@ -232,7 +232,7 @@ const BlockXemCode = ({ onSendToForm }) => {
       <div className="w-full h-full rounded-lg shadow-lg laptop:relative justify-items-center laptop:w-full">
         <div className="h-full">
           <div className="flex justify-between">
-            <h2 className="flex pl-4 mt-3 mb-4 text-3xl text-zinc-700 text-[24px] laptop:text-[36px]">
+            <h2 className="flex pl-4 mt-3 mb-4 text-3xl font-extrabold text-zinc-700 text-[24px] laptop:text-[36px]">
             <svg 
             xmlns="http://www.w3.org/2000/svg" 
             viewBox="0 0 24 24" 
@@ -310,7 +310,7 @@ const BlockXemCode = ({ onSendToForm }) => {
               <tr className="bg-gray-100 text-zinc-600">
                 <th className="px-4 py-2 text-center">Name</th>
                 <th className="hidden px-4 py-2 text-center laptop:table-cell">File Name</th>
-                <th className="hidden px-4 py-2 text-center laptop:table-cell">Email</th>
+                <th className="hidden px-4 py-2 text-center tablet:table-cell">Email</th>
                 <th className="hidden px-4 py-2 text-center laptop:table-cell">
                   Details Code
                 </th>
@@ -324,7 +324,7 @@ const BlockXemCode = ({ onSendToForm }) => {
                   className="border-b border-gray-300 text-zinc-800 "
                 >
                   <td className="px-4 py-2 text-center ">{user.userName}</td>
-                  <td className="px-4 py-2 text-center ">{user.name}</td>
+                  <td className="hidden px-4 py-2 text-center laptop:table-cell ">{user.name}</td>
                   <td className="hidden px-4 py-2 text-center tablet:table-cell ">{user.email}</td>
                   <td className="hidden px-4 py-2 text-center laptop:table-cell">
                     <pre className="truncate max-w-32">{user.codeDetails}</pre>
