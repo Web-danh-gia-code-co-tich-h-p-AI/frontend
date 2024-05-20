@@ -34,10 +34,10 @@ export default function Example() {
                 <div className="mx-auto max-w-2xl lg:text-center">
                     <h2 className="text-base font-semibold leading-7 text-indigo-600">Chấm Code Nhanh Hơn</h2>
                     <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                        Mọi thứ giáo viên cần làm là chỉ review code và trả điểm cuối cùng cho học sinh
+                        Mọi thứ giáo viên cần làm là nhấn nút và trả điểm cuối cùng cho học sinh
                     </p>
                     <p className="mt-6 text-lg leading-8 text-gray-600">
-                        Hệ thống sẽ tự động chấm các bài của học sinh và bạn chỉ cần review lại rồi trả điểm cuối cùng cho học sinh
+                        Hệ thống sẽ tự động chấm các bài của học sinh và bạn chỉ cần CLICK lại rồi trả điểm cuối cùng cho học sinh
                     </p>
                 </div>
                 <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
