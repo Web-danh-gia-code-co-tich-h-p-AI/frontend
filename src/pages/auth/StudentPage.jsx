@@ -1,60 +1,50 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const StudentDashboard = () => {
+const StudentPage = () => {
   const [submittedAssignments, setSubmittedAssignments] = useState(0);
   const [totalFiles, setTotalFiles] = useState(0);
   const [currentUser, setCurrentUser] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const fetchCurrentUser = async () => {
-      try {
-        const response = await axios.get('https://yunom2834-001-site1.gtempurl.com/api/Account/Account', {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const [currentUserResponse, assignmentsResponse] = await Promise.all([
+        axios.get('https://yunom2834-001-site1.gtempurl.com/api/Account/Account', {
           headers: {
             'Authorization': `Bearer ${getCookie('token')}`
           }
-        });
-        setCurrentUser(response.data);
-      } catch (error) {
-        console.error('Error fetching current user:', error);
-      }
-    };
+        }),
+        axios.get('https://toqquangduc2-001-site1.jtempurl.com/api/get-coder-list')
+      ]);
+      
+      setCurrentUser(currentUserResponse.data);
 
-    const fetchSubmittedAssignments = async () => {
-      try {
-        const response = await axios.get('https://toqquangduc2-001-site1.jtempurl.com/api/get-coder-list');
-        const assignments = response.data;
+      const userEmail = currentUserResponse.data.email;
+      const submittedAssignmentsCount = assignmentsResponse.data.filter(assignment => assignment.email === userEmail).length;
+      setSubmittedAssignments(submittedAssignmentsCount);
 
-        if (currentUser) {
-          const userEmail = currentUser.email;
-          const count = assignments.filter(assignment => assignment.email === userEmail).length;
-          setSubmittedAssignments(count);
-        }
-      } catch (error) {
-        console.error('Error fetching submitted assignments:', error);
-      }
-    };
-
-    const fetchTotalFiles = async () => {
-      try {
-        const response = await axios.get('https://toqquangduc2-001-site1.jtempurl.com/api/get-coder-list');
-        const files = response.data;
-        setTotalFiles(files.length);
-      } catch (error) {
-        console.error('Error fetching total files:', error);
-      }
-    };
-
-    fetchCurrentUser().then(() => {
-      fetchSubmittedAssignments();
-      fetchTotalFiles();
-    });
-  }, [currentUser]);
+      setTotalFiles(assignmentsResponse.data.length);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const getCookie = (name) => {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(';').shift();
+  };
+
+  const handleReload = () => {
+    fetchData();
   };
 
   return (
@@ -69,12 +59,17 @@ const StudentDashboard = () => {
         </div>
         <div className='flex items-center justify-center mt-5'>
           <p className='w-full p-6 text-lg text-center bg-gray-200 rounded-lg'>
-            Tổng file: <span className='font-extrabold text-gray-900'>{totalFiles}</span>
+            Tổng số lượng file đã lưu là: <span className='font-extrabold text-gray-900'>{totalFiles}</span>
           </p>
+        </div>
+        <div className='flex items-center justify-center mt-5'>
+          <button onClick={handleReload} disabled={loading} className={`px-4 py-2 bg-blue-500 text-white rounded ${loading && 'opacity-50 cursor-not-allowed'}`}>
+            {loading ? 'Đang tải...' : 'Tải lại thông tin'}
+          </button>
         </div>
       </div>
     </div>
   );
 };
 
-export default StudentDashboard;
+export default StudentPage;
