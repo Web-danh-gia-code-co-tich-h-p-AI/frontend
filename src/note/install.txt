@@ -49,7 +49,7 @@ npm i react-awesome-slider
 npm install js-cookie
 npm install yup formik
 npm install react-toastify
-
+npm i jwt-decode
 
 
 
