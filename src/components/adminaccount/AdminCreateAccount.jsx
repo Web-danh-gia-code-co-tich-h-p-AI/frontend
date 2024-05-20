@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
 const CreateUser = () => {
-        
-
-    const [formData1, setFormData1] = useState({
+    const [formData, setFormData] = useState({
         name: '',
         email: '',
         password: '',
@@ -17,8 +15,8 @@ const CreateUser = () => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setFormData1({
-        ...formData1,
+        setFormData({
+        ...formData,
         [name]: value,
         });
     };
@@ -28,33 +26,14 @@ const CreateUser = () => {
         setError(null);
         setSuccess(null);
 
-        const { name, email, password, confirmPassword, accountType } = formData1;
+        const { name, email, password, confirmPassword, accountType } = formData;
         const token = Cookies.get('token');
 
-            if (!token) {
-                setError("No token found. Please log in.");
-                return;
-            }
-        
-            try {
-                const response = await fetch(
-                "https://yunom2834-001-site1.gtempurl.com/api/Account/Account",
-                {
-                    headers: {
-                    Authorization: `Bearer ${token}`,
-                    },
-                }
-                );
-        
-                if (!response.ok) {
-                throw new Error("Failed to fetch user data");
-                }
-        
-                const data = await response.json();
-            } catch (error) {
-                setError(error.message);
-            }
-            
+        if (!token) {
+        setError('No token found. Please log in.');
+        return;
+        }
+
         let apiUrl = '';
         if (accountType === 'student') {
         apiUrl = 'http://yunom2834-001-site1.gtempurl.com/api/Account/CreateStudent';
@@ -101,7 +80,7 @@ const CreateUser = () => {
                             <input
                             type="text"
                             name="name"
-                            value={formData1.name}
+                            value={formData.name}
                             placeholder='Enter your name...'
                             onChange={handleInputChange}
                             className="w-full px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-md"
@@ -114,7 +93,7 @@ const CreateUser = () => {
                             type="email"
                             name="email"
                             placeholder='Enter your email...'
-                            value={formData1.email}
+                            value={formData.email}
                             onChange={handleInputChange}
                             className="w-full px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-md"
                             required
@@ -129,7 +108,7 @@ const CreateUser = () => {
                             type="password"
                             name="password"
                             placeholder='Enter your password...'
-                            value={formData1.password}
+                            value={formData.password}
                             onChange={handleInputChange}
                             className="w-full px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-md"
                             required
@@ -141,7 +120,7 @@ const CreateUser = () => {
                             type="password"
                             name="confirmPassword"
                             placeholder='Confirm your password...'
-                            value={formData1.confirmPassword}
+                            value={formData.confirmPassword}
                             onChange={handleInputChange}
                             className="w-full px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-md"
                             required
@@ -151,7 +130,7 @@ const CreateUser = () => {
                             <label className="block mb-2 text-gray-700">Account Type</label>
                             <select
                             name="accountType"
-                            value={formData1.accountType}
+                            value={formData.accountType}
                             onChange={handleInputChange}
                             className="w-full px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-md"
                             required
