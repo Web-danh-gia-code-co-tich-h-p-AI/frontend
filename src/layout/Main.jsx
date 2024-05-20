@@ -9,6 +9,7 @@ import FallbackComponent from "../utils/FallbackComponent";
 
 const Main = () => {
   const [name, setName] = useState("");
+  const [role, setRole] = useState("");
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -24,8 +25,10 @@ const Main = () => {
           },
         });
 
-        const content = response.data;
-        setName(content.name);
+        const { name } = response.data;
+        const role = response.data.userRoles;
+        setName(name);
+        setRole(role[0]);
       } catch (error) {
         console.error("Error fetching user data", error);
       }
@@ -36,7 +39,7 @@ const Main = () => {
 
   return (
     <>
-      <Header name={name} setName={setName} />
+      <Header name={name} role={role} setName={setName} setRole={setRole} />
       <Outlet />
       <Footer />
     </>

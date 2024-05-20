@@ -15,15 +15,18 @@ const QuestionList = () => {
 
   const fetchQuestions = () => {
     setIsLoading(true); // Start loading
-    fetch("https://yunom2834-001-site1.gtempurl.com/api/TeacherQuestion/GetAllQuestion", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-        // Add your token here if needed, example:
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    fetch(
+      "https://yunom2834-001-site1.gtempurl.com/api/TeacherQuestion/GetAllQuestion",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          // Add your token here if needed, example:
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -42,18 +45,20 @@ const QuestionList = () => {
   const handleDetails = (question) => {
     setSelectedQuestion(question);
   };
-  //https://yunom2834-001-site1.gtempurl.com/api
-  //http://localhost:5136/api
+
   const handleDelete = (id) => {
     const confirmDelete = window.confirm("Bạn có chắc chắn xoá?");
     if (confirmDelete) {
-      fetch(`https://yunom2834-001-site1.gtempurl.com/api/TeacherQuestion/DeleteQuestion${id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      fetch(
+        `https://yunom2834-001-site1.gtempurl.com/api/TeacherQuestion/DeleteQuestion${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
         .then((response) => {
           if (response.ok) {
             setQuestions(questions.filter((question) => question.id !== id));
