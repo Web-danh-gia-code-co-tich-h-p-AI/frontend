@@ -1,3 +1,6 @@
+import { withErrorBoundary } from "react-error-boundary";
+import FallbackComponent from "../../utils/FallbackComponent";
+
 const sharedClasses = {
   button: "text-zinc-600 hover:text-zinc-800",
   select:
@@ -199,4 +202,8 @@ const Submission = () => {
   );
 };
 
-export default Submission;
+const EnhancedSubmission = withErrorBoundary(Submission, {
+  FallbackComponent,
+});
+
+export default EnhancedSubmission;

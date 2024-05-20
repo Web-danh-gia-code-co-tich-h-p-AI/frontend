@@ -1,4 +1,7 @@
 import { useState, useRef } from "react";
+import PropTypes from "prop-types";
+import { withErrorBoundary } from "react-error-boundary";
+import FallbackComponent from "../../utils/FallbackComponent";
 
 const commonTextColor = "text-zinc-700";
 const commonBorderColor = "border-zinc-300 dark:border-zinc-600";
@@ -156,4 +159,12 @@ const BlockUpload = ({ generateContent }) => {
   );
 };
 
-export default BlockUpload;
+BlockUpload.propTypes = {
+  generateContent: PropTypes.func,
+};
+
+const EnhancedBlockUpload = withErrorBoundary(BlockUpload, {
+  FallbackComponent,
+});
+
+export default EnhancedBlockUpload;

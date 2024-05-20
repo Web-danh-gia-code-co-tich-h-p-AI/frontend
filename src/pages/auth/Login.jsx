@@ -10,6 +10,8 @@ import * as Yup from "yup";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
+import { withErrorBoundary } from "react-error-boundary";
+import FallbackComponent from "../../utils/FallbackComponent";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -95,17 +97,17 @@ const Login = () => {
     <div className="flex items-start w-full h-screen">
       <div className="relative flex flex-col h-full laptop:w-1/2 laptop:block">
         <div className="absolute top-[20%] left-[10%] flex flex-col">
-          <h1 className="my-4 text-4xl hidden laptop:block font-extrabold text-white">
+          <h1 className="hidden my-4 text-4xl font-extrabold text-white laptop:block">
             Turn Your Ideas into reality
           </h1>
-          <p className="text-xl font-normal hidden laptop:block text-white">
+          <p className="hidden text-xl font-normal text-white laptop:block">
             Start for free and get attractive offers from the community
           </p>
         </div>
         <img
           src={COVER_IMAGE}
           alt="login-cover-image"
-          className="object-cover hidden laptop:block w-full h-full"
+          className="hidden object-cover w-full h-full laptop:block"
         />
       </div>
 
@@ -223,4 +225,8 @@ const Login = () => {
   );
 };
 
-export default Login;
+const EnhancedLogin = withErrorBoundary(Login, {
+  FallbackComponent,
+});
+
+export default EnhancedLogin;

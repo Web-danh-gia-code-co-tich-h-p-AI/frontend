@@ -5,7 +5,7 @@ import LandingHome from "./pages/home/LandingHome";
 import Questions from "./pages/score/Questions";
 import Dashboard from "./pages/dashboard/Dashboard";
 import ProfilePage from "./pages/profile/ProfilePage";
-import { lazy, Suspense, useEffect, useState } from "react";
+import { lazy, Suspense } from "react";
 import { ChakraProvider, theme } from "@chakra-ui/react";
 import PrivateRoute from "./pages/auth/PrivateRoute";
 import HomeFirst from "./pages/auth/HomeFirst";
@@ -48,35 +48,75 @@ const App = () => {
         />
         <Route path="/" element={<HomeFirst />} />
 
-        {/* Uncomment and use these routes as necessary */}
-        
         <Route element={<Main />}>
           <Route path="/home" element={<Home />} />
-          <Route 
-            path="/code" 
+          <Route
+            path="/code"
             element={
               <ChakraProvider theme={theme}>
                 <Code />
               </ChakraProvider>
             }
           ></Route>
-          <Route path="/mark-score" element={<ChamDiem></ChamDiem>}></Route>
-          <Route path="/questions" element={<Questions></Questions>}></Route>
-          <Route path="/submission" element={<Submission></Submission>}></Route>
+          <Route
+            path="/mark-score"
+            element={
+              <PrivateRoute element={<ChamDiem></ChamDiem>}></PrivateRoute>
+            }
+          ></Route>
+          <Route
+            path="/questions"
+            element={
+              <PrivateRoute element={<Questions></Questions>}></PrivateRoute>
+            }
+          ></Route>
+          <Route
+            path="/submission"
+            element={
+              <PrivateRoute element={<Submission></Submission>}></PrivateRoute>
+            }
+          ></Route>
           <Route
             path="/submission/user/:slug"
-            element={<SubmissionUser></SubmissionUser>}
+            element={
+              <PrivateRoute
+                element={<SubmissionUser></SubmissionUser>}
+              ></PrivateRoute>
+            }
           ></Route>
           <Route
             path="/submission/:slug"
-            element={<SubmissionSubmit></SubmissionSubmit>}
+            element={
+              <PrivateRoute
+                element={<SubmissionSubmit></SubmissionSubmit>}
+              ></PrivateRoute>
+            }
           ></Route>
-          <Route path="/problem" element={<Problem></Problem>}></Route>
-          <Route path="/dashboard" element={<Dashboard></Dashboard>}></Route>
-          <Route path="/profile" element={<ProfilePage></ProfilePage>}></Route>
-          <Route path="/landinghome" element={<LandingHome></LandingHome>}></Route>
+          <Route
+            path="/problem"
+            element={
+              <PrivateRoute element={<Problem></Problem>}></PrivateRoute>
+            }
+          ></Route>
+          <Route
+            path="/dashboard"
+            element={
+              <PrivateRoute element={<Dashboard></Dashboard>}></PrivateRoute>
+            }
+          ></Route>
+          <Route
+            path="/profile"
+            element={
+              <PrivateRoute
+                element={<ProfilePage></ProfilePage>}
+              ></PrivateRoute>
+            }
+          ></Route>
+          <Route
+            path="/landinghome"
+            element={<LandingHome></LandingHome>}
+          ></Route>
         </Route>
-       
       </Routes>
     </Suspense>
   );

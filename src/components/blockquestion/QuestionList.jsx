@@ -1,34 +1,36 @@
-import React, { useEffect, useState } from 'react';
-import UpdateQuestion from './UpdateQuestion';
+import { useEffect, useState } from "react";
+import UpdateQuestion from "./UpdateQuestion";
+import FallbackComponent from "../../utils/FallbackComponent";
+import { withErrorBoundary } from "react-error-boundary";
 
 const QuestionList = () => {
   const [questions, setQuestions] = useState([]);
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const recordsPerPage = 5;
   const token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjI3YjBkYmEyLWE4NzctNDllMS05Mzk1LWI1ZDVlM2UyYjlkMiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJTdXBlciIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6InN1cGVyYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjpbIlRlYWNoZXIiLCJBZG1pbiIsIlN1cGVyQWRtaW4iLCJTdHVkZW50Il0sImV4cCI6MTcxNjE5NjY0NywiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzIwMiIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjcyMDIifQ.zOIP0voT79oOdpLhCPRrxj0e6OJ6ZIHUYCCX2-haD3w`;
 
   const fetchQuestions = () => {
     setIsLoading(true); // Start loading
-    fetch('http://localhost:5136/api/TeacherQuestion/GetAllQuestion', {
-      method: 'GET',
+    fetch("http://localhost:5136/api/TeacherQuestion/GetAllQuestion", {
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
         // Add your token here if needed, example:
-        "Authorization": `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
     })
-      .then(response => {
+      .then((response) => {
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error("Network response was not ok");
         }
         return response.json();
       })
-      .then(data => setQuestions(data))
-      .catch(error => console.error('Error fetching questions:', error))
+      .then((data) => setQuestions(data))
+      .catch((error) => console.error("Error fetching questions:", error))
       .finally(() => setIsLoading(false)); // End loading
   };
 
@@ -41,37 +43,36 @@ const QuestionList = () => {
   };
 
   const handleDelete = (id) => {
-    const confirmDelete = window.confirm('Bạn có chắc chắn xoá?');
+    const confirmDelete = window.confirm("Bạn có chắc chắn xoá?");
     if (confirmDelete) {
-      fetch(`http://localhost:5136/api/TeacherQuestion/DeleteQuestion/${id}`, 
-          {
-            method: 'DELETE',
-            headers: {
-              "Content-Type": "application/json",
-              "Access-Control-Allow-Origin": "*",
-              // Add your token here if needed, example:
-              "Authorization": `Bearer ${token}`
-            },
-          }
-        )
-        .then(response => {
+      fetch(`http://localhost:5136/api/TeacherQuestion/DeleteQuestion/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((response) => {
           if (response.ok) {
-            setQuestions(questions.filter(question => question.id !== id));
-            alert('Xóa câu hỏi thành công!');
+            setQuestions(questions.filter((question) => question.id !== id));
+            alert("Xóa câu hỏi thành công!");
           } else {
-            console.error('Error deleting question:', response.statusText);
+            console.error("Error deleting question:", response.statusText);
           }
         })
-        .catch(error => console.error('Error deleting question:', error));
+        .catch((error) => console.error("Error deleting question:", error));
     } else {
       return;
     }
   };
 
   const handleSave = (updatedQuestion) => {
-    setQuestions(questions.map(q => q.id === updatedQuestion.id ? updatedQuestion : q));
+    setQuestions(
+      questions.map((q) => (q.id === updatedQuestion.id ? updatedQuestion : q))
+    );
     setSelectedQuestion(null);
-    alert('Cập nhật câu hỏi thành công!');
+    alert("Cập nhật câu hỏi thành công!");
   };
 
   const handleCancel = () => {
@@ -87,24 +88,39 @@ const QuestionList = () => {
     setCurrentPage(1); // Reset to first page on search
   };
 
-  const filteredQuestions = questions.filter(question =>
-    question.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    question.id.toString().includes(searchQuery.toLowerCase())
+  const filteredQuestions = questions.filter(
+    (question) =>
+      question.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      question.id.toString().includes(searchQuery.toLowerCase())
   );
 
   // Calculate the current records to display based on the current page
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-  const currentRecords = filteredQuestions.slice(indexOfFirstRecord, indexOfLastRecord);
+  const currentRecords = filteredQuestions.slice(
+    indexOfFirstRecord,
+    indexOfLastRecord
+  );
 
   const totalPages = Math.ceil(filteredQuestions.length / recordsPerPage);
 
   return (
     <div className="h-full p-4 px-6 lg:px-8">
       <h2 className="flex mb-4 text-2xl font-bold ">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 mr-1 translate-y-1">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" />
-      </svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="w-6 h-6 mr-1 translate-y-1"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z"
+          />
+        </svg>
         Danh sách câu hỏi
       </h2>
       <div className="flex justify-between mb-4">
@@ -115,15 +131,28 @@ const QuestionList = () => {
           onChange={handleSearchChange}
           className="w-full p-2 border rounded"
         />
-        <button 
+        <button
           onClick={fetchQuestions}
-          className={`px-4 py-2 ml-4 text-white rounded flex ${isLoading ? 'bg-gray-400' : 'bg-green-500'}`}
+          className={`px-4 py-2 ml-4 text-white rounded flex ${
+            isLoading ? "bg-gray-400" : "bg-green-500"
+          }`}
           disabled={isLoading}
         >
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={`w-6 h-6 mr-1 ${isLoading ? "animate-spin":""}`}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className={`w-6 h-6 mr-1 ${isLoading ? "animate-spin" : ""}`}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"
+            />
           </svg>
-          {isLoading ? 'Loading...' : 'Reload'}
+          {isLoading ? "Loading..." : "Reload"}
         </button>
       </div>
       <div className="laptop:relative h-96">
@@ -136,12 +165,14 @@ const QuestionList = () => {
             </tr>
           </thead>
           <tbody>
-            {currentRecords.map(question => (
+            {currentRecords.map((question) => (
               <tr key={question.id}>
                 <td className="px-4 py-2 border">{question.id}</td>
-                <td className="px-4 py-2 border"><pre className='w-16 truncate'>{question.name}</pre></td>
                 <td className="px-4 py-2 border">
-                  <button 
+                  <pre className="w-16 truncate">{question.name}</pre>
+                </td>
+                <td className="px-4 py-2 border">
+                  <button
                     className="px-2 py-1 mr-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
                     onClick={() => handleDetails(question)}
                   >
@@ -160,7 +191,7 @@ const QuestionList = () => {
                       />
                     </svg>
                   </button>
-                  <button 
+                  <button
                     className="px-2 py-1 font-bold text-white bg-red-500 rounded hover:bg-red-700"
                     onClick={() => handleDelete(question.id)}
                   >
@@ -189,7 +220,11 @@ const QuestionList = () => {
             <button
               key={index + 1}
               onClick={() => handlePageChange(index + 1)}
-              className={`px-3 py-1 mx-1 border rounded hover:-translate-y-1 ${currentPage === index + 1 ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+              className={`px-3 py-1 mx-1 border rounded hover:-translate-y-1 ${
+                currentPage === index + 1
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-200"
+              }`}
             >
               {index + 1}
             </button>
@@ -198,14 +233,18 @@ const QuestionList = () => {
       </div>
 
       {selectedQuestion && (
-        <UpdateQuestion 
-          question={selectedQuestion} 
-          onSave={handleSave} 
-          onCancel={handleCancel} 
+        <UpdateQuestion
+          question={selectedQuestion}
+          onSave={handleSave}
+          onCancel={handleCancel}
         />
       )}
     </div>
   );
 };
 
-export default QuestionList;
+const EnhancedQuestionList = withErrorBoundary(QuestionList, {
+  FallbackComponent,
+});
+
+export default EnhancedQuestionList;

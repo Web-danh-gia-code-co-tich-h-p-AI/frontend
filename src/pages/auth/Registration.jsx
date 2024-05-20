@@ -3,12 +3,13 @@ import GOOGLE_ICON from "../../assets/images/google-icon.png";
 import MICROSOFT_ICON from "../../assets/images/microsoft-icon.png";
 import { useNavigate } from "react-router-dom";
 import axios from "../../api/axiosConfig"; // Sử dụng instance axios đã cấu hình
-import Cookies from "js-cookie";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
+import { withErrorBoundary } from "react-error-boundary";
+import FallbackComponent from "../../utils/FallbackComponent";
 
 const Registration = () => {
   const navigate = useNavigate();
@@ -39,7 +40,7 @@ const Registration = () => {
 
   const handleRegister = async (values, { setSubmitting }) => {
     try {
-      const response = await axios.post("/Account/register", values);
+      await axios.post("/Account/register", values);
 
       // Hiển thị toast thông báo đăng ký thành công
       toast.success("Registration successful!", {
@@ -74,17 +75,17 @@ const Registration = () => {
     <div className="flex items-start w-full h-screen">
       <div className="relative flex flex-col h-full laptop:w-1/2 laptop:block">
         <div className="absolute top-[20%] left-[10%] flex flex-col">
-          <h1 className="my-4 text-4xl hidden laptop:block font-extrabold text-white">
+          <h1 className="hidden my-4 text-4xl font-extrabold text-white laptop:block">
             Turn Your Ideas into reality
           </h1>
-          <p className="text-xl font-normal hidden laptop:block text-white">
+          <p className="hidden text-xl font-normal text-white laptop:block">
             Start for free and get attractive offers from the community
           </p>
         </div>
         <img
           src={COVER_IMAGE}
           alt="login-cover-image"
-          className="object-cover hidden laptop:block w-full h-full"
+          className="hidden object-cover w-full h-full laptop:block"
         />
       </div>
 
@@ -210,4 +211,8 @@ const Registration = () => {
   );
 };
 
-export default Registration;
+const EnhancedRegistration = withErrorBoundary(Registration, {
+  FallbackComponent,
+});
+
+export default EnhancedRegistration;

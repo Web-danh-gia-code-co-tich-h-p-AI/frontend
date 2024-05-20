@@ -2,40 +2,49 @@ import Header from "../layout/headerfooter/Header";
 import Footer from "../layout/headerfooter/Footer";
 import { Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
+import axios from "../api/axiosConfig";
+import { withErrorBoundary } from "react-error-boundary";
+import FallbackComponent from "../utils/FallbackComponent";
 
-const username = "11168186";
-const password = "60-dayfreetrial";
-const encodedCredentials = btoa(`${username}:${password}`);
 const Main = () => {
   const [name, setName] = useState("");
 
   useEffect(() => {
-    (async () => {
-      const response = await fetch(
-        "http://localhost:8000/api/user",
-        // "https://yunomix280304-001-site1.ftempurl.com/api/user",
-        {
+    const fetchUserData = async () => {
+      const token = Cookies.get("token");
+      if (!token) {
+        return;
+      }
+
+      try {
+        const response = await axios.get("/Account/Account", {
           headers: {
-            "Content-Type": "application/json",
-            // Authorization: `Basic ${encodedCredentials}`,
+            Authorization: `Bearer ${token}`,
           },
-          credentials: "include",
-        }
-      );
+        });
 
-      const content = await response.json();
+        const content = response.data;
+        setName(content.name);
+      } catch (error) {
+        console.error("Error fetching user data", error);
+      }
+    };
 
-      setName(content.name);
-    })();
-  });
+    fetchUserData();
+  }, []);
+
   return (
     <>
       <Header name={name} setName={setName} />
-      {/* <Header></Header> */}
-      <Outlet></Outlet>
-      <Footer></Footer>
+      <Outlet />
+      <Footer />
     </>
   );
 };
 
-export default Main;
+const EnhancedMain = withErrorBoundary(Main, {
+  FallbackComponent,
+});
+
+export default EnhancedMain;

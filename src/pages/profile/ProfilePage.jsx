@@ -1,14 +1,19 @@
-import React from 'react';
-import BlockInfoAccount from '../../components/blockprofile/BlockInfoAccount';
-import AvatarAccount from '../../components/blockprofile/AvatarAccount';
+import BlockInfoAccount from "../../components/blockprofile/BlockInfoAccount";
+import AvatarAccount from "../../components/blockprofile/AvatarAccount";
+import { withErrorBoundary } from "react-error-boundary";
+import FallbackComponent from "../../utils/FallbackComponent";
 
 const ProfilePage = () => {
-    return (
-        <div>
-            <AvatarAccount className=""/>
-            <BlockInfoAccount className=""/>
-        </div>
-    );
+  return (
+    <div>
+      <AvatarAccount className="" />
+      <BlockInfoAccount className="" />
+    </div>
+  );
 };
 
-export default ProfilePage;
+const EnhancedProfilePage = withErrorBoundary(ProfilePage, {
+  FallbackComponent,
+});
+
+export default EnhancedProfilePage;

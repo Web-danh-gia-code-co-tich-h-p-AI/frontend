@@ -1,3 +1,6 @@
+import { withErrorBoundary } from "react-error-boundary";
+import FallbackComponent from "../../utils/FallbackComponent";
+
 const cardContainerClass = "max-w-4xl mx-auto p-4";
 const cardClass = "bg-white shadow-md rounded-lg p-6";
 const buttonClass =
@@ -9,7 +12,7 @@ const ReactComponent = () => {
   return (
     <div className={cardContainerClass}>
       <div className={cardClass}>
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex items-center justify-between mb-4">
           <h1 className="text-xl font-bold">
             [Mảng 1 Chiều Cơ Bản]. Bài 18. Liên kế trái đầu
           </h1>
@@ -34,10 +37,10 @@ const ReactComponent = () => {
           <p>In ra kết quả của bài toán</p>
         </div>
         <div>
-          <h2 className="font-semibold mb-2">Ví dụ:</h2>
+          <h2 className="mb-2 font-semibold">Ví dụ:</h2>
           <div className="mb-2">
             <p className="font-semibold">Input 01</p>
-            <div className="bg-zinc-100 p-2 rounded">
+            <div className="p-2 rounded bg-zinc-100">
               <p>10</p>
               <p>1 2 -3 -4 5 -6 7 8 9 10</p>
             </div>
@@ -45,7 +48,7 @@ const ReactComponent = () => {
           </div>
           <div>
             <p className="font-semibold">Output 01</p>
-            <div className="bg-zinc-100 p-2 rounded">
+            <div className="p-2 rounded bg-zinc-100">
               <p>2 -3 -4 5 -6 7</p>
             </div>
             <button className={copyButtonClass}>Copy</button>
@@ -56,4 +59,8 @@ const ReactComponent = () => {
   );
 };
 
-export default ReactComponent;
+const EnhancedReactComponent = withErrorBoundary(ReactComponent, {
+  FallbackComponent,
+});
+
+export default EnhancedReactComponent;

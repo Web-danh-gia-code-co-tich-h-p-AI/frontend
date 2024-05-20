@@ -6,6 +6,8 @@ import { CODE_SNIPPETS } from "../../helper/constants";
 import Output from "./Output";
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
+import { withErrorBoundary } from "react-error-boundary";
+import FallbackComponent from "../../utils/FallbackComponent";
 
 const commonTextColor = "text-zinc-700";
 const commonBorderColor = "border-zinc-300 dark:border-zinc-600";
@@ -49,7 +51,7 @@ const CodeEditor = () => {
     reader.onload = (e) => {
       const content = e.target.result;
       setFileContent(content);
-      setValue(content); // Automatically set the content to <Editor>
+      setValue(content);
     };
     reader.readAsText(file);
   }
@@ -62,7 +64,7 @@ const CodeEditor = () => {
   const handleUpload = () => {
     let uploadFileName = fileName;
     let uploadFileContent = fileContent;
-  
+
     // Kiểm tra giá trị của fileName và setFileName
     if (!fileName && !setFileName) {
       alert("Vui lòng chọn một file hoặc nhập tên file.");
@@ -74,10 +76,10 @@ const CodeEditor = () => {
     } else {
       uploadFileName = fileName;
     }
-  
+
     // Chuyển đổi uploadFileName thành chuỗi nếu không phải là chuỗi
     uploadFileName = uploadFileName ? String(uploadFileName) : "";
-  
+
     // Kiểm tra và cập nhật nội dung file content nếu cần
     if (!fileContent && fileInputRef.current.files[0]) {
       const reader = new FileReader();
@@ -112,7 +114,10 @@ const CodeEditor = () => {
       reader.readAsText(fileInputRef.current.files[0]);
     } else {
       // Nếu không cần đọc nội dung từ file, thực hiện upload ngay
-      if (uploadFileName.trim() !== "" && (uploadFileContent || value).trim() !== "") {
+      if (
+        uploadFileName.trim() !== "" &&
+        (uploadFileContent || value).trim() !== ""
+      ) {
         setIsLoading(true);
         saveFileToApi(uploadFileName, uploadFileContent || value)
           .then(() => {
@@ -131,11 +136,13 @@ const CodeEditor = () => {
           });
       } else {
         console.log("File content is empty. Cannot submit.");
-        alert("Vui lòng chọn một file chứa nội dung hợp lệ, và lưu ý không dùng code mẫu.");
+        alert(
+          "Vui lòng chọn một file chứa nội dung hợp lệ, và lưu ý không dùng code mẫu."
+        );
       }
     }
   };
-  
+
   function handleCancel() {
     setFileContent("");
     setFileName("");
@@ -145,11 +152,11 @@ const CodeEditor = () => {
   }
 
   const saveFileToApi = async (fileName, fileContent) => {
-    const confirmSubmit = window.confirm('Bạn có chắc chắn nộp bài ?');
+    const confirmSubmit = window.confirm("Bạn có chắc chắn nộp bài ?");
     if (confirmSubmit) {
       try {
         await axios.post(
-          'http://bewcutoe-001-site1.ctempurl.com/add-new-coder',
+          "http://bewcutoe-001-site1.ctempurl.com/add-new-coder",
           {
             name: fileName,
             codeDetails: fileContent,
@@ -157,21 +164,20 @@ const CodeEditor = () => {
           {
             headers: {
               Authorization: basicAuthHeader,
-              'Content-Type': 'application/json',
-              'Access-Control-Allow-Origin': '*',
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "*",
             },
           }
         );
-        alert('Lưu file thành công!');
+        alert("Lưu file thành công!");
       } catch (error) {
-        console.error('Error saving file:', error);
-        alert('Lưu file thất bại. Vui lòng thử lại.');
+        console.error("Error saving file:", error);
+        alert("Lưu file thất bại. Vui lòng thử lại.");
       }
     } else {
       return;
     }
   };
-  
 
   const generateContent = async (value, output) => {
     setIsLoading(true);
@@ -295,8 +301,10 @@ const CodeEditor = () => {
               </button>
             </div>
           </div>
-          <div className="mb-3 mt-3 w-1/2">
-            <p className="font-bold ml-2">Hoặc nhập tên File (Nếu bạn Code trực tiếp)</p>
+          <div className="w-1/2 mt-3 mb-3">
+            <p className="ml-2 font-bold">
+              Hoặc nhập tên File (Nếu bạn Code trực tiếp)
+            </p>
             <input
               type="text"
               value={codeFileName}
@@ -323,26 +331,46 @@ const CodeEditor = () => {
               ></Editor>
             </Box>
           </Box>
-          <Output editorRef={editorRef} language={language} setOutput={setOutput} /> {/* Pass setOutput */}
+          <Output
+            editorRef={editorRef}
+            language={language}
+            setOutput={setOutput}
+          />{" "}
+          {/* Pass setOutput */}
         </HStack>
         <Button
-            onClick={() => generateContent(value, output)}
-            colorScheme="blue"
-            isLoading={isLoading}
-            className="w-full mt-4"
-          >
-            Debug
+          onClick={() => generateContent(value, output)}
+          colorScheme="blue"
+          isLoading={isLoading}
+          className="w-full mt-4"
+        >
+          Debug
         </Button>
         {isDataLoaded && (
-          <Box mt={4} p={4} border="1px solid" borderColor="gray.300" borderRadius="md">
-            <Text fontSize="lg" mb={2}>Generated Content:</Text>
+          <Box
+            mt={4}
+            p={4}
+            border="1px solid"
+            borderColor="gray.300"
+            borderRadius="md"
+          >
+            <Text fontSize="lg" mb={2}>
+              Generated Content:
+            </Text>
             <Box bg="gray.100" p={4} borderRadius="md">
               <ReactMarkdown>{generatedContent}</ReactMarkdown>
             </Box>
           </Box>
         )}
         {errorMessage && (
-          <Box mt={4} p={4} bg="red.100" border="1px solid" borderColor="red.300" borderRadius="md">
+          <Box
+            mt={4}
+            p={4}
+            bg="red.100"
+            border="1px solid"
+            borderColor="red.300"
+            borderRadius="md"
+          >
             <Text>{errorMessage}</Text>
           </Box>
         )}
@@ -351,4 +379,8 @@ const CodeEditor = () => {
   );
 };
 
-export default CodeEditor;
+const EnhancedCodeEditor = withErrorBoundary(CodeEditor, {
+  FallbackComponent,
+});
+
+export default EnhancedCodeEditor;

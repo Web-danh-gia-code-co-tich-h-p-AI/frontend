@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import PropTypes from "prop-types";
+import { withErrorBoundary } from "react-error-boundary";
+import FallbackComponent from "../../utils/FallbackComponent";
 
-// Định nghĩa các classes Tailwind CSS chung
 const containerClass = "w-full p-4 shadow-lg rounded-lg pr-4 laptop:w-full";
 const labelClass =
   "block text-zinc-800 text-sm font-medium dark:text-black-300 flex items-center"; // Thêm class 'flex items-center' để căn SVG và label cùng một hàng
@@ -14,7 +16,6 @@ function FormField({ id, label, type = "text", placeholder, value, onChange }) {
   return (
     <div>
       <label htmlFor={id} className={labelClass}>
-        {/* Thêm SVG sau label */}
         {id === "studentId" && (
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -86,10 +87,6 @@ const FormNhapDiem = ({ generatedValues }) => {
   const [aiNotes, setAiNotes] = useState("");
   const [value, setValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  // const username = "11166969";
-  // const password = "60-dayfreetrial";
-  // const basic = `${username}:${password}`;
-  // const basicAuthHeader = `Basic ${btoa(basic)}`;
 
   const handleChange = (e) => {
     const inputValue = e.target.value;
@@ -187,9 +184,14 @@ const FormNhapDiem = ({ generatedValues }) => {
           value={aiNotes}
         />
         <div className="w-full ">
-          <button type="submit" className={`${buttonClass} ${
+          <button
+            type="submit"
+            className={`${buttonClass} ${
               isLoading ? "opacity-50 cursor-not-allowed" : ""
-            }`}> {isLoading ? "Đang gửi..." : "Gửi thông tin"}
+            }`}
+          >
+            {" "}
+            {isLoading ? "Đang gửi..." : "Gửi thông tin"}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 16 16"
@@ -205,4 +207,21 @@ const FormNhapDiem = ({ generatedValues }) => {
   );
 };
 
-export default FormNhapDiem;
+FormField.propTypes = {
+  id: PropTypes.string,
+  label: PropTypes.string,
+  type: PropTypes.string,
+  placeholder: PropTypes.string,
+  value: PropTypes.string,
+  onChange: PropTypes.func,
+};
+
+FormNhapDiem.propTypes = {
+  generatedValues: PropTypes.object,
+};
+
+const EnhancedFormNhapDiem = withErrorBoundary(FormNhapDiem, {
+  FallbackComponent,
+});
+
+export default EnhancedFormNhapDiem;

@@ -4,6 +4,8 @@ import FormNhapDiem from "../../components/blockfeatures/FormNhapDiem";
 import BlockXemDiem from "../../components/blockfeatures/BlockXemDiem";
 import BlockXemCode from "../../components/blockfeatures/BlockXemCode";
 import axios from "axios";
+import { withErrorBoundary } from "react-error-boundary";
+import FallbackComponent from "../../utils/FallbackComponent";
 
 const ChamDiem = () => {
   const [generatedValues, setGeneratedValues] = useState({});
@@ -13,7 +15,6 @@ const ChamDiem = () => {
   const handleSendToForm = (values) => {
     setGeneratedValues(values);
   };
-
 
   const generateContent = async (inputContent, taskRequired) => {
     try {
@@ -92,7 +93,7 @@ const ChamDiem = () => {
       <div className="w-full bg-white p-9">
         <main className="flex flex-wrap space-y-6">
           <div className="w-full h-fit laptop:flex laptop:h-[600px]">
-              <BlockXemCode onSendToForm={handleSendToForm}/>
+            <BlockXemCode onSendToForm={handleSendToForm} />
           </div>
           <div className="w-full laptop:flex">
             <BlockUpload generateContent={generateContent} />
@@ -119,7 +120,10 @@ const ChamDiem = () => {
                     <ul className="mt-4">
                       {Object.entries(generatedValues).map(([key, value]) => (
                         <li key={key} className="mb-2">
-                          <strong className="text-red-700 underline">{key}:</strong> {value}
+                          <strong className="text-red-700 underline">
+                            {key}:
+                          </strong>{" "}
+                          {value}
                         </li>
                       ))}
                     </ul>
@@ -167,4 +171,8 @@ const ChamDiem = () => {
   );
 };
 
-export default ChamDiem;
+const EnhancedChamDiem = withErrorBoundary(ChamDiem, {
+  FallbackComponent,
+});
+
+export default EnhancedChamDiem;

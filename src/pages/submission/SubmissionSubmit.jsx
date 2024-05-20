@@ -1,3 +1,6 @@
+import { withErrorBoundary } from "react-error-boundary";
+import FallbackComponent from "../../utils/FallbackComponent";
+
 const containerClasses = "max-w-4xl mx-auto py-10";
 const cardClasses = "bg-white dark:bg-zinc-700 shadow rounded-lg p-6";
 const headerClasses = "flex justify-between items-center border-b pb-4";
@@ -12,7 +15,7 @@ const buttonClasses =
 
 const SubmissionSubmit = () => {
   return (
-    <div className="h-screen  bg-zinc-100">
+    <div className="h-screen bg-zinc-100">
       <div className={containerClasses}>
         <div className={cardClasses}>
           <div className={headerClasses}>
@@ -36,4 +39,8 @@ const SubmissionSubmit = () => {
   );
 };
 
-export default SubmissionSubmit;
+const EnhancedSubmissionSubmit = withErrorBoundary(SubmissionSubmit, {
+  FallbackComponent,
+});
+
+export default EnhancedSubmissionSubmit;

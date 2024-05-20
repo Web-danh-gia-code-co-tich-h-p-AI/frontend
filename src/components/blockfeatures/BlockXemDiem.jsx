@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import FallbackComponent from "../../utils/FallbackComponent";
+import { withErrorBoundary } from "react-error-boundary";
 
 const BlockXemDiem = () => {
   const connectionString = "https://bewbewbew-001-site1.ftempurl.com/api/demo";
@@ -10,11 +12,6 @@ const BlockXemDiem = () => {
   const [isReloading, setIsReloading] = useState(false);
   const [showDetail, setShowDetail] = useState(false); // State để hiển thị form chi tiết
   const [selectedUser, setSelectedUser] = useState(null); // State để lưu thông tin người dùng đang được chọn để sửa
-
-  // const username = "11166969";
-  // const password = "60-dayfreetrial";
-  // const basic = `${username}:${password}`;
-  // const basicAuthHeader = `Basic ${btoa(basic)}`;
 
   useEffect(() => {
     fetchUsers();
@@ -67,7 +64,7 @@ const BlockXemDiem = () => {
   const handleDelete = async (id) => {
     const isConfirmed = window.confirm("Bạn chắc chắn Xoá ?");
     if (!isConfirmed) {
-        return; // Hủy hành động nếu người dùng chọn "Cancel"
+      return; // Hủy hành động nếu người dùng chọn "Cancel"
     }
     try {
       await axios.delete(`${connectionString}/delete-user/${id}`, {
@@ -223,9 +220,7 @@ const BlockXemDiem = () => {
           <thead className="w-full">
             <tr className="bg-gray-100 text-zinc-600">
               <th className="px-4 py-2 text-center">StudentID</th>
-              <th className="px-4 py-2 text-center">
-                Score
-              </th>
+              <th className="px-4 py-2 text-center">Score</th>
               <th className="hidden px-4 py-2 text-center laptop:table-cell">
                 Đánh giá
               </th>
@@ -403,4 +398,8 @@ const BlockXemDiem = () => {
   );
 };
 
-export default BlockXemDiem;
+const EnhancedBlockXemDiem = withErrorBoundary(BlockXemDiem, {
+  FallbackComponent,
+});
+
+export default EnhancedBlockXemDiem;

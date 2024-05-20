@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import ScoreChart from "./ScoreChart";
+import { withErrorBoundary } from "react-error-boundary";
+import FallbackComponent from "../../utils/FallbackComponent";
 
 const StatisticsScore = () => {
   const [data, setData] = useState([]);
@@ -48,13 +50,13 @@ const StatisticsScore = () => {
   // Convert scoreStats to dataPoints for the chart
   const scoreDataPoints = Object.keys(scoreStats).map((key) => ({
     x: parseInt(key, 10),
-    y: scoreStats[key]
+    y: scoreStats[key],
   }));
 
   // Convert scoreAIStats to dataPoints for the chart
   const scoreAIDataPoints = Object.keys(scoreAIStats).map((key) => ({
     x: parseInt(key, 10),
-    y: scoreAIStats[key]
+    y: scoreAIStats[key],
   }));
 
   return (
@@ -85,7 +87,7 @@ const StatisticsScore = () => {
             </svg>
             {loading ? "Reloading..." : "Reload"}
           </button>
-          <div className="text-base mt-1">
+          <div className="mt-1 text-base">
             <span className="mr-2">Select Chart Type:</span>
             <select
               value={chartType}
@@ -163,4 +165,8 @@ const StatisticsScore = () => {
   );
 };
 
-export default StatisticsScore;
+const EnhancedStatisticsScore = withErrorBoundary(StatisticsScore, {
+  FallbackComponent,
+});
+
+export default EnhancedStatisticsScore;

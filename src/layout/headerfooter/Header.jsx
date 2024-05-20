@@ -1,21 +1,53 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, NavLink } from "react-router-dom";
-//todo THÊM VIỆC SỬA ĐIỀU HƯỚNG TRANG THÌ NAVBAR SẼ KHÁC
+import Cookies from "js-cookie";
+import axios from "../../api/axiosConfig";
+import { withErrorBoundary } from "react-error-boundary";
+import FallbackComponent from "../../utils/FallbackComponent";
+import PropTypes from "prop-types";
 
-const Header = (props) => {
+const Header = ({ name, setName }) => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef(null);
+
   const logout = async () => {
-    await fetch("http://localhost:8000/api/logout", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-    });
-
-    props.setName("");
+    try {
+      await axios.post(
+        "/Account/Logout",
+        {},
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+      setName("");
+      Cookies.remove("token");
+    } catch (error) {
+      console.error("Error logging out", error);
+    }
   };
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const token = Cookies.get("token");
+      if (!token) return;
+
+      try {
+        const response = await axios.get("/Account/Account", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setName(response.data.name);
+      } catch (error) {
+        console.error("Error fetching user data", error);
+      }
+    };
+
+    fetchUserData();
+  }, [setName]);
 
   let menu;
 
-  if (props.name === "") {
+  if (!name) {
     menu = (
       <ul className="mb-2 navbar-nav me-auto mb-md-0">
         <li className="nav-item active">
@@ -34,6 +66,11 @@ const Header = (props) => {
     menu = (
       <ul className="mb-2 navbar-nav me-auto mb-md-0">
         <li className="nav-item active">
+          <Link to="/profile" className="nav-link">
+            {name}
+          </Link>
+        </li>
+        <li className="nav-item active">
           <Link to="/login" className="nav-link" onClick={logout}>
             Logout
           </Link>
@@ -41,9 +78,6 @@ const Header = (props) => {
       </ul>
     );
   }
-
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const menuRef = useRef(null);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -69,7 +103,6 @@ const Header = (props) => {
       document.body.classList.remove("menu-open");
     }
   }, [isMenuOpen]);
-
   return (
     <div className="w-full">
       <header className="w-full bg-main-black">
@@ -145,8 +178,17 @@ const Header = (props) => {
                 to="/code"
                 className="flex items-center p-2 mr-4 text-white rounded-lg hover:bg-zinc-400 hover:text-white"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 mr-1">
-                  <path fillRule="evenodd" d="M2.25 6a3 3 0 0 1 3-3h13.5a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V6Zm3.97.97a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06l-2.25 2.25a.75.75 0 0 1-1.06-1.06l1.72-1.72-1.72-1.72a.75.75 0 0 1 0-1.06Zm4.28 4.28a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z" clipRule="evenodd" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="w-4 h-4 mr-1"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M2.25 6a3 3 0 0 1 3-3h13.5a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V6Zm3.97.97a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06l-2.25 2.25a.75.75 0 0 1-1.06-1.06l1.72-1.72-1.72-1.72a.75.75 0 0 1 0-1.06Zm4.28 4.28a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z"
+                    clipRule="evenodd"
+                  />
                 </svg>
                 Code
               </NavLink>
@@ -154,10 +196,19 @@ const Header = (props) => {
                 to="/questions"
                 className="flex items-center p-2 mr-4 text-white rounded-lg hover:bg-zinc-400 hover:text-white"
               >
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 mr-1">
-                <path fillRule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm11.378-3.917c-.89-.777-2.366-.777-3.255 0a.75.75 0 0 1-.988-1.129c1.454-1.272 3.776-1.272 5.23 0 1.513 1.324 1.513 3.518 0 4.842a3.75 3.75 0 0 1-.837.552c-.676.328-1.028.774-1.028 1.152v.75a.75.75 0 0 1-1.5 0v-.75c0-1.279 1.06-2.107 1.875-2.502.182-.088.351-.199.503-.331.83-.727.83-1.857 0-2.584ZM12 18a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" clipRule="evenodd" />
-              </svg>
-              Câu hỏi
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="w-4 h-4 mr-1"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm11.378-3.917c-.89-.777-2.366-.777-3.255 0a.75.75 0 0 1-.988-1.129c1.454-1.272 3.776-1.272 5.23 0 1.513 1.324 1.513 3.518 0 4.842a3.75 3.75 0 0 1-.837.552c-.676.328-1.028.774-1.028 1.152v.75a.75.75 0 0 1-1.5 0v-.75c0-1.279 1.06-2.107 1.875-2.502.182-.088.351-.199.503-.331.83-.727.83-1.857 0-2.584ZM12 18a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                Câu hỏi
               </NavLink>
               <NavLink
                 to="/mark-score"
@@ -178,13 +229,92 @@ const Header = (props) => {
                 to="/dashboard"
                 className="flex items-center p-2 mr-4 text-white rounded-lg hover:bg-zinc-400 hover:text-white"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 mr-1">
-                  <path fillRule="evenodd" d="M12.963 2.286a.75.75 0 0 0-1.071-.136 9.742 9.742 0 0 0-3.539 6.176 7.547 7.547 0 0 1-1.705-1.715.75.75 0 0 0-1.152-.082A9 9 0 1 0 15.68 4.534a7.46 7.46 0 0 1-2.717-2.248ZM15.75 14.25a3.75 3.75 0 1 1-7.313-1.172c.628.465 1.35.81 2.133 1a5.99 5.99 0 0 1 1.925-3.546 3.75 3.75 0 0 1 3.255 3.718Z" clipRule="evenodd" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="w-4 h-4 mr-1"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M12.963 2.286a.75.75 0 0 0-1.071-.136 9.742 9.742 0 0 0-3.539 6.176 7.547 7.547 0 0 1-1.705-1.715.75.75 0 0 0-1.152-.082A9 9 0 1 0 15.68 4.534a7.46 7.46 0 0 1-2.717-2.248ZM15.75 14.25a3.75 3.75 0 1 1-7.313-1.172c.628.465 1.35.81 2.133 1a5.99 5.99 0 0 1 1.925-3.546 3.75 3.75 0 0 1 3.255 3.718Z"
+                    clipRule="evenodd"
+                  />
                 </svg>
                 Dashboard
               </NavLink>
-              
-              <NavLink
+
+              {!name ? (
+                <>
+                  <NavLink
+                    to="/login"
+                    className="flex items-center p-2 text-white rounded-lg hover:bg-zinc-400 hover:text-white"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      className="w-4 h-4 mr-1"
+                    >
+                      <path d="M4.5 6.375a4.125 4.125 0 1 1 8.25 0a4.125 4.125 0 0 1-8.25 0ZM14.25 8.625a3.375 3.375 0 1 1 6.75 0a3.375 3.375 0 0 1-6.75 0ZM1.5 19.125a7.125 7.125 0 0 1 14.25 0v.003l-.001.119a.75.75 0 0 1-.363.63a13.067 13.067 0 0 1-6.761 1.873a.75.75 0 0 1-.364-.63l-.001-.122ZM17.25 19.128l-.001.144a2.25 2.25 0 0 1-.233.96a10.088 10.088 0 0 0 5.06-1.01a.75.75 0 0 0 .42-.643a4.875 4.875 0 0 0-6.957-4.611a8.586 8.586 0 0 1 1.71 5.157v.003Z" />
+                    </svg>
+                    Đăng nhập
+                  </NavLink>
+                  <NavLink
+                    to="/register"
+                    className="flex items-center p-2 text-white rounded-lg hover:bg-zinc-400 hover:text-white"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      className="w-4 h-4 mr-1"
+                    >
+                      <path d="M5.25 6.375a4.125 4.125 0 1 1 8.25 0 4.125 4.125 0 0 1-8.25 0ZM2.25 19.125a7.125 7.125 0 0 1 14.25 0v.003l-.001.119a.75.75 0 0 1-.363.63 13.067 13.067 0 0 1-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 0 1-.364-.63l-.001-.122ZM18.75 7.5a.75.75 0 0 0-1.5 0v2.25H15a.75.75 0 0 0 0 1.5h2.25v2.25a.75.75 0 0 0 1.5 0v-2.25H21a.75.75 0 0 0 0-1.5h-2.25V7.5Z" />
+                    </svg>
+                    Đăng ký
+                  </NavLink>
+                </>
+              ) : (
+                <>
+                  <NavLink
+                    to="/profile"
+                    className="flex items-center p-2 text-white rounded-lg hover:bg-zinc-400 hover:text-white"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"
+                      />
+                    </svg>
+
+                    {name}
+                  </NavLink>
+                  <NavLink
+                    to="/logout"
+                    className="flex items-center p-2 text-white rounded-lg hover:bg-zinc-400 hover:text-white"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      className="w-4 h-4 mr-1"
+                    >
+                      <path d="M5.25 6.375a4.125 4.125 0 1 1 8.25 0 4.125 4.125 0 0 1-8.25 0ZM2.25 19.125a7.125 7.125 0 0 1 14.25 0v.003l-.001.119a.75.75 0 0 1-.363.63 13.067 13.067 0 0 1-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 0 1-.364-.63l-.001-.122ZM18.75 7.5a.75.75 0 0 0-1.5 0v2.25H15a.75.75 0 0 0 0 1.5h2.25v2.25a.75.75 0 0 0 1.5 0v-2.25H21a.75.75 0 0 0 0-1.5h-2.25V7.5Z" />
+                    </svg>
+                    Đăng xuất
+                  </NavLink>
+                </>
+              )}
+              {/* <NavLink
                 to="/login"
                 className="flex items-center p-2 text-white rounded-lg hover:bg-zinc-400 hover:text-white"
               >
@@ -202,11 +332,16 @@ const Header = (props) => {
                 to="/register"
                 className="flex items-center p-2 text-white rounded-lg hover:bg-zinc-400 hover:text-white"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 mr-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="w-4 h-4 mr-1"
+                >
                   <path d="M5.25 6.375a4.125 4.125 0 1 1 8.25 0 4.125 4.125 0 0 1-8.25 0ZM2.25 19.125a7.125 7.125 0 0 1 14.25 0v.003l-.001.119a.75.75 0 0 1-.363.63 13.067 13.067 0 0 1-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 0 1-.364-.63l-.001-.122ZM18.75 7.5a.75.75 0 0 0-1.5 0v2.25H15a.75.75 0 0 0 0 1.5h2.25v2.25a.75.75 0 0 0 1.5 0v-2.25H21a.75.75 0 0 0 0-1.5h-2.25V7.5Z" />
                 </svg>
                 Đăng ký
-              </NavLink>
+              </NavLink> */}
               {menu}
             </div>
           </nav>
@@ -216,4 +351,13 @@ const Header = (props) => {
   );
 };
 
-export default Header;
+Header.propTypes = {
+  name: PropTypes.string,
+  setName: PropTypes.func,
+};
+
+const EnhancedHeader = withErrorBoundary(Header, {
+  FallbackComponent,
+});
+
+export default EnhancedHeader;

@@ -1,5 +1,7 @@
 import { Box } from "@chakra-ui/react";
 import CodeEditor from "../../components/code/CodeEditor";
+import { withErrorBoundary } from "react-error-boundary";
+import FallbackComponent from "../../utils/FallbackComponent";
 
 function Code() {
   return (
@@ -9,4 +11,8 @@ function Code() {
   );
 }
 
-export default Code;
+const EnhancedCode = withErrorBoundary(Code, {
+  FallbackComponent,
+});
+
+export default EnhancedCode;
