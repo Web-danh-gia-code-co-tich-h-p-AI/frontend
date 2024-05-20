@@ -2,10 +2,13 @@ import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { withErrorBoundary } from "react-error-boundary";
 import FallbackComponent from "../../utils/FallbackComponent";
+import Cookies from "js-cookie";
+
+const token = Cookies.get("token");
 
 const UpdateQuestion = ({ question, onSave, onCancel }) => {
   const [isDataLoaded, setIsDataLoaded] = useState(false);
-  let token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjI3YjBkYmEyLWE4NzctNDllMS05Mzk1LWI1ZDVlM2UyYjlkMiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJTdXBlciIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6InN1cGVyYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjpbIlRlYWNoZXIiLCJBZG1pbiIsIlN1cGVyQWRtaW4iLCJTdHVkZW50Il0sImV4cCI6MTcxNjE5NjY0NywiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzIwMiIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjcyMDIifQ.zOIP0voT79oOdpLhCPRrxj0e6OJ6ZIHUYCCX2-haD3w`;
+
   const [form, setForm] = useState({
     id: "",
     name: "",
@@ -40,12 +43,11 @@ const UpdateQuestion = ({ question, onSave, onCancel }) => {
     e.preventDefault();
     setIsDataLoaded(true);
     fetch(
-      `http://https://yunom2834-001-site1.gtempurl.com/api/TeacherQuestion/UpdateQuestion${form.id}`,
+      `https://yunom2834-001-site1.gtempurl.com/api/TeacherQuestion/UpdateQuestion${form.id}`,
       {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(form),
@@ -104,14 +106,6 @@ const UpdateQuestion = ({ question, onSave, onCancel }) => {
           className="block w-full p-2 mt-1 border rounded"
         />
       </div>
-      {/* <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700">Answer File URL</label>
-        <input type="text" name="answerFileURL" value={form.answerFileURL} onChange={handleChange} className="block w-full mt-1" />
-      </div>
-      <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700">Status</label>
-        <input type="text" name="status" value={form.status} onChange={handleChange} className="block w-full mt-1" />
-      </div> */}
       <div className="flex justify-end">
         <button
           type="button"
