@@ -1,6 +1,6 @@
 import { Box, HStack, Button, Text } from "@chakra-ui/react";
 import { Editor } from "@monaco-editor/react";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect, useInsertionEffect } from "react";
 import LanguageSelector from "./LanguageSelector";
 import { CODE_SNIPPETS } from "../../helper/constants";
 import Output from "./Output";
@@ -8,6 +8,7 @@ import axios from "axios";
 import ReactMarkdown from "react-markdown";
 import { withErrorBoundary } from "react-error-boundary";
 import FallbackComponent from "../../utils/FallbackComponent";
+import Cookies from "js-cookie";
 
 const commonTextColor = "text-zinc-700";
 const commonBorderColor = "border-zinc-300 dark:border-zinc-600";
@@ -43,6 +44,8 @@ const CodeEditor = () => {
   const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef(null);
   const [codeFileName, setCodeFileName] = useState("");
+  const [userData, setUserData] = useState(null);
+  const [error, setError] = useState(null);
 
   function handleFileChange(e) {
     const file = e.target.files[0];
@@ -158,6 +161,9 @@ const CodeEditor = () => {
         await axios.post(
           "http://bewcutoe-001-site1.ctempurl.com/add-new-coder",
           {
+            id: userData.id,
+            userName: userData.userName,
+            email: userData.email,
             name: fileName,
             codeDetails: fileContent,
           },
@@ -223,6 +229,38 @@ const CodeEditor = () => {
     setIsLoading(false);
   };
 
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const token = Cookies.get("token");
+      if (!token) {
+        setError("No token found. Please log in.");
+        return;
+      }
+
+      try {
+        const response = await fetch(
+          "https://yunom2834-001-site1.gtempurl.com/api/Account/Account",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch user data");
+        }
+
+        const data = await response.json();
+        setUserData(data);
+      } catch (error) {
+        setError(error.message);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
   return (
     <>
       <Box
@@ -233,6 +271,11 @@ const CodeEditor = () => {
         spacing="5"
         bg="#ffffff"
       >
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
+          <div className="p-4 bg-gray-100 rounded-lg shadow-md hover:-translate-y-1 hover:bg-slate-200 hover:scale-105">
+            {userData && <p className="font-medium text-gray-700">Tên người dùng: <strong>{userData.name}</strong></p>}
+          </div>
+        </div>
         <div className="mb-3">
           <h2 className="flex mt-5 text-lg font-semibold text-zinc-800">
             <svg

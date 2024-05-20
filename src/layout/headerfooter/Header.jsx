@@ -111,7 +111,7 @@ const Header = ({ name, setName }) => {
             <div
               className={`laptop:flex justify-between items-center ${
                 isMenuOpen
-                  ? "fixed left-0 top-0 bg-main-black h-full w-64 flex-col p-4"
+                  ? "fixed left-0 laptop:hidden top-0 z-10 bg-main-black h-full w-64 flex-col p-4"
                   : "hidden"
               }`}
             >
