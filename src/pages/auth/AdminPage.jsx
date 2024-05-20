@@ -1,3 +1,4 @@
+import React from "react";
 import StatisticsScore from "../../components/chart/StatisticsScore";
 import AdminAccountDisplay from "../../components/adminaccount/AdminAccountDisplay";
 import { withErrorBoundary } from "react-error-boundary";

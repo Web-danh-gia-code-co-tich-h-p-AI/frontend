@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import BlockUpload from "../../components/blockfeatures/BlockUpload";
 import FormNhapDiem from "../../components/blockfeatures/FormNhapDiem";

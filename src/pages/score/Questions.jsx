@@ -1,3 +1,4 @@
+import React from "react";
 import QuestionList from "/src/components/blockquestion/QuestionList";
 import CreateQuestion from "/src/components/blockquestion/CreateQuestion";
 import { withErrorBoundary } from "react-error-boundary";

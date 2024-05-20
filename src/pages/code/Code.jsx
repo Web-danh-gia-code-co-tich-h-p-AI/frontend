@@ -1,3 +1,4 @@
+import React from "react";
 import { Box } from "@chakra-ui/react";
 import CodeEditor from "../../components/code/CodeEditor";
 import { withErrorBoundary } from "react-error-boundary";

@@ -1,3 +1,4 @@
+import React from "react";
 import { withErrorBoundary } from "react-error-boundary";
 import PropTypes from "prop-types";
 import FallbackComponent from "../../utils/FallbackComponent";

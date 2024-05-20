@@ -1,3 +1,4 @@
+import React from "react";
 import { withErrorBoundary } from "react-error-boundary";
 import FallbackComponent from "../../utils/FallbackComponent";
 

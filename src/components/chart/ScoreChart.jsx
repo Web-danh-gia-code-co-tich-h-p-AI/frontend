@@ -1,3 +1,4 @@
+import React from "react";
 import CanvasJSReact from "@canvasjs/react-charts";
 import PropTypes from "prop-types";
 import { withErrorBoundary } from "react-error-boundary";
