@@ -39,11 +39,6 @@ export default function Example() {
                             </a>
                         ))}
                     </div>
-                    <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                        <a href="" className="text-sm font-semibold leading-6 text-gray-900">
-                            Log in <span aria-hidden="true">&rarr;</span>
-                        </a>
-                    </div>
                 </nav>
                 <Dialog className="lg:hidden" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
                     <div className="fixed inset-0 z-50" />
@@ -106,22 +101,13 @@ export default function Example() {
                     />
                 </div>
                 <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
-                    <div className="hidden sm:mb-8 sm:flex sm:justify-center">
-                        <div className="relative rounded-full px-3 py-1 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
-                            Announcing our next round of funding.{' '}
-                            <a href="#" className="font-semibold text-indigo-600">
-                                <span className="absolute inset-0" aria-hidden="true" />
-                                Read more <span aria-hidden="true">&rarr;</span>
-                            </a>
-                        </div>
-                    </div>
+                    
                     <div className="text-center">
                         <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-                            Data to enrich your online business
+                            Chấm  code nhanh hơn, chính xác hơn 
                         </h1>
                         <p className="mt-6 text-lg leading-8 text-gray-600">
-                            Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet
-                            fugiat veniam occaecat fugiat aliqua.
+                            Hệ thống sẽ tự động chấm và nhận xét bài code của bạn. Chỉ cần upload file và đợi trong chốc lát. Bạn cũng có thể làm các bài tập Giáo viên giao ở đây!
                         </p>
                         <div className="mt-10 flex items-center justify-center gap-x-6">
                             <a
@@ -130,7 +116,7 @@ export default function Example() {
                             >
                                 Get started
                             </a>
-                            <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
+                            <a href="" className="text-sm font-semibold leading-6 text-gray-900">
                                 Learn more <span aria-hidden="true">→</span>
                             </a>
                         </div>
