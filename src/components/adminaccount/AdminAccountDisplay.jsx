@@ -47,12 +47,12 @@ const AdminAccountDisplay = () => {
   };
 
   return (
-    <div className="container mx-auto mb-4 laptop:h-[500px]">
+    <div className="container mx-auto mb-4 laptop:h-fit">
       <h1 className="flex justify-end p-4 font-bold h-fit tablet:text-3xl bg-zinc-300">
         Quản lý thông tin tài khoản
       </h1>
-      <div className="justify-center p-4 laptop:flex laptop:relative">
-        <div className="p-6 mr-4 bg-white border border-gray-300 rounded-md shadow-md h-fit">
+      <div className="justify-start p-4 laptop:flex laptop:relative">
+        <div className="mr-4 bg-white border border-gray-300 rounded-md shadow-md p-7 h-fit">
           <div className="items-center justify-center mb-4 tablet:flex">
             <span className="mt-3 mr-2">Select Role:</span>
             <select

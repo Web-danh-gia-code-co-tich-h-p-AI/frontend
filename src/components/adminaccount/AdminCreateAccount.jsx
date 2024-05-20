@@ -2,7 +2,7 @@ import { useState } from "react";
 import Cookies from "js-cookie";
 import axiosInstance from "../../api/axiosConfig";
 
-const CreateUser = () => {
+const AdminCreateAccount = () => {
     const [formData, setFormData] = useState({
         name: "",
         email: "",
@@ -50,18 +50,23 @@ const CreateUser = () => {
             password,
             confirmPassword,
         });
-
         setSuccess("User account created successfully!");
+        setTimeout(() => {
+            setSuccess("");
+            }, 3000);
         } catch (error) {
         setError(
             error.response?.data?.message || "Failed to create user account"
         );
+        setTimeout(() => {
+            setError("");
+        }, 3000);
         }
     };
 
     return (
         <div className="container mx-auto">
-        <div className="max-w-md p-4 mx-auto bg-white border border-gray-300 rounded-lg">
+        <div className="max-w-md p-4 mx-auto bg-white border border-gray-300 rounded-lg shadow-lg h-fit">
             <h2 className="mb-4 text-2xl font-bold">Create User Account</h2>
             {error && <div className="mb-4 text-red-500">{error}</div>}
             {success && <div className="mb-4 text-green-500">{success}</div>}
@@ -148,4 +153,4 @@ const CreateUser = () => {
     );
 };
 
-export default CreateUser;
+export default AdminCreateAccount;
