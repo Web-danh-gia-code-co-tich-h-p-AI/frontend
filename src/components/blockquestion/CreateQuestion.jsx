@@ -27,9 +27,10 @@ export default function Example() {
       alert("Name and Total Points are required.");
       return;
     }
-
+    //https://yunom2834-001-site1.gtempurl.com/api
+    //http://localhost:5136/api
     setIsLoading(true);
-    fetch("http://localhost:5136/api/TeacherQuestion/CreateQuestion", {
+    fetch("https://yunom2834-001-site1.gtempurl.com/api/TeacherQuestion/CreateQuestion", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

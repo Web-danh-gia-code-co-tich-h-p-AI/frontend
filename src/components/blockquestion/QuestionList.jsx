@@ -41,11 +41,12 @@ const QuestionList = () => {
   const handleDetails = (question) => {
     setSelectedQuestion(question);
   };
-
+  //https://yunom2834-001-site1.gtempurl.com/api
+  //http://localhost:5136/api
   const handleDelete = (id) => {
     const confirmDelete = window.confirm("Bạn có chắc chắn xoá?");
     if (confirmDelete) {
-      fetch(`http://localhost:5136/api/TeacherQuestion/DeleteQuestion/${id}`, {
+      fetch(`https://yunom2834-001-site1.gtempurl.com/api/TeacherQuestion/DeleteQuestion/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

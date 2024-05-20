@@ -34,12 +34,13 @@ const UpdateQuestion = ({ question, onSave, onCancel }) => {
       [e.target.name]: e.target.value,
     });
   };
-
+  //https://yunom2834-001-site1.gtempurl.com/api
+  //localhost:5136/api
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsDataLoaded(true);
     fetch(
-      `http://localhost:5136/api/TeacherQuestion/UpdateQuestion${form.id}`,
+      `http://https://yunom2834-001-site1.gtempurl.com/api/TeacherQuestion/UpdateQuestion${form.id}`,
       {
         method: "PUT",
         headers: {
