@@ -80,6 +80,7 @@ const Login = () => {
       });
     } catch (error) {
       console.error("Error logging in", error);
+      Cookies.remove("token");
       toast.error("Login failed:", {
         position: "top-right",
         autoClose: 3000,
